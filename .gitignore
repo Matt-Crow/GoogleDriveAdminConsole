@@ -1,0 +1,8 @@
+# Ignore Gradle project-specific cache directory
+.gradle/
+.nb-gradle/
+tokens/
+*.class
+
+# not sure if I need to include this
+credentials.json
