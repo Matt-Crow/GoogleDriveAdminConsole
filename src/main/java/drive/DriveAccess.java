@@ -47,7 +47,7 @@ public class DriveAccess {
         scopes = new ArrayList<>();
         scopes.add(DriveScopes.DRIVE);
         scopes.add(DriveScopes.DRIVE_FILE); // not sure which I need
-        
+        //scopes.addAll(DriveScopes.all());
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         driveService = new Drive.Builder(httpTransport, jsonFactory, createCredentials()).setApplicationName(Main.APPLICATION_NAME).build();
     }
