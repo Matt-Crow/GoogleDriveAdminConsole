@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 public class GetAccessList extends AbstractDriveCommand<String[]>{
     private final String fileId;
     
-    public GetAccessList(String fileId, Drive d){
+    public GetAccessList(Drive d, String fileId){
         super(d);
         this.fileId = fileId;
     }
