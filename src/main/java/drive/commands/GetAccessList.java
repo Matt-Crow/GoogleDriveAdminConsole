@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 
 /**
  *
@@ -20,11 +19,8 @@ public class GetAccessList extends AbstractDriveCommand<String[]>{
     }
     
     @Override
-    public String[] execute() throws IOException{
-        URL url = new URL(String.format("https://drive.google.com/uc?export=download&id=%s", fileId));
-        InputStream content = url.openStream();
-        
-        //InputStream content = getDrive().files().get(fileId).executeMediaAsInputStream();
+    public String[] execute() throws IOException{        
+        InputStream content = getDrive().files().get(fileId).executeMediaAsInputStream();
         InputStreamReader reader = new InputStreamReader(content);
         BufferedReader buff = new BufferedReader(reader);
         String[] array = buff.lines().filter((String userName)->!"".equals(userName.trim())).toArray((int size)->new String[size]);
