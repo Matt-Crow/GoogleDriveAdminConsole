@@ -28,4 +28,13 @@ public class CommandFactory {
     public final AddToAccessList addToAccessListCmd(String accessListId, String[] newUsers){
         return new AddToAccessList(drive, accessListId, newUsers);
     }
+    
+    
+    
+    public final GiveViewAccess giveViewAccess(String fileId, String[] emails){
+        return new GiveViewAccess(drive, fileId, emails);
+    }
+    public final void makeCopyFor(String fileId, String email, String name){
+        
+    }
 }
