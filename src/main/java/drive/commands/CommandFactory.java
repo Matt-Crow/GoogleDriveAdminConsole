@@ -34,7 +34,7 @@ public class CommandFactory {
     public final GiveViewAccess giveViewAccess(String fileId, String[] emails){
         return new GiveViewAccess(drive, fileId, emails);
     }
-    public final void makeCopyFor(String fileId, String email, String name){
-        
+    public final Copy makeCopyFor(String fileId, String toDir, String email, String name){
+        return new Copy(drive, fileId, toDir, name, email);
     }
 }

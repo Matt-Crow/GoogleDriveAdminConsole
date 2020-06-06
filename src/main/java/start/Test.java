@@ -12,6 +12,8 @@ import java.util.Arrays;
 // note this in readme: https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html
 // https://drive.google.com/uc?export=download&id=ID
 // add people to Camper group, that group has view access to files?
+
+// for crying out loud REMEMBER .EXECUTE()!!!
 /**
  * https://developers.google.com/drive/api/v3/quickstart/java?authuser=2
  * @author Matt
@@ -21,21 +23,30 @@ public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Drive service = DriveAccess.getInstance().getDrive();
         CommandFactory factory = new CommandFactory(service);
+        String[] emails = new String[]{
+            "greengrappler12@gmail.com"
+        };
         //1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm Matt's test folder
+        String[] copyFiles = new String[]{
+            //"1ja9-iMiXcjVgLPmusd6dGdikzyJkFu1Y",
+            "1hwDSDpLJ4-CMbuUQeSmptxyyx0zRb_lvCXAIbzNz7kY"
+        };
+        for(String file : copyFiles){
+            factory.makeCopyFor(file, "1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm", emails[0], "Matt").execute();
+        }
         
+        /*
         String[] fileIds = new String[]{
             "1rekHw2cK9VR9SeFNCB1NkvW9DhWcfQ07jcaeTuS1Ntk",
             "1hwDSDpLJ4-CMbuUQeSmptxyyx0zRb_lvCXAIbzNz7kY",
             "1oupONSo0G97DzwY_8rukMNlCXMBM1Qmb",
             "1sLFJQ8TftVNkij5a4gy0m1HxZCStjAzN"
         };
-        String[] emails = new String[]{
-            "greengrappler12@gmail.com"
-        };
+        
         
         for(String fileId : fileIds){
             factory.giveViewAccess(fileId, emails).execute();
-        }
+        }*
         /*
         String id = factory.createAccessListCmd("1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm").execute().getId();
         factory.setAccessListCmd(id, new String[]{"BiPredicateTU", "ProfSchuster"}).execute();
