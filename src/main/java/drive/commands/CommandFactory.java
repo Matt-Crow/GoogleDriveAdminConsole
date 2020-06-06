@@ -25,7 +25,7 @@ public class CommandFactory {
         return new SetAccessListContent(drive, accessListId, userNames);
     }
     
-    public final void addToAccessListCmd(String[] newUsers){
-        
+    public final AddToAccessList addToAccessListCmd(String accessListId, String[] newUsers){
+        return new AddToAccessList(drive, accessListId, newUsers);
     }
 }

@@ -20,15 +20,21 @@ public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Drive service = DriveAccess.getInstance().getDrive();
         CommandFactory factory = new CommandFactory(service);
+        //1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm Matt's test folder
         String id = factory.createAccessListCmd("1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm").execute().getId();
         factory.setAccessListCmd(id, new String[]{"BiPredicateTU", "ProfSchuster"}).execute();
         String[] userNames = factory.getAccessListCmd(id).execute();
-//GetAccessList c = new GetAccessList("1QHJvkVWmpgRZzY9bTeNSBSK_EDfMMHC8", service);
-        //System.out.println(Arrays.toString(c.execute()));
         
-        //1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm Matt's test folder
-        System.out.println("User names are:");
+        System.out.println("After setAccessListCmd, user names are:");
         Arrays.stream(userNames).forEach(System.out::println);
+        
+        String[] appended = factory.addToAccessListCmd(id, new String[]{"NonexistantJoe", "Bob"}).execute();
+        System.out.println("After appending, it should contain");
+        Arrays.stream(appended).forEach(System.out::println);
+        
+        String[] newContent = factory.getAccessListCmd(id).execute();
+        System.out.println("After appending, it actually contains");
+        Arrays.stream(newContent).forEach(System.out::println);
         
         /*
         // Print the names and IDs for up to 10 files.
