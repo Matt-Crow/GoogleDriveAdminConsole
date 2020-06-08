@@ -11,6 +11,10 @@ import java.util.Arrays;
 
 // note this in readme: https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html
 // https://drive.google.com/uc?export=download&id=ID
+
+// https://developers.google.com/sheets/api/quickstart/java
+// https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/
+
 // add people to Camper group, that group has view access to files?
 
 // for crying out loud REMEMBER .EXECUTE()!!!
@@ -23,6 +27,9 @@ public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Drive service = DriveAccess.getInstance().getDrive();
         CommandFactory factory = new CommandFactory(service);
+        
+        factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
+        /*
         String[] emails = new String[]{
             "greengrappler12@gmail.com"
         };
@@ -33,7 +40,7 @@ public class Test {
         };
         for(String file : copyFiles){
             factory.makeCopyFor(file, "1HHzcESLD0q4cqf3rUOETLhLjGvdqiASm", emails[0], "Matt").execute();
-        }
+        }*/
         
         /*
         String[] fileIds = new String[]{

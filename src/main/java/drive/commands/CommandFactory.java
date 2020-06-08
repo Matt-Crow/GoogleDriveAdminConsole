@@ -37,4 +37,8 @@ public class CommandFactory {
     public final Copy makeCopyFor(String fileId, String toDir, String email, String name){
         return new Copy(drive, fileId, toDir, name, email);
     }
+    
+    public final ReadCertificationForm readCertForm(String fileId){
+        return new ReadCertificationForm(drive, fileId);
+    }
 }

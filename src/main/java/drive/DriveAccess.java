@@ -12,6 +12,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.SheetsScopes;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +33,10 @@ public class DriveAccess {
     private final String tokenDirPath;
     private final String credentialFilePath;
     private final List<String> scopes;
+    
+    //maybe subclass these
     private final Drive driveService;
+    private final Sheets sheetService;
     
     private static DriveAccess instance;
     
@@ -47,9 +52,12 @@ public class DriveAccess {
         scopes = new ArrayList<>();
         scopes.add(DriveScopes.DRIVE);
         scopes.add(DriveScopes.DRIVE_FILE); // not sure which I need
-        //scopes.addAll(DriveScopes.all());
+        scopes.add(SheetsScopes.SPREADSHEETS_READONLY);
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        driveService = new Drive.Builder(httpTransport, jsonFactory, createCredentials()).setApplicationName(Main.APPLICATION_NAME).build();
+        
+        Credential credentials = createCredentials();
+        driveService = new Drive.Builder(httpTransport, jsonFactory, credentials).setApplicationName(Main.APPLICATION_NAME).build();
+        sheetService = new Sheets.Builder(httpTransport, jsonFactory, credentials).setApplicationName(Main.APPLICATION_NAME).build();
     }
     
     private Credential createCredentials() throws FileNotFoundException, IOException{
@@ -80,5 +88,9 @@ public class DriveAccess {
     
     public final Drive getDrive(){
         return driveService;
+    }
+    
+    public final Sheets getSheets(){
+        return sheetService;
     }
 }
