@@ -2,6 +2,7 @@ package drive.commands;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,32 +28,41 @@ public class Copy extends AbstractDriveCommand<File>{
 
     @Override
     public File execute() throws IOException {
-        File newFile = null;
         File orig = getDrive().files().get(origId).execute();
+        File copy = null;
         
         // cannot directly copy folders
         if(orig.getMimeType().equals("application/vnd.google-apps.folder")){
-            throw new RuntimeException("doesn't support copying folders yet");
+            copy = new CreateFolder(getDrive(), userName + " 's " + orig.getName(), toDirId).execute();
+            
+            FileList children = getDrive().files().list()
+                .setSpaces("drive")
+                .setQ("'" + orig.getId() + "' in parents and trashed = false").execute();
+            for(File child : children.getFiles()){
+                new Copy(getDrive(), child.getId(), copy.getId(), userName, userEmail).execute();
+            };
+        } else {
+            File changes = new File();
+        
+            ArrayList<String> parents = new ArrayList<>();
+            parents.add(toDirId);
+            changes.setParents(parents);
+            changes.setName(userName + "'s " + orig.getName());
+            
+            // can't change permissions with copy, so I need to use Permissions afterward
+            copy = getDrive().files().copy(origId, changes).execute();
         }
         
-        File changes = new File();
         
-        ArrayList<String> parents = new ArrayList<>();
-        parents.add(toDirId);
-        changes.setParents(parents);
-        changes.setName(userName + "'s " + orig.getName());
-        
-        // can't change permissions with copy, so I need to use Permissions afterward
-        newFile = getDrive().files().copy(origId, changes).execute();
         
         Permission p = new Permission();
         p.setEmailAddress(userEmail);
         p.setType("user");
         p.setRole("writer");
-        System.out.println(newFile.getId());
-        getDrive().permissions().create(newFile.getId(), p).execute();
+        System.out.println(copy.getId());
+        getDrive().permissions().create(copy.getId(), p).setSendNotificationEmail(Boolean.FALSE).execute();
         
-        return newFile;
+        return copy;
     }
 
 }
