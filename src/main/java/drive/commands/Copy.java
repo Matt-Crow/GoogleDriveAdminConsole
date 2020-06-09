@@ -3,7 +3,6 @@ package drive.commands;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import com.google.api.services.drive.model.Permission;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -52,14 +51,7 @@ public class Copy extends AbstractDriveCommand<File>{
             copy = getDrive().files().copy(origId, changes).execute();
         }
         
-        
-        
-        Permission p = new Permission();
-        p.setEmailAddress(userEmail);
-        p.setType("user");
-        p.setRole("writer");
-        System.out.println(copy.getId());
-        getDrive().permissions().create(copy.getId(), p).setSendNotificationEmail(Boolean.FALSE).execute();
+        new GiveAccess(getDrive(), copy.getId(), userEmail, AccessType.EDIT).execute();
         
         return copy;
     }
