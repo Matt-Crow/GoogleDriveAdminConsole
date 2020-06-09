@@ -17,6 +17,14 @@ public class CamperFile {
         whatAccess = accessType;
     }
     
+    public String getFileId(){
+        return fileId;
+    }
+    
+    public AccessType getAccessType(){
+        return whatAccess;
+    }
+    
     @Override
     public String toString(){
         return String.format(

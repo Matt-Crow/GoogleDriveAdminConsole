@@ -2,11 +2,14 @@ package start;
 
 import com.google.api.services.drive.Drive;
 import drive.DriveAccess;
+import drive.commands.CamperFile;
+import drive.commands.CartesianProduct;
 import drive.commands.CommandFactory;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import users.UserData;
 
 
 // note this in readme: https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html
@@ -28,8 +31,10 @@ public class Test {
         Drive service = DriveAccess.getInstance().getDrive();
         CommandFactory factory = new CommandFactory(service);
         
-        //factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute().forEach(System.out::println);
-        factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute().forEach(System.out::println);
+        ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
+        ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();
+        
+        CartesianProduct.constructUserFileList(campers, fileList).forEach(System.out::println);
         /*
         String[] emails = new String[]{
             "greengrappler12@gmail.com"
