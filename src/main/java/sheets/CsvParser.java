@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * @author Matt
  */
 public class CsvParser {
-    public static final String[] getColumn(List<List<Object>> data, String header, boolean ignoreBlanks){
+    public static final String[] getColumn(List<List<Object>> data, String header){
         ArrayList<String> cellValues = new ArrayList<>();
         List<String> headers = data.get(0)
             .stream()
@@ -25,9 +25,10 @@ public class CsvParser {
         
         String cellData;
         for(int i = 1; i < data.size(); i++){
-            cellData = data.get(i).get(idx).toString();
-            if(!(ignoreBlanks && cellData.isEmpty())){
-                cellValues.add(cellData);
+            if(data.get(i).size() <= idx){
+                cellValues.add("");
+            } else {
+                cellValues.add(data.get(i).get(idx).toString());
             }
         }
         

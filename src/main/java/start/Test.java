@@ -28,7 +28,8 @@ public class Test {
         Drive service = DriveAccess.getInstance().getDrive();
         CommandFactory factory = new CommandFactory(service);
         
-        factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute().forEach(System.out::println);
+        //factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute().forEach(System.out::println);
+        factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute().forEach(System.out::println);
         /*
         String[] emails = new String[]{
             "greengrappler12@gmail.com"

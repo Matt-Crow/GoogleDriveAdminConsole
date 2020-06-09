@@ -41,4 +41,7 @@ public class CommandFactory {
     public final ReadCertificationForm readCertForm(String fileId){
         return new ReadCertificationForm(drive, fileId);
     }
+    public final ReadFileList readFileList(String fileId, String viewSheetName, String copySheetName){
+        return new ReadFileList(drive, fileId, viewSheetName, copySheetName);
+    }
 }
