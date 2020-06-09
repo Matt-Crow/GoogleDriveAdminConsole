@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import sheets.CsvParser;
 import users.UserData;
 
 /**
@@ -29,11 +30,16 @@ public class ReadCertificationForm extends AbstractDriveCommand<ArrayList<UserDa
             Sheets service = DriveAccess.getInstance().getSheets();
             ValueRange values = service.spreadsheets().values().get(spreadsheetFileId, "Form Responses 1").execute();
             List<List<Object>> data = values.getValues();
-            for(List<Object> row : data){
-                for(Object cell : row){
-                    System.out.print(cell.toString() + "\t");
+            
+            String[] names = CsvParser.getColumn(data, "Participants Name", false);
+            String[] emails = CsvParser.getColumn(data, "Participant's email", false);
+            String[] mcUsers = CsvParser.getColumn(data, "Participant's Minecraft username ... Add To Science Report", false);
+            String[] levels = CsvParser.getColumn(data, "Participating At What Level?", false);
+            
+            for(int i = 0; i < names.length && i < emails.length && i < mcUsers.length && i < levels.length; i++){
+                if(!(names[i].isEmpty() || emails[i].isEmpty() || mcUsers[i].isEmpty() || levels[i].isEmpty())){
+                    users.add(new UserData(names[i], emails[i], mcUsers[i], levels[i]));
                 }
-                System.out.println();
             }
         } catch (GeneralSecurityException ex) {
             ex.printStackTrace();
