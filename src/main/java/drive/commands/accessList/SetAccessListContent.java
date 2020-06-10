@@ -1,7 +1,8 @@
-package drive.commands;
+package drive.commands.accessList;
 
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
+import drive.commands.AbstractDriveCommand;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;

@@ -1,10 +1,11 @@
-package drive.commands;
+package drive.commands.camp;
 
 import drive.commands.basic.GiveAccess;
 import drive.commands.basic.Copy;
 import structs.AccessType;
 import structs.CamperFile;
 import com.google.api.services.drive.Drive;
+import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import structs.UserData;
