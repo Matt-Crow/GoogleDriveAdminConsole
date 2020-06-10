@@ -9,6 +9,7 @@ import drive.commands.CommandFactory;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import structs.CertificationFormInfo;
 import structs.UserData;
 
 
@@ -29,10 +30,30 @@ import structs.UserData;
 public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Drive service = DriveAccess.getInstance().getDrive();
+        
+        CertificationFormInfo testCertFormInfo = new CertificationFormInfo(
+            "1-eLPUcOp3MZyEo0g71hSt5P4-MD52kWh8FBomjVTVl4",
+            "Form Responses 1",
+            "Participants Name",
+            "Participant's email",
+            "Participant's Minecraft username",
+            "Participating At What Level?"
+        );
+        
+        CertificationFormInfo realCertFormInfo = new CertificationFormInfo(
+            "1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0",
+            "Form Responses 1",
+            "Participants Name",
+            "Participant's email",
+            "Participant's Minecraft username ... Add To Science Report",
+            "Participating At What Level?"
+        );
+        
         CommandFactory factory = new CommandFactory(service);
         
+        
         factory.parseCertificationForm(
-            "1-eLPUcOp3MZyEo0g71hSt5P4-MD52kWh8FBomjVTVl4", 
+            testCertFormInfo, 
             "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", 
             "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY"
         ).execute();

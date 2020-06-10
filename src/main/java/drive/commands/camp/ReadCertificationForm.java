@@ -10,6 +10,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import sheets.CsvParser;
+import structs.CertificationFormInfo;
 import structs.UserData;
 
 /**
@@ -17,11 +18,11 @@ import structs.UserData;
  * @author Matt
  */
 public class ReadCertificationForm extends AbstractDriveCommand<ArrayList<UserData>>{
-    private final String spreadsheetFileId;
+    private final CertificationFormInfo sourceInfo;
     
-    public ReadCertificationForm(Drive d, String fileId) {
+    public ReadCertificationForm(Drive d, CertificationFormInfo formInfo) {
         super(d);
-        spreadsheetFileId = fileId;
+        sourceInfo = formInfo;
     }
 
     @Override
@@ -29,13 +30,13 @@ public class ReadCertificationForm extends AbstractDriveCommand<ArrayList<UserDa
         ArrayList<UserData> users = new ArrayList<>();
         try {
             Sheets service = DriveAccess.getInstance().getSheets();
-            ValueRange values = service.spreadsheets().values().get(spreadsheetFileId, "Form Responses 1").execute();
+            ValueRange values = service.spreadsheets().values().get(sourceInfo.getFileId(), sourceInfo.getSheetName()).execute();
             List<List<Object>> data = values.getValues();
             
-            String[] names = CsvParser.getColumn(data, "Participants Name");
-            String[] emails = CsvParser.getColumn(data, "Participant's email");
-            String[] mcUsers = CsvParser.getColumn(data, "Participant's Minecraft username ... Add To Science Report");
-            String[] levels = CsvParser.getColumn(data, "Participating At What Level?");
+            String[] names = CsvParser.getColumn(data, sourceInfo.getNameHeader());
+            String[] emails = CsvParser.getColumn(data, sourceInfo.getEmailHeader());
+            String[] mcUsers = CsvParser.getColumn(data, sourceInfo.getMinecraftUsernameHeader());
+            String[] levels = CsvParser.getColumn(data, sourceInfo.getParticipationLevelHeader());
             
             for(int i = 0; i < names.length && i < emails.length && i < mcUsers.length && i < levels.length; i++){
                 if(!(names[i].isEmpty() || emails[i].isEmpty() || mcUsers[i].isEmpty() || levels[i].isEmpty())){

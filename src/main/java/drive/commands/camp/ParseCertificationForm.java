@@ -7,21 +7,24 @@ import drive.commands.basic.CreateFolder;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import structs.CertificationFormInfo;
 import structs.Level;
+import structs.UserData;
 
 /**
  * make this add multiple people to multiple files using threads
  * @author Matt
  */
 public class ParseCertificationForm extends AbstractDriveCommand<File[]>{
-    private final String certFormId;
+    private final CertificationFormInfo certFormInfo;
     private final String fileListId;
     private final String campRootId;
     
-    public ParseCertificationForm(Drive d, String certificationFormId, String fileListSpreadsheetId, String campFolderRootId) {
+    public ParseCertificationForm(Drive d, CertificationFormInfo source, String fileListSpreadsheetId, String campFolderRootId) {
         super(d);
-        certFormId = certificationFormId;
+        certFormInfo = source;
         fileListId = fileListSpreadsheetId;
         campRootId = campFolderRootId;
     }
@@ -42,6 +45,10 @@ public class ParseCertificationForm extends AbstractDriveCommand<File[]>{
                 campRootId
             ).execute();
         }
+        
+        // second, extract the campers from the form responses
+        ArrayList<UserData> newCampers = new ReadCertificationForm(getDrive(), certFormInfo).execute();
+        newCampers.forEach(System.out::println);
         
         return createdFolders;
     }
