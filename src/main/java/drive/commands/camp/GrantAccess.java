@@ -8,6 +8,7 @@ import com.google.api.services.drive.Drive;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
+import structs.FileListInfo;
 import structs.UserData;
 
 /**
@@ -17,18 +18,18 @@ import structs.UserData;
 public class GrantAccess extends AbstractDriveCommand<Boolean>{
     private final UserData camper;
     private final String folderId;
-    private final String fileListId;
+    private final FileListInfo fileListInfo;
     
-    public GrantAccess(Drive d, UserData user, String campFolderId, String fileSpreadsheetId) {
+    public GrantAccess(Drive d, UserData user, String campFolderId, FileListInfo fileList) {
         super(d);
         camper = user;
         folderId = campFolderId;
-        fileListId = fileSpreadsheetId;
+        fileListInfo = fileList;
     }
 
     @Override
     public Boolean execute() throws IOException {
-        ArrayList<CamperFile> files = new ReadFileList(getDrive(), fileListId, "files campers can view", "campers get a copy of these").execute();
+        ArrayList<CamperFile> files = new ReadFileList(getDrive(), fileListInfo).execute();
         ArrayList<AbstractDriveCommand> commands = new ArrayList<>();
         for(CamperFile file : files){
             switch (file.getAccessType()) {

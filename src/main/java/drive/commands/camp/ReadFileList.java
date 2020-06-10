@@ -12,6 +12,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import sheets.CsvParser;
+import structs.FileListInfo;
 import structs.UserData;
 
 /**
@@ -19,15 +20,11 @@ import structs.UserData;
  * @author Matt
  */
 public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
-    private final String spreadsheetId;
-    private final String viewSheetName;
-    private final String copySheetName;
+    private final FileListInfo sourceInfo;
     
-    public ReadFileList(Drive d, String workbookId, String viewSheetTitle, String copySheetTitle) {
+    public ReadFileList(Drive d, FileListInfo source) {
         super(d);
-        spreadsheetId = workbookId;
-        viewSheetName = viewSheetTitle;
-        copySheetName = copySheetTitle;
+        sourceInfo = source;
     }
     
     private ArrayList<CamperFile> getFilesFromSheet(String sheetName, AccessType accessType) throws IOException{
@@ -35,12 +32,12 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
         try {
             Sheets service = DriveAccess.getInstance().getSheets();
             
-            ValueRange range = service.spreadsheets().values().get(spreadsheetId, sheetName).execute();
+            ValueRange range = service.spreadsheets().values().get(sourceInfo.getFileId(), sheetName).execute();
             List<List<Object>> data = range.getValues();
             
-            String[] ids = CsvParser.getColumn(data, "ID");
-            String[] descs = CsvParser.getColumn(data, "desc");
-            String[] urls = CsvParser.getColumn(data, "URL");
+            String[] ids = CsvParser.getColumn(data, sourceInfo.getFileIdHeader());
+            String[] descs = CsvParser.getColumn(data, sourceInfo.getDescHeader());
+            String[] urls = CsvParser.getColumn(data, sourceInfo.getUrlHeader());
             
             for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
                 if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
@@ -57,8 +54,8 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
     @Override
     public ArrayList<CamperFile> execute() throws IOException {
         ArrayList<CamperFile> ret = new ArrayList<>();
-        ret.addAll(getFilesFromSheet(viewSheetName, AccessType.VIEW));
-        ret.addAll(getFilesFromSheet(copySheetName, AccessType.EDIT));
+        ret.addAll(getFilesFromSheet(sourceInfo.getViewSheetName(), AccessType.VIEW));
+        ret.addAll(getFilesFromSheet(sourceInfo.getCopySheetName(), AccessType.EDIT));
         return ret;
     }
 

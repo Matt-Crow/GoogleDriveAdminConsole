@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import structs.CamperFile;
 import structs.CertificationFormInfo;
+import structs.FileListInfo;
 import structs.Level;
 import structs.UserData;
 
@@ -19,13 +21,13 @@ import structs.UserData;
  */
 public class ParseCertificationForm extends AbstractDriveCommand<File[]>{
     private final CertificationFormInfo certFormInfo;
-    private final String fileListId;
+    private final FileListInfo fileListInfo;
     private final String campRootId;
     
-    public ParseCertificationForm(Drive d, CertificationFormInfo source, String fileListSpreadsheetId, String campFolderRootId) {
+    public ParseCertificationForm(Drive d, CertificationFormInfo source, FileListInfo fileList, String campFolderRootId) {
         super(d);
         certFormInfo = source;
-        fileListId = fileListSpreadsheetId;
+        fileListInfo = fileList;
         campRootId = campFolderRootId;
     }
 
@@ -38,17 +40,25 @@ public class ParseCertificationForm extends AbstractDriveCommand<File[]>{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String timeStr = LocalDateTime.now().format(formatter);
         
+        // uncomment this when I'm done testing
+        /*
         for(int i = 0; i < levels.length; i++){
             createdFolders[i] = new CreateFolder(
                 getDrive(), 
                 String.format("%s %s (test)", levels[i].toString(), timeStr),
                 campRootId
             ).execute();
-        }
+        }*/
         
         // second, extract the campers from the form responses
         ArrayList<UserData> newCampers = new ReadCertificationForm(getDrive(), certFormInfo).execute();
-        newCampers.forEach(System.out::println);
+        //newCampers.forEach(System.out::println);
+        
+        // TODO: sort them each into camps
+        
+        // next, get the list of files campers will get access to
+        ArrayList<CamperFile> files = new ReadFileList(getDrive(), fileListInfo).execute();
+        files.forEach(System.out::println);
         
         return createdFolders;
     }

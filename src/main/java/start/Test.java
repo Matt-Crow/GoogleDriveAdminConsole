@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import structs.CertificationFormInfo;
+import structs.FileListInfo;
 import structs.UserData;
 
 
@@ -49,12 +50,22 @@ public class Test {
             "Participating At What Level?"
         );
         
+        FileListInfo fromAdminConsole = new FileListInfo(
+            "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA",
+            "files campers can view",
+            "campers get a copy of these",
+            "ID",
+            "desc",
+            "URL",
+            "Level"
+        );
+        
         CommandFactory factory = new CommandFactory(service);
         
         
         factory.parseCertificationForm(
             testCertFormInfo, 
-            "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", 
+            fromAdminConsole, 
             "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY"
         ).execute();
         

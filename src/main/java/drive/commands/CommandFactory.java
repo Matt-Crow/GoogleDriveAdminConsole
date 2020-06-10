@@ -12,6 +12,7 @@ import structs.AccessType;
 import com.google.api.services.drive.Drive;
 import drive.commands.camp.ParseCertificationForm;
 import structs.CertificationFormInfo;
+import structs.FileListInfo;
 
 /**
  *
@@ -52,11 +53,11 @@ public class CommandFactory {
     public final ReadCertificationForm readCertForm(CertificationFormInfo info){
         return new ReadCertificationForm(drive, info);
     }
-    public final ReadFileList readFileList(String fileId, String viewSheetName, String copySheetName){
-        return new ReadFileList(drive, fileId, viewSheetName, copySheetName);
+    public final ReadFileList readFileList(FileListInfo info){
+        return new ReadFileList(drive, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, String fileListId, String campRootId){
-        return new ParseCertificationForm(drive, formInfo, fileListId, campRootId);
+    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String campRootId){
+        return new ParseCertificationForm(drive, formInfo, fileInfo, campRootId);
     }
 }
