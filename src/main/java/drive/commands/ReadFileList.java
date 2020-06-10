@@ -1,5 +1,7 @@
 package drive.commands;
 
+import structs.AccessType;
+import structs.CamperFile;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
@@ -9,7 +11,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import sheets.CsvParser;
-import users.UserData;
+import structs.UserData;
 
 /**
  * currently reads the admin console, but we may change that in the future

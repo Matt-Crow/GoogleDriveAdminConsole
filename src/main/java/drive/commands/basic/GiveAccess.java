@@ -1,7 +1,9 @@
-package drive.commands;
+package drive.commands.basic;
 
+import structs.AccessType;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
+import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 
 /**

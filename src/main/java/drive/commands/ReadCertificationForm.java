@@ -9,7 +9,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import sheets.CsvParser;
-import users.UserData;
+import structs.UserData;
 
 /**
  *

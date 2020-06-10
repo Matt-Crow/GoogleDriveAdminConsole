@@ -1,7 +1,8 @@
-package drive.commands;
+package structs;
 
+import structs.CamperFile;
 import java.util.ArrayList;
-import users.UserData;
+import structs.UserData;
 
 /**
  * @author Matt

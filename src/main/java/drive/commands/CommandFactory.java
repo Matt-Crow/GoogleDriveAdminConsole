@@ -1,5 +1,8 @@
 package drive.commands;
 
+import drive.commands.basic.GiveAccess;
+import drive.commands.basic.Copy;
+import structs.AccessType;
 import com.google.api.services.drive.Drive;
 
 /**

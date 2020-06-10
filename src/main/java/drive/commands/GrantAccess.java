@@ -1,9 +1,13 @@
 package drive.commands;
 
+import drive.commands.basic.GiveAccess;
+import drive.commands.basic.Copy;
+import structs.AccessType;
+import structs.CamperFile;
 import com.google.api.services.drive.Drive;
 import java.io.IOException;
 import java.util.ArrayList;
-import users.UserData;
+import structs.UserData;
 
 /**
  * Use this only to add a single user to the drive

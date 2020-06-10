@@ -1,8 +1,10 @@
-package drive.commands;
+package drive.commands.basic;
 
+import structs.AccessType;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package drive.commands;
+package structs;
 
 /**
  *

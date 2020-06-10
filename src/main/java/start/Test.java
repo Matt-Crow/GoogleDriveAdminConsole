@@ -2,14 +2,14 @@ package start;
 
 import com.google.api.services.drive.Drive;
 import drive.DriveAccess;
-import drive.commands.CamperFile;
-import drive.commands.UserToFileMapping;
+import structs.CamperFile;
+import structs.UserToFileMapping;
 import drive.commands.CommandFactory;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import users.UserData;
+import structs.UserData;
 
 
 // note this in readme: https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html
