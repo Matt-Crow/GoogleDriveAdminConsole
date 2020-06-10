@@ -31,10 +31,16 @@ public class Test {
         Drive service = DriveAccess.getInstance().getDrive();
         CommandFactory factory = new CommandFactory(service);
         
-        ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
-        ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();
+        factory.parseCertificationForm(
+            "1-eLPUcOp3MZyEo0g71hSt5P4-MD52kWh8FBomjVTVl4", 
+            "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", 
+            "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY"
+        ).execute();
         
-        UserToFileMapping.constructUserFileList(campers, fileList).forEach(System.out::println);
+        //ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
+        //ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();
+        
+        //UserToFileMapping.constructUserFileList(campers, fileList).forEach(System.out::println);
         /*
         String[] emails = new String[]{
             "greengrappler12@gmail.com"

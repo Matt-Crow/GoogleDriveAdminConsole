@@ -10,6 +10,7 @@ import drive.commands.basic.GiveAccess;
 import drive.commands.basic.Copy;
 import structs.AccessType;
 import com.google.api.services.drive.Drive;
+import drive.commands.camp.ParseCertificationForm;
 
 /**
  *
@@ -52,5 +53,9 @@ public class CommandFactory {
     }
     public final ReadFileList readFileList(String fileId, String viewSheetName, String copySheetName){
         return new ReadFileList(drive, fileId, viewSheetName, copySheetName);
+    }
+    
+    public final ParseCertificationForm parseCertificationForm(String certFormId, String fileListId, String campRootId){
+        return new ParseCertificationForm(drive, certFormId, fileListId, campRootId);
     }
 }
