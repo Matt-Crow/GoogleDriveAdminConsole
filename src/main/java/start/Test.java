@@ -3,7 +3,7 @@ package start;
 import com.google.api.services.drive.Drive;
 import drive.DriveAccess;
 import drive.commands.CamperFile;
-import drive.commands.CartesianProduct;
+import drive.commands.UserToFileMapping;
 import drive.commands.CommandFactory;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class Test {
         ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
         ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();
         
-        CartesianProduct.constructUserFileList(campers, fileList).forEach(System.out::println);
+        UserToFileMapping.constructUserFileList(campers, fileList).forEach(System.out::println);
         /*
         String[] emails = new String[]{
             "greengrappler12@gmail.com"

@@ -4,23 +4,22 @@ import java.util.ArrayList;
 import users.UserData;
 
 /**
- * Placeholder name
  * @author Matt
  */
-public class CartesianProduct {
+public class UserToFileMapping {
     private final UserData user;
     private final CamperFile file;
     
-    public CartesianProduct(UserData camper, CamperFile camperFile){
+    public UserToFileMapping(UserData camper, CamperFile camperFile){
         user = camper;
         file = camperFile;
     }
     
-    public static ArrayList<CartesianProduct> constructUserFileList(ArrayList<UserData> users, ArrayList<CamperFile> files){
-        ArrayList<CartesianProduct> products = new ArrayList<>();
+    public static ArrayList<UserToFileMapping> constructUserFileList(ArrayList<UserData> users, ArrayList<CamperFile> files){
+        ArrayList<UserToFileMapping> products = new ArrayList<>();
         for(UserData user : users){
             for(CamperFile file : files){
-                products.add(new CartesianProduct(user, file));
+                products.add(new UserToFileMapping(user, file));
             }
         }
         return products;
