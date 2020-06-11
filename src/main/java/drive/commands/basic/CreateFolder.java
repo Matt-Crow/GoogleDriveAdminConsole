@@ -1,10 +1,10 @@
 package drive.commands.basic;
 
-import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
+import services.ServiceAccess;
 
 /**
  *
@@ -14,8 +14,8 @@ public class CreateFolder extends AbstractDriveCommand<File>{
     private final String name;
     private final String parentId;
     
-    public CreateFolder(Drive d, String newFolderName, String parentFolderId) {
-        super(d);
+    public CreateFolder(ServiceAccess service, String newFolderName, String parentFolderId) {
+        super(service);
         name = newFolderName;
         parentId = parentFolderId;
     }

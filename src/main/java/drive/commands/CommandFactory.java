@@ -9,8 +9,8 @@ import drive.commands.accessList.AddToAccessList;
 import drive.commands.basic.GiveAccess;
 import drive.commands.basic.Copy;
 import structs.AccessType;
-import com.google.api.services.drive.Drive;
 import drive.commands.camp.ParseCertificationForm;
+import services.ServiceAccess;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
 
@@ -19,45 +19,45 @@ import structs.FileListInfo;
  * @author Matt
  */
 public class CommandFactory {
-    private final Drive drive;
+    private final ServiceAccess services;
     
-    public CommandFactory(Drive forDrive){
-        drive = forDrive;
+    public CommandFactory(ServiceAccess service){
+        services = service;
     }
     
     public final CreateAccessList createAccessListCmd(String folderId){
-        return new CreateAccessList(drive, folderId);
+        return new CreateAccessList(services, folderId);
     }
     
     public final GetAccessList getAccessListCmd(String accessListId){
-        return new GetAccessList(drive, accessListId);
+        return new GetAccessList(services, accessListId);
     }
     
     public final SetAccessListContent setAccessListCmd(String accessListId, String[] userNames){
-        return new SetAccessListContent(drive, accessListId, userNames);
+        return new SetAccessListContent(services, accessListId, userNames);
     }
     
     public final AddToAccessList addToAccessListCmd(String accessListId, String[] newUsers){
-        return new AddToAccessList(drive, accessListId, newUsers);
+        return new AddToAccessList(services, accessListId, newUsers);
     }
     
     
     
     public final GiveAccess giveViewAccess(String fileId, String email){
-        return new GiveAccess(drive, fileId, email, AccessType.VIEW);
+        return new GiveAccess(services, fileId, email, AccessType.VIEW);
     }
     public final Copy makeCopyFor(String fileId, String toDir, String email, String name){
-        return new Copy(drive, fileId, toDir, name, email);
+        return new Copy(services, fileId, toDir, name, email);
     }
     
     public final ReadCertificationForm readCertForm(CertificationFormInfo info){
-        return new ReadCertificationForm(drive, info);
+        return new ReadCertificationForm(services, info);
     }
     public final ReadFileList readFileList(FileListInfo info){
-        return new ReadFileList(drive, info);
+        return new ReadFileList(services, info);
     }
     
     public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String campRootId, String accessListId){
-        return new ParseCertificationForm(drive, formInfo, fileInfo, campRootId, accessListId);
+        return new ParseCertificationForm(services, formInfo, fileInfo, campRootId, accessListId);
     }
 }

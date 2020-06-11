@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import services.ServiceAccess;
 import structs.AccessType;
 import structs.CamperFile;
 import structs.CertificationFormInfo;
@@ -30,8 +31,8 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
     private final String campRootId;
     private final String accessListId;
     
-    public ParseCertificationForm(Drive d, CertificationFormInfo source, FileListInfo fileList, String campFolderRootId, String accessListFileId) {
-        super(d);
+    public ParseCertificationForm(ServiceAccess service, CertificationFormInfo source, FileListInfo fileList, String campFolderRootId, String accessListFileId) {
+        super(service);
         certFormInfo = source;
         fileListInfo = fileList;
         campRootId = campFolderRootId;
@@ -44,15 +45,15 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String timeStr = LocalDateTime.now().format(formatter);
         
-        File createdFolder = new CreateFolder(getDrive(), String.format("%s (test)", timeStr), campRootId).execute();
+        File createdFolder = new CreateFolder(getServiceAccess(), String.format("%s (test)", timeStr), campRootId).execute();
         
         // second, extract the campers from the form responses
-        ArrayList<UserData> newCampers = new ReadCertificationForm(getDrive(), certFormInfo).execute();
+        ArrayList<UserData> newCampers = new ReadCertificationForm(getServiceAccess(), certFormInfo).execute();
         //newCampers.forEach(System.out::println);
         
         
         // next, get the list of files campers will get access to
-        ArrayList<CamperFile> files = new ReadFileList(getDrive(), fileListInfo).execute();
+        ArrayList<CamperFile> files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
         //files.forEach(System.out::println);
         
         // construct the list of requests to make
@@ -61,10 +62,10 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             AbstractDriveCommand ret = null;
             switch(mapping.getFile().getAccessType()){
                 case VIEW:
-                    ret = new GiveAccess(getDrive(), mapping.getFile().getFileId(), mapping.getUser().getEmail(), AccessType.VIEW);
+                    ret = new GiveAccess(getServiceAccess(), mapping.getFile().getFileId(), mapping.getUser().getEmail(), AccessType.VIEW);
                     break;
                 case EDIT:
-                    ret = new Copy(getDrive(), mapping.getFile().getFileId(), createdFolder.getId(), mapping.getUser().getName(), mapping.getUser().getEmail());
+                    ret = new Copy(getServiceAccess(), mapping.getFile().getFileId(), createdFolder.getId(), mapping.getUser().getName(), mapping.getUser().getEmail());
                     break;
                 default:
                     throw new RuntimeException("Unsupported access type: " + mapping.getFile().getAccessType());
@@ -86,7 +87,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             return userData.getMinecraftUsername();
         }).toArray((size)->new String[size]);
         
-        new AddToAccessList(getDrive(), accessListId, newMcUsers).execute();
+        new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
         return createdFolder;
     }
 }

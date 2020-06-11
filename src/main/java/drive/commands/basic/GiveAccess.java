@@ -5,6 +5,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
+import services.ServiceAccess;
 
 /**
  *
@@ -14,8 +15,8 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
     private final String fileId;
     private final String email;
     private final AccessType type;
-    public GiveAccess(Drive d, String fileOrFolderId, String emailAddr, AccessType accessType) {
-        super(d);
+    public GiveAccess(ServiceAccess service, String fileOrFolderId, String emailAddr, AccessType accessType) {
+        super(service);
         fileId = fileOrFolderId;
         email = emailAddr;
         type = accessType;

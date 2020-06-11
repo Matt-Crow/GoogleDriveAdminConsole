@@ -1,11 +1,11 @@
 package drive.commands.accessList;
 
-import com.google.api.services.drive.Drive;
 import drive.commands.AbstractDriveCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import services.ServiceAccess;
 
 /**
  *
@@ -14,8 +14,8 @@ import java.io.InputStreamReader;
 public class GetAccessList extends AbstractDriveCommand<String[]>{
     private final String fileId;
     
-    public GetAccessList(Drive d, String fileId){
-        super(d);
+    public GetAccessList(ServiceAccess service, String fileId){
+        super(service);
         this.fileId = fileId;
     }
     

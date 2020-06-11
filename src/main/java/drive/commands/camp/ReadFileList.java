@@ -2,18 +2,14 @@ package drive.commands.camp;
 
 import structs.AccessType;
 import structs.CamperFile;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import drive.DriveAccess;
+import services.ServiceAccess;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import sheets.CsvParser;
 import structs.FileListInfo;
-import structs.UserData;
 
 /**
  * currently reads the admin console, but we may change that in the future
@@ -22,31 +18,22 @@ import structs.UserData;
 public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
     private final FileListInfo sourceInfo;
     
-    public ReadFileList(Drive d, FileListInfo source) {
-        super(d);
+    public ReadFileList(ServiceAccess service, FileListInfo source) {
+        super(service);
         sourceInfo = source;
     }
     
     private ArrayList<CamperFile> getFilesFromSheet(String sheetName, AccessType accessType) throws IOException{
         ArrayList<CamperFile> files = new ArrayList<>();
-        try {
-            Sheets service = DriveAccess.getInstance().getSheets();
-            
-            ValueRange range = service.spreadsheets().values().get(sourceInfo.getFileId(), sheetName).execute();
-            List<List<Object>> data = range.getValues();
-            
-            String[] ids = CsvParser.getColumn(data, sourceInfo.getFileIdHeader());
-            String[] descs = CsvParser.getColumn(data, sourceInfo.getDescHeader());
-            String[] urls = CsvParser.getColumn(data, sourceInfo.getUrlHeader());
-            
-            for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
-                if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
-                    files.add(new CamperFile(ids[i], descs[i], urls[i], accessType));
-                }
+        ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sheetName).execute();
+        List<List<Object>> data = range.getValues();
+        String[] ids = CsvParser.getColumn(data, sourceInfo.getFileIdHeader());
+        String[] descs = CsvParser.getColumn(data, sourceInfo.getDescHeader());
+        String[] urls = CsvParser.getColumn(data, sourceInfo.getUrlHeader());
+        for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
+            if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
+                files.add(new CamperFile(ids[i], descs[i], urls[i], accessType));
             }
-        } catch (GeneralSecurityException ex) {
-            ex.printStackTrace();
-            System.exit(ex.hashCode());
         }
         return files;
     }

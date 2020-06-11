@@ -1,7 +1,7 @@
 package start;
 
 import com.google.api.services.drive.Drive;
-import drive.DriveAccess;
+import services.ServiceAccess;
 import structs.CamperFile;
 import structs.UserToFileMapping;
 import drive.commands.CommandFactory;
@@ -30,7 +30,8 @@ import structs.UserData;
 
 public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
-        Drive service = DriveAccess.getInstance().getDrive();
+        ServiceAccess service = ServiceAccess.getInstance();
+        
         String campRoot = "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY";
         String accessListId = "1QHJvkVWmpgRZzY9bTeNSBSK_EDfMMHC8";
         

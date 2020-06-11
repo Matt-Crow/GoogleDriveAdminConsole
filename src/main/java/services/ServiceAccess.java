@@ -1,4 +1,4 @@
-package drive;
+package services;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -27,7 +27,7 @@ import start.Main;
  *
  * @author Matt
  */
-public class DriveAccess {
+public class ServiceAccess {
     private final NetHttpTransport httpTransport;
     private final JsonFactory jsonFactory;
     private final String tokenDirPath;
@@ -38,9 +38,9 @@ public class DriveAccess {
     private final Drive driveService;
     private final Sheets sheetService;
     
-    private static DriveAccess instance;
+    private static ServiceAccess instance;
     
-    private DriveAccess() throws GeneralSecurityException, IOException{
+    private ServiceAccess() throws GeneralSecurityException, IOException{
         if(instance != null){
             throw new ExceptionInInitializerError("DriveAccess is a singleton");
         }
@@ -62,7 +62,7 @@ public class DriveAccess {
     
     private Credential createCredentials() throws FileNotFoundException, IOException{
         //Load client secret
-        InputStream in = DriveAccess.class.getResourceAsStream(credentialFilePath);
+        InputStream in = ServiceAccess.class.getResourceAsStream(credentialFilePath);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + credentialFilePath);
         }
@@ -76,12 +76,19 @@ public class DriveAccess {
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-    
     }
     
-    public static final DriveAccess getInstance() throws IOException, GeneralSecurityException{
+    public static final ServiceAccess getInstance(){
         if(instance == null){
-            instance = new DriveAccess();
+            try {
+                instance = new ServiceAccess();
+            } catch (GeneralSecurityException ex) {
+                ex.printStackTrace();
+                System.exit(-1);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.exit(-1);
+            }
         }
         return instance;
     }

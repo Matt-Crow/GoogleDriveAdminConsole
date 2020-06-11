@@ -7,6 +7,7 @@ import com.google.api.services.drive.model.FileList;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
+import services.ServiceAccess;
 
 /**
  *
@@ -19,8 +20,8 @@ public class Copy extends AbstractDriveCommand<File>{
     private final String userEmail;
     
     //Idea: make this get the output dir from the camper info
-    public Copy(Drive d, String fileId, String outputDirId, String camperName, String email) {
-        super(d);
+    public Copy(ServiceAccess service, String fileId, String outputDirId, String camperName, String email) {
+        super(service);
         origId = fileId;
         toDirId = outputDirId;
         userName = camperName;
@@ -34,13 +35,13 @@ public class Copy extends AbstractDriveCommand<File>{
         
         // cannot directly copy folders
         if(orig.getMimeType().equals("application/vnd.google-apps.folder")){
-            copy = new CreateFolder(getDrive(), userName + " 's " + orig.getName(), toDirId).execute();
+            copy = new CreateFolder(getServiceAccess(), userName + " 's " + orig.getName(), toDirId).execute();
             
             FileList children = getDrive().files().list()
                 .setSpaces("drive")
                 .setQ("'" + orig.getId() + "' in parents and trashed = false").execute();
             for(File child : children.getFiles()){
-                new Copy(getDrive(), child.getId(), copy.getId(), userName, userEmail).execute();
+                new Copy(getServiceAccess(), child.getId(), copy.getId(), userName, userEmail).execute();
             };
         } else {
             File changes = new File();
@@ -54,7 +55,7 @@ public class Copy extends AbstractDriveCommand<File>{
             copy = getDrive().files().copy(origId, changes).execute();
         }
         
-        new GiveAccess(getDrive(), copy.getId(), userEmail, AccessType.EDIT).execute();
+        new GiveAccess(getServiceAccess(), copy.getId(), userEmail, AccessType.EDIT).execute();
         
         return copy;
     }

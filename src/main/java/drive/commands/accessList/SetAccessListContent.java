@@ -6,6 +6,7 @@ import drive.commands.AbstractDriveCommand;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import services.ServiceAccess;
 
 /**
  *
@@ -15,8 +16,8 @@ public class SetAccessListContent extends AbstractDriveCommand<Boolean>{
     private final String accessListId;
     private final String[] newUserList;
     
-    public SetAccessListContent(Drive d, String fileId, String[] newContent) {
-        super(d);
+    public SetAccessListContent(ServiceAccess service, String fileId, String[] newContent) {
+        super(service);
         accessListId = fileId;
         newUserList = newContent;
     }
