@@ -31,6 +31,8 @@ import structs.UserData;
 public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Drive service = DriveAccess.getInstance().getDrive();
+        String campRoot = "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY";
+        String accessListId = "1QHJvkVWmpgRZzY9bTeNSBSK_EDfMMHC8";
         
         CertificationFormInfo testCertFormInfo = new CertificationFormInfo(
             "1-eLPUcOp3MZyEo0g71hSt5P4-MD52kWh8FBomjVTVl4",
@@ -66,7 +68,8 @@ public class Test {
         factory.parseCertificationForm(
             testCertFormInfo, 
             fromAdminConsole, 
-            "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY"
+            campRoot,
+            accessListId
         ).execute();
         
         //ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();

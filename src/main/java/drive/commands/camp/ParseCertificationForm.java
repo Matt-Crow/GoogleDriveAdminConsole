@@ -3,6 +3,7 @@ package drive.commands.camp;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import drive.commands.AbstractDriveCommand;
+import drive.commands.accessList.AddToAccessList;
 import drive.commands.basic.Copy;
 import drive.commands.basic.CreateFolder;
 import drive.commands.basic.GiveAccess;
@@ -10,14 +11,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import structs.AccessType;
 import structs.CamperFile;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
-import structs.Level;
 import structs.UserData;
 import structs.UserToFileMapping;
 
@@ -29,12 +28,14 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
     private final CertificationFormInfo certFormInfo;
     private final FileListInfo fileListInfo;
     private final String campRootId;
+    private final String accessListId;
     
-    public ParseCertificationForm(Drive d, CertificationFormInfo source, FileListInfo fileList, String campFolderRootId) {
+    public ParseCertificationForm(Drive d, CertificationFormInfo source, FileListInfo fileList, String campFolderRootId, String accessListFileId) {
         super(d);
         certFormInfo = source;
         fileListInfo = fileList;
         campRootId = campFolderRootId;
+        accessListId = accessListFileId;
     }
 
     @Override
@@ -81,6 +82,11 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             }
         });
         
+        String[] newMcUsers = newCampers.stream().map((userData)->{
+            return userData.getMinecraftUsername();
+        }).toArray((size)->new String[size]);
+        
+        new AddToAccessList(getDrive(), accessListId, newMcUsers).execute();
         return createdFolder;
     }
 }
