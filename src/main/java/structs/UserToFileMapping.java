@@ -26,6 +26,13 @@ public class UserToFileMapping {
         return products;
     }
     
+    public UserData getUser(){
+        return user;        
+    }
+    public CamperFile getFile(){
+        return file;
+    }
+    
     @Override
     public String toString(){
         return String.format(

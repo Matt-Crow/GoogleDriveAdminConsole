@@ -22,4 +22,23 @@ public enum AccessType {
     public final String getDriveRole(){
         return driveRole;
     }
+    
+    public static final AccessType fromString(String s){
+        AccessType ret = null;
+        AccessType[] vals = AccessType.values();
+        for(int i = 0; i < vals.length && ret == null; i++){
+            if(vals[i].getDriveRole().equals(s)){
+                ret = vals[i];
+            }
+        }
+        if(ret == null){
+            throw new RuntimeException("No AccessType for role " + s);
+        }
+        return ret;
+    }
+    
+    @Override
+    public String toString(){
+        return driveRole;
+    }
 }

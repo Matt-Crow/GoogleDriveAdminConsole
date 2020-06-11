@@ -18,6 +18,7 @@ public class Copy extends AbstractDriveCommand<File>{
     private final String userName;
     private final String userEmail;
     
+    //Idea: make this get the output dir from the camper info
     public Copy(Drive d, String fileId, String outputDirId, String camperName, String email) {
         super(d);
         origId = fileId;
