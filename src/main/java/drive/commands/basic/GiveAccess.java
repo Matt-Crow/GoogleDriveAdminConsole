@@ -32,11 +32,18 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
         p.setType("user");
         p.setRole(type.getDriveRole());
         Drive.Permissions.Create create = perms.create(fileId, p);
-        create.setSendNotificationEmail((email.endsWith("@gmail.com")) ? Boolean.FALSE : Boolean.TRUE); 
+        create.setSendNotificationEmail((email.endsWith("@gmail.com")) ? Boolean.FALSE : Boolean.TRUE);
+        
+        if(create.getSendNotificationEmail()){
+            System.out.println("I will send an email to " + email + " telling them they have been given access");
+        }
         // non-gmail accounts need notification emails to get access to the file
         
         create.execute();
         return true;
     }
 
+    public static void main(String[] args) throws IOException{
+        new GiveAccess(ServiceAccess.getInstance(), "176nV7YENvjUWgxoDIYFYHhXav3ojCn5jQyaV8Vt3tcc", "greengrappler12@gmail.com", AccessType.VIEW).execute();
+    }
 }
