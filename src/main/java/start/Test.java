@@ -31,7 +31,6 @@ import structs.UserData;
 public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         ServiceAccess service = ServiceAccess.getInstance();
-        
         String campRoot = "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY";
         String accessListId = "1QHJvkVWmpgRZzY9bTeNSBSK_EDfMMHC8";
         
@@ -71,7 +70,7 @@ public class Test {
             fromAdminConsole, 
             campRoot,
             accessListId
-        );//.execute();
+        ).execute();
         
         //ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
         //ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();

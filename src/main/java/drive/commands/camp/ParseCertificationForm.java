@@ -58,22 +58,35 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
         
         // construct the list of requests to make
         ArrayList<UserToFileMapping> whoGetsWhat = UserToFileMapping.constructUserFileList(newCampers, files);
-        List<AbstractDriveCommand> commands = whoGetsWhat.stream().map((UserToFileMapping mapping)->{
-            AbstractDriveCommand ret = null;
-            switch(mapping.getFile().getAccessType()){
-                case VIEW:
-                    ret = new GiveAccess(getServiceAccess(), mapping.getFile().getFileId(), mapping.getUser().getEmail(), AccessType.VIEW);
-                    break;
-                case EDIT:
-                    ret = new Copy(getServiceAccess(), mapping.getFile().getFileId(), createdFolder.getId(), mapping.getUser().getName(), mapping.getUser().getEmail());
-                    break;
-                default:
-                    throw new RuntimeException("Unsupported access type: " + mapping.getFile().getAccessType());
-            }
-            return ret;
-        }).collect(Collectors.toList());
         
-        commands.stream().forEach(System.out::println);
+        List<UserToFileMapping> viewReqs = whoGetsWhat
+            .stream()
+            .filter(mapping->mapping.getFile().getAccessType()==AccessType.VIEW)
+            .collect(Collectors.toList());
+        List<UserToFileMapping> copyUs = whoGetsWhat
+            .stream()
+            .filter(mapping->mapping.getFile().getAccessType()==AccessType.EDIT)
+            .collect(Collectors.toList());
+        
+        // batch view requests
+        List<List<UserToFileMapping>> viewBatches = new ArrayList<>();
+        for(int i = 0; i < viewReqs.size(); i++){
+            if(i % 100 == 0){ // need to do in batches of 100
+                viewBatches.add(new ArrayList<>());
+            }
+            viewBatches.get(i / 100).add(viewReqs.get(i));
+        }
+        
+        // construct the commands
+        List<AbstractDriveCommand> commands = new ArrayList<>();
+        viewBatches.forEach((mappingList)->{
+            commands.add(new GiveAccess(getServiceAccess(), mappingList));
+        });
+        copyUs.forEach((userToFile)->{
+            commands.add(new Copy(getServiceAccess(), userToFile.getFile().getFileId(), createdFolder.getId(), userToFile.getUser().getName(), userToFile.getUser().getEmail()));
+        });
+        
+        commands.forEach(System.out::println);
         
         commands.parallelStream().forEach((cmd)->{
             try{

@@ -1,49 +1,62 @@
 package drive.commands.basic;
 
-import structs.AccessType;
+import com.google.api.client.googleapis.batch.BatchRequest;
+import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import services.ServiceAccess;
+import structs.UserToFileMapping;
 
 /**
  *
  * @author Matt
  */
 public class GiveAccess extends AbstractDriveCommand<Boolean>{
-    private final String fileId;
-    private final String email;
-    private final AccessType type;
-    public GiveAccess(ServiceAccess service, String fileOrFolderId, String emailAddr, AccessType accessType) {
+    private final List<UserToFileMapping> mappings;
+    public GiveAccess(ServiceAccess service, List<UserToFileMapping> mapping) {
         super(service);
-        fileId = fileOrFolderId;
-        email = emailAddr;
-        type = accessType;
+        mappings = mapping;
+    }
+    public GiveAccess(ServiceAccess service, UserToFileMapping mapping){
+        this(service, Arrays.asList(mapping));
     }
 
     @Override
     public Boolean execute() throws IOException {
-        // need some way of batching this?
-        Drive.Permissions perms = getDrive().permissions();
-        Permission p = new Permission();
-        p.setEmailAddress(email);
-        // from the documentation: "Valid values are: - user - group - domain - anyone"
-        p.setType("user");
-        p.setRole(type.getDriveRole());
-        Drive.Permissions.Create create = perms.create(fileId, p);
-        create.setSendNotificationEmail((email.endsWith("@gmail.com")) ? Boolean.FALSE : Boolean.TRUE);
-        
-        if(create.getSendNotificationEmail()){
-            System.out.println("I will send an email to " + email + " telling them they have been given access");
-        }
-        // non-gmail accounts need notification emails to get access to the file
-        
-        create.execute();
-        return true;
-    }
+        BatchRequest batch = getDrive().batch();
+        JsonBatchCallback<Permission> jsonCallback = new JsonBatchCallback<Permission>() {
+            @Override
+            public void onFailure(GoogleJsonError gje, HttpHeaders hh) throws IOException {
+                System.err.println(gje);
+                System.err.println(hh);
+            }
 
-    public static void main(String[] args) throws IOException{
-        new GiveAccess(ServiceAccess.getInstance(), "176nV7YENvjUWgxoDIYFYHhXav3ojCn5jQyaV8Vt3tcc", "greengrappler12@gmail.com", AccessType.VIEW).execute();
+            @Override
+            public void onSuccess(Permission t, HttpHeaders hh) throws IOException {
+                System.out.println(t);
+            }
+        };
+        
+        Drive.Permissions perms = getDrive().permissions();
+        for(UserToFileMapping mapping : mappings){
+            Permission p = new Permission();
+            p.setEmailAddress(mapping.getUser().getEmail());
+            // from the documentation: "Valid values are: - user - group - domain - anyone"
+            p.setType("user");
+            p.setRole(mapping.getFile().getAccessType().getDriveRole());
+            Drive.Permissions.Create create = perms.create(mapping.getFile().getFileId(), p);
+            create.setSendNotificationEmail(Boolean.TRUE);
+            // non-gmail accounts need notification emails to get access to the file
+            // there is no way to check whether or not they are gmail, so we need to send notifications
+            create.queue(batch, jsonCallback);
+        }
+        batch.execute();
+        return true;
     }
 }

@@ -1,8 +1,6 @@
 package structs;
 
-import structs.CamperFile;
 import java.util.ArrayList;
-import structs.UserData;
 
 /**
  * @author Matt
@@ -14,6 +12,7 @@ public class UserToFileMapping {
     public UserToFileMapping(UserData camper, CamperFile camperFile){
         user = camper;
         file = camperFile;
+        //
     }
     
     public static ArrayList<UserToFileMapping> constructUserFileList(ArrayList<UserData> users, ArrayList<CamperFile> files){

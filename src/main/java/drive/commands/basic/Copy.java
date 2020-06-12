@@ -8,6 +8,8 @@ import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import services.ServiceAccess;
+import structs.CamperFile;
+import structs.UserToFileMapping;
 
 /**
  *
@@ -55,7 +57,13 @@ public class Copy extends AbstractDriveCommand<File>{
             copy = getDrive().files().copy(origId, changes).execute();
         }
         
-        new GiveAccess(getServiceAccess(), copy.getId(), userEmail, AccessType.EDIT).execute();
+        new GiveAccess(
+            getServiceAccess(), 
+            new UserToFileMapping(
+                null, //camper info
+                new CamperFile(copy.getId(), copy.getDescription(), "url here", AccessType.EDIT)
+            )
+        ).execute();
         
         return copy;
     }
