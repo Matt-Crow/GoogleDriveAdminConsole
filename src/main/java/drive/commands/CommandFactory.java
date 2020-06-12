@@ -41,16 +41,6 @@ public class CommandFactory {
         return new AddToAccessList(services, accessListId, newUsers);
     }
     
-    
-    /*
-    public final GiveAccess giveViewAccess(String fileId, String email){
-        return new GiveAccess(services, fileId, email, AccessType.VIEW);
-    }*/
-    
-    public final Copy makeCopyFor(String fileId, String toDir, String email, String name){
-        return new Copy(services, fileId, toDir, name, email);
-    }
-    
     public final ReadCertificationForm readCertForm(CertificationFormInfo info){
         return new ReadCertificationForm(services, info);
     }

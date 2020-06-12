@@ -17,11 +17,11 @@ public class UserToFileMapping {
     
     public static ArrayList<UserToFileMapping> constructUserFileList(ArrayList<UserData> users, ArrayList<CamperFile> files){
         ArrayList<UserToFileMapping> products = new ArrayList<>();
-        for(UserData user : users){
-            for(CamperFile file : files){
+        users.forEach((user) -> {
+            files.forEach((file) -> {
                 products.add(new UserToFileMapping(user, file));
-            }
-        }
+            });
+        });
         return products;
     }
     

@@ -69,6 +69,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             .collect(Collectors.toList());
         
         // batch view requests
+        // this should be done in GiveAccess or some other batching class
         List<List<UserToFileMapping>> viewBatches = new ArrayList<>();
         for(int i = 0; i < viewReqs.size(); i++){
             if(i % 100 == 0){ // need to do in batches of 100
@@ -82,9 +83,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
         viewBatches.forEach((mappingList)->{
             commands.add(new GiveAccess(getServiceAccess(), mappingList));
         });
-        copyUs.forEach((userToFile)->{
-            commands.add(new Copy(getServiceAccess(), userToFile.getFile().getFileId(), createdFolder.getId(), userToFile.getUser().getName(), userToFile.getUser().getEmail()));
-        });
+        commands.add(new Copy(getServiceAccess(), copyUs, createdFolder.getId()));
         
         commands.forEach(System.out::println);
         
