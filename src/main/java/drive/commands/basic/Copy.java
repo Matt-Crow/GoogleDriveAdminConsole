@@ -79,7 +79,7 @@ public class Copy extends AbstractDriveCommand<UserToFileMapping[]>{
         
         new GiveAccess(
             getServiceAccess(), 
-            copiedFiles // may be too many to batch
+            copiedFiles
         ).execute();
         
         return copiedFiles.toArray(new UserToFileMapping[copiedFiles.size()]);

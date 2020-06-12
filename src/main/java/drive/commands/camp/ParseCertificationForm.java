@@ -68,23 +68,11 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             .filter(mapping->mapping.getFile().getAccessType()==AccessType.EDIT)
             .collect(Collectors.toList());
         
-        // batch view requests
-        // this should be done in GiveAccess or some other batching class
-        List<List<UserToFileMapping>> viewBatches = new ArrayList<>();
-        for(int i = 0; i < viewReqs.size(); i++){
-            if(i % 100 == 0){ // need to do in batches of 100
-                viewBatches.add(new ArrayList<>());
-            }
-            viewBatches.get(i / 100).add(viewReqs.get(i));
-        }
         
         // construct the commands
         List<AbstractDriveCommand> commands = new ArrayList<>();
-        viewBatches.forEach((mappingList)->{
-            commands.add(new GiveAccess(getServiceAccess(), mappingList));
-        });
         commands.add(new Copy(getServiceAccess(), copyUs, createdFolder.getId()));
-        
+        commands.add(new GiveAccess(getServiceAccess(), viewReqs)); // GiveAccess automatically batches
         commands.forEach(System.out::println);
         
         commands.parallelStream().forEach((cmd)->{
