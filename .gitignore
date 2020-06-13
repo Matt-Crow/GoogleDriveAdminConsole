@@ -3,6 +3,7 @@
 .nb-gradle/
 tokens/
 *.class
+build/distributions
 
 # not sure if I need to include this
 credentials.json
