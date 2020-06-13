@@ -8,29 +8,22 @@ public class CamperFile {
     private final String fileId;
     private final String fileDesc;
     private final String fileUrl;
-    private final AccessType whatAccess;
     
-    public CamperFile(String id, String desc, String url, AccessType accessType){
+    public CamperFile(String id, String desc, String url){
         fileId = id;
         fileDesc = desc;
         fileUrl = url;
-        whatAccess = accessType;
     }
     
     public String getFileId(){
         return fileId;
     }
     
-    public AccessType getAccessType(){
-        return whatAccess;
-    }
-    
     @Override
     public String toString(){
         return String.format(
-            "Campers should be given %s access to %s (%s),"
-            + "which you can find at %s", 
-            whatAccess.getDriveRole(),
+            "Campers should be given view access to %s (%s),"
+            + "which you can find at %s",
             fileId,
             fileDesc,
             fileUrl

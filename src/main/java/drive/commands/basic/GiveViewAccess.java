@@ -24,7 +24,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
     private static final int MAX_BATCH_SIZE = 100;
     private static final String VIEW_ROLE = "reader";
     /**
-     * The list of details on the files, users, and permissions it should grant access for
+     * The list of details on the files and users it should grant access for
      */
     private final List<UserToFileMapping> mappings;
     

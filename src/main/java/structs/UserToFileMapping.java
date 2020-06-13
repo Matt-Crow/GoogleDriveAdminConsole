@@ -35,9 +35,8 @@ public class UserToFileMapping {
     @Override
     public String toString(){
         return String.format(
-            "%s should be given %s access to %s", 
+            "%s should be given access to %s", 
             user.getName(),
-            file.getAccessType().getDriveRole(),
             file.getFileId()
         );
     }
