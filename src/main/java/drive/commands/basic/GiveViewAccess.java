@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import services.ServiceAccess;
-import structs.AccessType;
 import structs.UserToFileMapping;
 
 /**
- * GiveAccess is used to grant either view or edit access to files.
+ * GiveViewAccess is used to grant either view or edit access to files.
  * It automatically batches the requests it makes.
  * 
  * @author Matt Crow
  */
-public class GiveAccess extends AbstractDriveCommand<Boolean>{
+public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
     private static final int MAX_BATCH_SIZE = 100;
+    private static final String VIEW_ROLE = "reader";
     /**
      * The list of details on the files, users, and permissions it should grant access for
      */
@@ -37,7 +37,7 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
      * @param service the Google Services singleton... might just access this globally in the future.
      * @param mapping a List of the various UserToFileMappings this should satisfy.
      */
-    public GiveAccess(ServiceAccess service, List<UserToFileMapping> mapping) {
+    public GiveViewAccess(ServiceAccess service, List<UserToFileMapping> mapping) {
         super(service);
         mappings = mapping;
         batches = new ArrayList<>();
@@ -50,30 +50,9 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
             batches.get(reqNum / MAX_BATCH_SIZE).add(mappings.get(reqNum));
         }
     }
-    public GiveAccess(ServiceAccess service, UserToFileMapping mapping){
+    public GiveViewAccess(ServiceAccess service, UserToFileMapping mapping){
         this(service, Arrays.asList(mapping));
     }
-    
-    /**
-     * Splits the list of mappings this needs to resolve into
-     * batches of mappings. Each of these batches should be fed
-     * into a batch request in .execute().
-     * 
-     * @return the batched mappings
-     */
-    /*
-    private List<List<UserToFileMapping>> constructBatches(){
-        List<List<UserToFileMapping>> batches = new ArrayList<>();
-        int totalReqs = mappings.size();
-        for(int reqNum = 0; reqNum < totalReqs; reqNum++){
-            if(reqNum % MAX_BATCH_SIZE == 0){
-                // new batch
-                batches.add(new ArrayList<>());
-            }
-            batches.get(reqNum / MAX_BATCH_SIZE).add(mappings.get(reqNum));
-        }
-        return batches;
-    } */
     
     /**
      * Batches all of the UserToFile mappings contained herein,
@@ -100,7 +79,7 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
         Drive.Permissions perms = getDrive().permissions();
         Permission p = null;
         
-        for(List<UserToFileMapping> batch : batches){ // maybe parallel stream this
+        for(List<UserToFileMapping> batch : batches){
             batchReq = getDrive().batch();
             
             for(UserToFileMapping mapping : batch){
@@ -108,7 +87,7 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
                 p.setEmailAddress(mapping.getUser().getEmail());
                 // from the documentation: "Valid values are: - user - group - domain - anyone"
                 p.setType("user");
-                p.setRole(AccessType.VIEW.getDriveRole());//mapping.getFile().getAccessType().getDriveRole());
+                p.setRole(VIEW_ROLE);
                 Drive.Permissions.Create create = perms.create(mapping.getFile().getFileId(), p);
                 create.setSendNotificationEmail(Boolean.TRUE);
                 // non-gmail accounts need notification emails to get access to the file

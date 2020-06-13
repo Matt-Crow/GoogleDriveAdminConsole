@@ -2,7 +2,7 @@ package drive.commands.camp;
 
 import drive.commands.AbstractDriveCommand;
 import drive.commands.accessList.AddToAccessList;
-import drive.commands.basic.GiveAccess;
+import drive.commands.basic.GiveViewAccess;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
         ArrayList<UserToFileMapping> whoGetsWhat = UserToFileMapping.constructUserFileList(newCampers, files);
         
         // construct the command
-        AbstractDriveCommand cmd = new GiveAccess(getServiceAccess(), whoGetsWhat);
+        AbstractDriveCommand cmd = new GiveViewAccess(getServiceAccess(), whoGetsWhat);
         System.out.println(cmd);
         try{
             cmd.execute();
