@@ -8,6 +8,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import services.ServiceAccess;
@@ -26,6 +27,8 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
      */
     private final List<UserToFileMapping> mappings;
     
+    private final List<List<UserToFileMapping>> batches;
+    
     /**
      * Constructs a request to give access to a given list of user-to-file mappings.
      * Note that, like all other DriveCommands, this DOES NOT automatically execute the request: 
@@ -36,6 +39,15 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
     public GiveAccess(ServiceAccess service, List<UserToFileMapping> mapping) {
         super(service);
         mappings = mapping;
+        batches = new ArrayList<>();
+        int totalReqs = mappings.size();
+        for(int reqNum = 0; reqNum < totalReqs; reqNum++){
+            if(reqNum % MAX_BATCH_SIZE == 0){
+                // new batch
+                batches.add(new ArrayList<>());
+            }
+            batches.get(reqNum / MAX_BATCH_SIZE).add(mappings.get(reqNum));
+        }
     }
     public GiveAccess(ServiceAccess service, UserToFileMapping mapping){
         this(service, Arrays.asList(mapping));
@@ -48,18 +60,19 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
      * 
      * @return the batched mappings
      */
+    /*
     private List<List<UserToFileMapping>> constructBatches(){
-        List<List<UserToFileMapping>> batches = Arrays.asList(); // empty list
+        List<List<UserToFileMapping>> batches = new ArrayList<>();
         int totalReqs = mappings.size();
         for(int reqNum = 0; reqNum < totalReqs; reqNum++){
             if(reqNum % MAX_BATCH_SIZE == 0){
                 // new batch
-                batches.add(Arrays.asList());
+                batches.add(new ArrayList<>());
             }
             batches.get(reqNum / MAX_BATCH_SIZE).add(mappings.get(reqNum));
         }
         return batches;
-    } 
+    } */
     
     /**
      * Batches all of the UserToFile mappings contained herein,
@@ -86,7 +99,7 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
         Drive.Permissions perms = getDrive().permissions();
         Permission p = null;
         
-        for(List<UserToFileMapping> batch : constructBatches()){ // maybe parallel stream this
+        for(List<UserToFileMapping> batch : batches){ // maybe parallel stream this
             batchReq = getDrive().batch();
             
             for(UserToFileMapping mapping : batch){
@@ -109,5 +122,18 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
             
         }
         return true;
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder bob = new StringBuilder();
+        bob.append("GiveAccess:\n");
+        batches.forEach((batch) -> {
+            bob.append("===BATCH===\n");
+            batch.forEach((mapping)->{
+                bob.append("\t").append(mapping.toString()).append("\n");
+            });
+        });
+        return bob.toString();
     }
 }

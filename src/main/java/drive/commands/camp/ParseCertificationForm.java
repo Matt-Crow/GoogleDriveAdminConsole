@@ -25,7 +25,7 @@ import structs.UserToFileMapping;
  * make this add multiple people to multiple files using threads
  * @author Matt
  */
-public class ParseCertificationForm extends AbstractDriveCommand<File>{
+public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{
     private final CertificationFormInfo certFormInfo;
     private final FileListInfo fileListInfo;
     private final String campRootId;
@@ -40,25 +40,22 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
     }
 
     @Override
-    public File execute() throws IOException {
-        // first, create the camp folder. TODO: make this check if a folder for the week already exist
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        String timeStr = LocalDateTime.now().format(formatter);
-        
-        File createdFolder = new CreateFolder(getServiceAccess(), String.format("%s (test)", timeStr), campRootId).execute();
-        
-        // second, extract the campers from the form responses
+    public List<UserToFileMapping> execute() throws IOException {
+        // first, extract the campers from the form responses
         ArrayList<UserData> newCampers = new ReadCertificationForm(getServiceAccess(), certFormInfo).execute();
-        //newCampers.forEach(System.out::println);
+        System.out.println("Contents of certification form:");
+        newCampers.forEach(System.out::println);
         
         
         // next, get the list of files campers will get access to
         ArrayList<CamperFile> files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
-        //files.forEach(System.out::println);
+        System.out.println("Files they will get:");
+        files.forEach(System.out::println);
         
         // construct the list of requests to make
         ArrayList<UserToFileMapping> whoGetsWhat = UserToFileMapping.constructUserFileList(newCampers, files);
         
+        /*
         List<UserToFileMapping> viewReqs = whoGetsWhat
             .stream()
             .filter(mapping->mapping.getFile().getAccessType()==AccessType.VIEW)
@@ -67,13 +64,15 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             .stream()
             .filter(mapping->mapping.getFile().getAccessType()==AccessType.EDIT)
             .collect(Collectors.toList());
-        
+        */
         
         // construct the commands
         List<AbstractDriveCommand> commands = new ArrayList<>();
-        commands.add(new Copy(getServiceAccess(), copyUs, createdFolder.getId()));
-        commands.add(new GiveAccess(getServiceAccess(), viewReqs)); // GiveAccess automatically batches
+        //commands.add(new Copy(getServiceAccess(), copyUs, createdFolder.getId()));
+        //commands.add(new GiveAccess(getServiceAccess(), viewReqs)); // GiveAccess automatically batches
+        commands.add(new GiveAccess(getServiceAccess(), whoGetsWhat));
         commands.forEach(System.out::println);
+        
         
         commands.parallelStream().forEach((cmd)->{
             try{
@@ -87,7 +86,8 @@ public class ParseCertificationForm extends AbstractDriveCommand<File>{
             return userData.getMinecraftUsername();
         }).toArray((size)->new String[size]);
         
-        new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
-        return createdFolder;
+        //new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
+        
+        return whoGetsWhat;
     }
 }
