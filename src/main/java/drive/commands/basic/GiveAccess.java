@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import services.ServiceAccess;
+import structs.AccessType;
 import structs.UserToFileMapping;
 
 /**
@@ -107,7 +108,7 @@ public class GiveAccess extends AbstractDriveCommand<Boolean>{
                 p.setEmailAddress(mapping.getUser().getEmail());
                 // from the documentation: "Valid values are: - user - group - domain - anyone"
                 p.setType("user");
-                p.setRole(mapping.getFile().getAccessType().getDriveRole());
+                p.setRole(AccessType.VIEW.getDriveRole());//mapping.getFile().getAccessType().getDriveRole());
                 Drive.Permissions.Create create = perms.create(mapping.getFile().getFileId(), p);
                 create.setSendNotificationEmail(Boolean.TRUE);
                 // non-gmail accounts need notification emails to get access to the file

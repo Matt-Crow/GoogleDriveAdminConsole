@@ -36,7 +36,6 @@ import structs.UserData;
 public class Test {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         ServiceAccess service = ServiceAccess.getInstance();
-        String campRoot = "1pWIlye9KnYiBe58liKDtMltAlXjSVuGY";
         String accessListId = "1QHJvkVWmpgRZzY9bTeNSBSK_EDfMMHC8";
         
         CertificationFormInfo testCertFormInfo = new CertificationFormInfo(
@@ -72,8 +71,7 @@ public class Test {
         
         factory.parseCertificationForm(
             testCertFormInfo, 
-            fromAdminConsole, 
-            campRoot,
+            fromAdminConsole,
             accessListId
         ).execute();
         

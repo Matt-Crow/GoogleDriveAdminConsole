@@ -48,7 +48,7 @@ public class CommandFactory {
         return new ReadFileList(services, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String campRootId, String accessListId){
-        return new ParseCertificationForm(services, formInfo, fileInfo, campRootId, accessListId);
+    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String accessListId){
+        return new ParseCertificationForm(services, formInfo, fileInfo, accessListId);
     }
 }
