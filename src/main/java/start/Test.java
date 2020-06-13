@@ -13,19 +13,8 @@ import structs.CertificationFormInfo;
 import structs.FileListInfo;
 import structs.UserData;
 
-
-// note this in readme: https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html
-// https://drive.google.com/uc?export=download&id=ID
-
-// https://developers.google.com/sheets/api/quickstart/java
-// https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/
-
-// add people to Camper group, that group has view access to files?
-
 // for crying out loud REMEMBER .EXECUTE()!!!
 /**
- * https://developers.google.com/drive/api/v3/quickstart/java?authuser=2
- * 
  * 
  * https://cloud.google.com/compute/docs/api-rate-limits
  * https://console.developers.google.com/apis/api/drive.googleapis.com/quotas?authuser=2&project=camp-administration-console
