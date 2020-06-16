@@ -23,6 +23,11 @@ public class MainPane extends JPanel{
     
     public MainPane(){
         super();
+        
+        Runnable notImpl = () -> {
+            throw new UnsupportedOperationException();
+        };
+        
         backend = new GuiBackend(this);
         
         setLayout(new BorderLayout());
@@ -38,36 +43,33 @@ public class MainPane extends JPanel{
         add(scroll, BorderLayout.CENTER);
         
         menu = new JMenuBar();
+        
         JMenu servAcc = new JMenu("Server access");
-        
-        JMenuItem addToAcc = new JMenuItem("Add a Minecraft username to an access list");
-        addToAcc.addActionListener((e)->{
-            backend.askAddToAccessList();
-        });
-        servAcc.add(addToAcc);
-        
-        JMenuItem createAcc = new JMenuItem("Create a new access list");
-        createAcc.addActionListener((e)->{
-            backend.askCreateAccessList();
-        });
-        servAcc.add(createAcc);
-        
-        JMenuItem getAcc = new JMenuItem("Display an access list");
-        getAcc.addActionListener((e)->{
-            backend.askDisplayAccessList();
-        });
-        servAcc.add(getAcc);
-        
-        JMenuItem delAcc = new JMenuItem("Clear an access list");
-        delAcc.addActionListener((e)->{
-            backend.askClearAccessList();
-        });
-        servAcc.add(delAcc);
-        
+        addMenuItem(servAcc, "Add a Minecraft username to an access list", ()->backend.askAddToAccessList());
+        addMenuItem(servAcc, "Create a new access list", ()->backend.askCreateAccessList());
+        addMenuItem(servAcc, "Display an access list", ()->backend.askDisplayAccessList());
+        addMenuItem(servAcc, "Clear an access list", ()->backend.askClearAccessList());
         menu.add(servAcc);
+        
+        JMenu driveManage = new JMenu("Drive management");
+        addMenuItem(driveManage, "Prevent viewers from downloading files", notImpl);
+        addMenuItem(driveManage, "Give an email access to files", notImpl);
+        addMenuItem(driveManage, "Read a file list", notImpl);
+        addMenuItem(driveManage, "Read a certification form", notImpl);
+        menu.add(driveManage);
+        
+        JMenu newCamp = new JMenu("New Camp");
+        addMenuItem(newCamp, "Parse a certification form", notImpl);
+        menu.add(newCamp);
+        
         add(menu, BorderLayout.PAGE_START);
-        
-        
+    }
+    
+    private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
+        JMenuItem newItem = new JMenuItem(text);
+        newItem.addActionListener((e)->r.run());
+        addTo.add(newItem);
+        return newItem;
     }
     
     public final void addText(String appendMe){

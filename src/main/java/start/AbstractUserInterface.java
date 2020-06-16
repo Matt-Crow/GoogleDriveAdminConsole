@@ -53,13 +53,15 @@ public abstract interface AbstractUserInterface {
         }
     }
     
-    public abstract String ask(String question);
-    public abstract void writeOutput(String out);
+    
+    
     public default void reportError(Exception ex){
         writeOutput(ex.getMessage());
         for( StackTraceElement frame : ex.getStackTrace()){
             writeOutput(String.format("- %s", frame.toString()));
         }
     }
+    public abstract String ask(String question);
+    public abstract void writeOutput(String out);
     public abstract CommandFactory getCmdFactory();
 }
