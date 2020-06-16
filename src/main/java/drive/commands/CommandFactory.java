@@ -22,14 +22,16 @@ public class CommandFactory {
         services = service;
     }
     
+    /*
+    Access list related methods
+    */
+    
     public final CreateAccessList createAccessListCmd(String folderId){
         return new CreateAccessList(services, folderId);
     }
-    
     public final GetAccessList getAccessListCmd(String accessListId){
         return new GetAccessList(services, accessListId);
     }
-    
     public final SetAccessListContent setAccessListCmd(String accessListId, String[] userNames){
         return new SetAccessListContent(services, accessListId, userNames);
     }

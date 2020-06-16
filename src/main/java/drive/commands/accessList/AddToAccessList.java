@@ -17,7 +17,11 @@ public class AddToAccessList extends AbstractDriveCommand<String[]>{
     public AddToAccessList(ServiceAccess service, String fileId, String[] newUsers) {
         super(service);
         accessListId = fileId;
-        addedUsers = newUsers;
+        addedUsers = Arrays.stream(newUsers).map((name)->name.trim()).toArray((count)->new String[count]);
+    }
+    
+    public AddToAccessList(ServiceAccess service, String fileId, String newUser){
+        this(service, fileId, new String[]{newUser});
     }
 
     @Override
