@@ -32,8 +32,8 @@ public class AddToAccessList extends AbstractDriveCommand<String[]>{
         Arrays.stream(addedUsers).forEach(totalUsers::add);
         
         String[] updatedUserList = totalUsers.toArray(new String[]{});
-        
-        new SetAccessListContent(getServiceAccess(), accessListId, updatedUserList).execute();
-        return updatedUserList;
+        SetAccessListContent cmd = new SetAccessListContent(getServiceAccess(), accessListId, updatedUserList);
+        cmd.execute();
+        return cmd.getNewContent();
     }
 }

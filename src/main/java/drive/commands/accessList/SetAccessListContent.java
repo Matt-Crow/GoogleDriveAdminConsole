@@ -1,11 +1,12 @@
 package drive.commands.accessList;
 
 import com.google.api.client.http.FileContent;
-import com.google.api.services.drive.Drive;
 import drive.commands.AbstractDriveCommand;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.HashSet;
 import services.ServiceAccess;
 
 /**
@@ -19,10 +20,19 @@ public class SetAccessListContent extends AbstractDriveCommand<Boolean>{
     public SetAccessListContent(ServiceAccess service, String fileId, String[] newContent) {
         super(service);
         accessListId = fileId;
-        newUserList = newContent;
+        HashSet<String> noDupes = new HashSet<>(Arrays.asList(newContent));
+        newUserList = noDupes
+            .stream()
+            .map((name)->name.trim())
+            .filter((name)->name.length() != 0)
+            .toArray((size)->new String[size]);
+        Arrays.sort(newUserList);
     }
-
-    @Override
+    
+    public final String[] getNewContent(){
+        return newUserList;
+    }
+    @Override 
     public Boolean execute() throws IOException {
         java.io.File temp = java.io.File.createTempFile("testing", "something");
         OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(temp));
