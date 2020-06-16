@@ -14,7 +14,7 @@ import structs.UserData;
 import structs.UserToFileMapping;
 
 /**
- * make this add multiple people to multiple files using threads
+ * 
  * @author Matt
  */
 public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{

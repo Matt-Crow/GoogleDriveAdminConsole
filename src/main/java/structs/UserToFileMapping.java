@@ -3,7 +3,10 @@ package structs;
 import java.util.ArrayList;
 
 /**
- * @author Matt
+ * The UserToFileMapping is used to design who should have access to what file on the drive.
+ * The GiveViewAccess class is responsible for resolving the mapping.
+ * @see drive.commands.basic.GiveViewAccess
+ * @author Matt Crow
  */
 public class UserToFileMapping {
     private final UserData user;
@@ -12,7 +15,6 @@ public class UserToFileMapping {
     public UserToFileMapping(UserData camper, CamperFile camperFile){
         user = camper;
         file = camperFile;
-        //
     }
     
     public static ArrayList<UserToFileMapping> constructUserFileList(ArrayList<UserData> users, ArrayList<CamperFile> files){
