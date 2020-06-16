@@ -24,6 +24,7 @@ public class CmdLineInterface {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String textInput = "";
         int choice = 0;
+        while(read.read() != -1);
         while(choice != -1){
             System.out.println("Enter -1 to quit");
             textInput = read.readLine();
@@ -33,6 +34,7 @@ public class CmdLineInterface {
             } catch(NumberFormatException e){
                 System.out.printf("Not a valid number: %s\n", textInput);
             }
+            choice = -1;
             //inputReader.nextLine();
             
         }
