@@ -45,6 +45,15 @@ public class Test {
             "Participating At What Level?"
         );
         
+        CertificationFormInfo june15 = new CertificationFormInfo(
+            "1nF8Rbuc1Mnb0v_8ZB81Ci-Apge1bVQmMcA4AGHKsf4M",
+            "Form Responses 1",
+            "Participants Name",
+            "Participant's email",
+            "Participant's Minecraft username ... Add To Science Report",
+            "Participating At What Level?"
+        );
+        
         FileListInfo fromAdminConsole = new FileListInfo(
             "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA",
             "files campers can view",
@@ -59,10 +68,16 @@ public class Test {
         
         
         factory.parseCertificationForm(
-            testCertFormInfo, 
+            june15,//testCertFormInfo, 
             fromAdminConsole,
             accessListId
         );//.execute();
+        
+        factory.addToAccessListCmd(accessListId, new String[]{
+            "ProfSchuster",
+            "BiPredicateTU",
+            "fuzzbucket01"
+        });//.execute();
         
         //ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
         //ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();

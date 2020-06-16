@@ -19,9 +19,17 @@ jar {
     }
 
     //include dependencies in JAR file
-    //from {
-    //    configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    //}
+    doFirst {
+        from {
+            configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    }
+    /*
+     * https://stackoverflow.com/questions/999489/invalid-signature-file-when-attempting-to-run-a-jar
+     * Need to exclude signitures from the Google API files, otherwise this causes errors when attempting
+     * to run the JAR file.
+    */
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' 
 }
 
 dependencies {
