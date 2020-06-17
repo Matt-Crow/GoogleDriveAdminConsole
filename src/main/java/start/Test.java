@@ -2,15 +2,19 @@ package start;
 
 import com.google.api.services.drive.Drive;
 import services.ServiceAccess;
-import structs.CamperFile;
+import structs.DetailedFileInfo;
 import structs.UserToFileMapping;
 import drive.commands.CommandFactory;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
+import structs.SimpleFileInfo;
 import structs.UserData;
 
 // for crying out loud REMEMBER .EXECUTE()!!!
@@ -67,6 +71,29 @@ public class Test {
         CommandFactory factory = new CommandFactory(service);
         
         
+        String[] emails = new String[]{
+            "greengrappler12@gmail.com"
+        };
+        
+        String[] fileIds = new String[]{
+            "1rekHw2cK9VR9SeFNCB1NkvW9DhWcfQ07jcaeTuS1Ntk",
+            "1hwDSDpLJ4-CMbuUQeSmptxyyx0zRb_lvCXAIbzNz7kY",
+            "1oupONSo0G97DzwY_8rukMNlCXMBM1Qmb",
+            "1sLFJQ8TftVNkij5a4gy0m1HxZCStjAzN"
+        };
+        
+        List<UserData> users = Arrays.stream(emails).map((email)->{
+            return new UserData("", email, "", "");
+        }).collect(Collectors.toList());
+        
+        List<SimpleFileInfo> files = Arrays.stream(fileIds).map((fId)->{
+            return new SimpleFileInfo(fId);
+        }).collect(Collectors.toList());
+        
+        List<UserToFileMapping> resolveMe = UserToFileMapping.constructUserFileList(users, files);
+        
+        factory.giveAccess(resolveMe).execute();
+        /*
         factory.parseCertificationForm(
             june15,//testCertFormInfo, 
             fromAdminConsole,
@@ -78,7 +105,7 @@ public class Test {
             "BiPredicateTU",
             "fuzzbucket01"
         });//.execute();
-        
+        */
         //ArrayList<UserData> campers = factory.readCertForm("1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0").execute();
         //ArrayList<CamperFile> fileList = factory.readFileList("1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA", "files campers can view", "campers get a copy of these").execute();
         

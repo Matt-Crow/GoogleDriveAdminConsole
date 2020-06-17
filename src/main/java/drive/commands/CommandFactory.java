@@ -6,10 +6,13 @@ import drive.commands.accessList.SetAccessListContent;
 import drive.commands.accessList.GetAccessList;
 import drive.commands.accessList.CreateAccessList;
 import drive.commands.accessList.AddToAccessList;
+import drive.commands.basic.GiveViewAccess;
 import drive.commands.camp.ParseCertificationForm;
+import java.util.List;
 import services.ServiceAccess;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
+import structs.UserToFileMapping;
 
 /**
  *
@@ -49,5 +52,9 @@ public class CommandFactory {
     
     public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String accessListId){
         return new ParseCertificationForm(services, formInfo, fileInfo, accessListId);
+    }
+    
+    public final GiveViewAccess giveAccess(List<UserToFileMapping> mappings){
+        return new GiveViewAccess(services, mappings);
     }
 }

@@ -13,7 +13,7 @@ public class Main {
     
     public static void main(String[] args) throws IOException, GeneralSecurityException{
         //new CmdLineInterface().run();
-        new MainWindow();
-        //Test.main(args);
+        //new MainWindow();
+        Test.main(args);
     }
 }

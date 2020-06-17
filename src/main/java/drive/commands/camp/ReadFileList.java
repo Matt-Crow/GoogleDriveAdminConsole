@@ -1,6 +1,6 @@
 package drive.commands.camp;
 
-import structs.CamperFile;
+import structs.DetailedFileInfo;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import services.ServiceAccess;
 import drive.commands.AbstractDriveCommand;
@@ -14,7 +14,7 @@ import structs.FileListInfo;
  * currently reads the admin console, but we may change that in the future
  * @author Matt
  */
-public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
+public class ReadFileList extends AbstractDriveCommand<ArrayList<DetailedFileInfo>>{
     private final FileListInfo sourceInfo;
     
     public ReadFileList(ServiceAccess service, FileListInfo source) {
@@ -22,8 +22,8 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
         sourceInfo = source;
     }
     
-    private ArrayList<CamperFile> getFilesFromSheet(String sheetName) throws IOException{
-        ArrayList<CamperFile> files = new ArrayList<>();
+    private ArrayList<DetailedFileInfo> getFilesFromSheet(String sheetName) throws IOException{
+        ArrayList<DetailedFileInfo> files = new ArrayList<>();
         ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sheetName).execute();
         List<List<Object>> data = range.getValues();
         String[] ids = CsvParser.getColumn(data, sourceInfo.getFileIdHeader());
@@ -31,15 +31,15 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<CamperFile>>{
         String[] urls = CsvParser.getColumn(data, sourceInfo.getUrlHeader());
         for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
             if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
-                files.add(new CamperFile(ids[i], descs[i], urls[i]));
+                files.add(new DetailedFileInfo(ids[i], descs[i], urls[i]));
             }
         }
         return files;
     }
     
     @Override
-    public ArrayList<CamperFile> execute() throws IOException {
-        ArrayList<CamperFile> ret = new ArrayList<>();
+    public ArrayList<DetailedFileInfo> execute() throws IOException {
+        ArrayList<DetailedFileInfo> ret = new ArrayList<>();
         ret.addAll(getFilesFromSheet(sourceInfo.getViewSheetName()));
         ret.addAll(getFilesFromSheet(sourceInfo.getCopySheetName()));
         return ret;

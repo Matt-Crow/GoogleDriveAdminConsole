@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import services.ServiceAccess;
-import structs.CamperFile;
+import structs.DetailedFileInfo;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
 import structs.UserData;
@@ -38,7 +38,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
         
         
         // next, get the list of files campers will get access to
-        ArrayList<CamperFile> files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
+        ArrayList<DetailedFileInfo> files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
         System.out.println("Files they will get:");
         files.forEach(System.out::println);
         

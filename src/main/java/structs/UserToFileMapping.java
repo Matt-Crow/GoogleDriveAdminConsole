@@ -1,6 +1,7 @@
 package structs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The UserToFileMapping is used to design who should have access to what file on the drive.
@@ -10,14 +11,14 @@ import java.util.ArrayList;
  */
 public class UserToFileMapping {
     private final UserData user;
-    private final CamperFile file;
+    private final SimpleFileInfo file;
     
-    public UserToFileMapping(UserData camper, CamperFile camperFile){
+    public UserToFileMapping(UserData camper, SimpleFileInfo camperFile){
         user = camper;
         file = camperFile;
     }
     
-    public static ArrayList<UserToFileMapping> constructUserFileList(ArrayList<UserData> users, ArrayList<CamperFile> files){
+    public static ArrayList<UserToFileMapping> constructUserFileList(List<UserData> users, List<? extends SimpleFileInfo> files){
         ArrayList<UserToFileMapping> products = new ArrayList<>();
         users.forEach((user) -> {
             files.forEach((file) -> {
@@ -30,7 +31,7 @@ public class UserToFileMapping {
     public UserData getUser(){
         return user;        
     }
-    public CamperFile getFile(){
+    public SimpleFileInfo getFile(){
         return file;
     }
     
