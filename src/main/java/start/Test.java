@@ -71,6 +71,8 @@ public class Test {
         
         CommandFactory factory = new CommandFactory(service);
         
+        factory.updateDownloadOptions(fromAdminConsole).execute();
+        
         
         String[] emails = new String[]{
             "greengrappler12@gmail.com"
@@ -93,7 +95,7 @@ public class Test {
         
         List<UserToFileMapping> resolveMe = UserToFileMapping.constructUserFileList(users, files);
         
-        factory.giveAccess(resolveMe).execute();
+        //factory.giveAccess(resolveMe).execute();
         /*
         factory.parseCertificationForm(
             june15,//testCertFormInfo, 

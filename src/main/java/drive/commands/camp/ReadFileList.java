@@ -22,7 +22,7 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<DetailedFileInf
         sourceInfo = source;
     }
     
-    private ArrayList<DetailedFileInfo> getFilesFromSheet(String sheetName) throws IOException{
+    private List<DetailedFileInfo> getFilesFromSheet(String sheetName, boolean filesAreDownloadable) throws IOException{
         ArrayList<DetailedFileInfo> files = new ArrayList<>();
         ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sheetName).execute();
         List<List<Object>> data = range.getValues();
@@ -31,7 +31,7 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<DetailedFileInf
         String[] urls = CsvParser.getColumn(data, sourceInfo.getUrlHeader());
         for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
             if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
-                files.add(new DetailedFileInfo(ids[i], descs[i], urls[i]));
+                files.add(new DetailedFileInfo(ids[i], descs[i], urls[i], filesAreDownloadable));
             }
         }
         return files;
@@ -40,8 +40,8 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<DetailedFileInf
     @Override
     public ArrayList<DetailedFileInfo> execute() throws IOException {
         ArrayList<DetailedFileInfo> ret = new ArrayList<>();
-        ret.addAll(getFilesFromSheet(sourceInfo.getViewSheetName()));
-        ret.addAll(getFilesFromSheet(sourceInfo.getCopySheetName()));
+        ret.addAll(getFilesFromSheet(sourceInfo.getViewSheetName(), false));
+        ret.addAll(getFilesFromSheet(sourceInfo.getCopySheetName(), true));
         return ret;
     }
 

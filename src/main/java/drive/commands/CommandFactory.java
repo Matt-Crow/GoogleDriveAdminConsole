@@ -8,6 +8,7 @@ import drive.commands.accessList.CreateAccessList;
 import drive.commands.accessList.AddToAccessList;
 import drive.commands.basic.GiveViewAccess;
 import drive.commands.camp.ParseCertificationForm;
+import drive.commands.camp.UpdateDownloadAccess;
 import java.util.List;
 import services.ServiceAccess;
 import structs.CertificationFormInfo;
@@ -56,5 +57,9 @@ public class CommandFactory {
     
     public final GiveViewAccess giveAccess(List<UserToFileMapping> mappings){
         return new GiveViewAccess(services, mappings);
+    }
+    
+    public final UpdateDownloadAccess updateDownloadOptions(FileListInfo fileList){
+        return new UpdateDownloadAccess(services, fileList);
     }
 }

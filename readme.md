@@ -7,3 +7,4 @@
 * [Drive Javadoc](https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html)
 * [Sheets Javadoc](https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/)
 * Use this to download a file's contents: https://drive.google.com/uc?export=download&id=ID
+To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
