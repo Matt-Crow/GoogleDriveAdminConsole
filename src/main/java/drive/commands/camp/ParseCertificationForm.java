@@ -10,7 +10,7 @@ import services.ServiceAccess;
 import structs.DetailedFileInfo;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
-import structs.UserData;
+import structs.DetailedUserInfo;
 import structs.UserToFileMapping;
 
 /**
@@ -32,7 +32,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
     @Override
     public List<UserToFileMapping> execute() throws IOException {
         // first, extract the campers from the form responses
-        ArrayList<UserData> newCampers = new ReadCertificationForm(getServiceAccess(), certFormInfo).execute();
+        ArrayList<DetailedUserInfo> newCampers = new ReadCertificationForm(getServiceAccess(), certFormInfo).execute();
         System.out.println("Contents of certification form:");
         newCampers.forEach(System.out::println);
         

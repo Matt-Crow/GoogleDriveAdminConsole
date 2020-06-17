@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
 import structs.SimpleFileInfo;
-import structs.UserData;
+import structs.DetailedUserInfo;
+import structs.SimpleUserInfo;
 
 // for crying out loud REMEMBER .EXECUTE()!!!
 /**
@@ -82,8 +83,8 @@ public class Test {
             "1sLFJQ8TftVNkij5a4gy0m1HxZCStjAzN"
         };
         
-        List<UserData> users = Arrays.stream(emails).map((email)->{
-            return new UserData("", email, "", "");
+        List<SimpleUserInfo> users = Arrays.stream(emails).map((email)->{
+            return new SimpleUserInfo(email);
         }).collect(Collectors.toList());
         
         List<SimpleFileInfo> files = Arrays.stream(fileIds).map((fId)->{

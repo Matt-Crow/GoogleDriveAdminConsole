@@ -10,15 +10,15 @@ import java.util.List;
  * @author Matt Crow
  */
 public class UserToFileMapping {
-    private final UserData user;
+    private final SimpleUserInfo user;
     private final SimpleFileInfo file;
     
-    public UserToFileMapping(UserData camper, SimpleFileInfo camperFile){
+    public UserToFileMapping(SimpleUserInfo camper, SimpleFileInfo camperFile){
         user = camper;
         file = camperFile;
     }
     
-    public static ArrayList<UserToFileMapping> constructUserFileList(List<UserData> users, List<? extends SimpleFileInfo> files){
+    public static ArrayList<UserToFileMapping> constructUserFileList(List<? extends SimpleUserInfo> users, List<? extends SimpleFileInfo> files){
         ArrayList<UserToFileMapping> products = new ArrayList<>();
         users.forEach((user) -> {
             files.forEach((file) -> {
@@ -28,7 +28,7 @@ public class UserToFileMapping {
         return products;
     }
     
-    public UserData getUser(){
+    public SimpleUserInfo getUser(){
         return user;        
     }
     public SimpleFileInfo getFile(){
@@ -39,7 +39,7 @@ public class UserToFileMapping {
     public String toString(){
         return String.format(
             "%s should be given access to %s", 
-            user.getName(),
+            user.getEmail(),
             file.getFileId()
         );
     }
