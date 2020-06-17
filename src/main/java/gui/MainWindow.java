@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import start.Main;
 
 /**
  *
@@ -10,7 +11,7 @@ import javax.swing.JFrame;
 public class MainWindow extends JFrame{
     public MainWindow(){
         super();
-        setTitle("Aerospace Museum STEM Camp Admin Console");
+        setTitle(Main.APPLICATION_NAME);
         // fullscreen
         setSize(
             (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
