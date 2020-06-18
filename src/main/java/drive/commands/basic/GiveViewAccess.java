@@ -1,16 +1,13 @@
 package drive.commands.basic;
 
-import com.google.api.client.googleapis.batch.BatchRequest;
-import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import services.ServiceAccess;
 import structs.UserToFileMapping;
 
@@ -28,7 +25,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
      */
     private final List<UserToFileMapping> mappings;
     
-    private final List<List<UserToFileMapping>> batches;
+    //private final List<List<UserToFileMapping>> batches;
     
     /**
      * Constructs a request to give access to a given list of user-to-file mappings.
@@ -40,6 +37,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
     public GiveViewAccess(ServiceAccess service, List<UserToFileMapping> mapping) {
         super(service);
         mappings = mapping;
+        /*
         batches = new ArrayList<>();
         int totalReqs = mappings.size();
         for(int reqNum = 0; reqNum < totalReqs; reqNum++){
@@ -48,7 +46,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
                 batches.add(new ArrayList<>());
             }
             batches.get(reqNum / MAX_BATCH_SIZE).add(mappings.get(reqNum));
-        }
+        }*/
     }
     public GiveViewAccess(ServiceAccess service, UserToFileMapping mapping){
         this(service, Arrays.asList(mapping));
@@ -63,6 +61,30 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
      */
     @Override
     public Boolean execute() throws IOException {
+        Drive.Permissions perms = getDrive().permissions();
+        
+        List<Drive.Permissions.Create> reqs = mappings.stream().map((UserToFileMapping mapping)->{
+            Permission p = new Permission();
+            p.setEmailAddress(mapping.getUser().getEmail());
+            // from the documentation: "Valid values are: - user - group - domain - anyone"
+            p.setType("user");
+            p.setRole(VIEW_ROLE);
+            Drive.Permissions.Create create = null;
+            try {
+                create = perms.create(mapping.getFile().getFileId(), p);
+                create.setSendNotificationEmail(Boolean.TRUE);
+                // non-gmail accounts need notification emails to get access to the file
+                // there is no way to check whether or not they are gmail, so we need to send notifications
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            
+            return create;
+        }).filter((driveReq)->driveReq != null).collect(Collectors.toList());
+        
+        CommandBatch<File> batches = new CommandBatch<File>(getServiceAccess(), reqs);
+        batches.execute();
+        /*
         JsonBatchCallback<Permission> jsonCallback = new JsonBatchCallback<Permission>() {
             @Override
             public void onFailure(GoogleJsonError gje, HttpHeaders hh) throws IOException {
@@ -76,14 +98,14 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
             }
         };
         BatchRequest batchReq = null;
-        Drive.Permissions perms = getDrive().permissions();
+        
         Permission p = null;
         
         for(List<UserToFileMapping> batch : batches){
             batchReq = getDrive().batch();
             
             for(UserToFileMapping mapping : batch){
-                p = new Permission();
+                //p = new Permission();
                 p.setEmailAddress(mapping.getUser().getEmail());
                 // from the documentation: "Valid values are: - user - group - domain - anyone"
                 p.setType("user");
@@ -100,7 +122,8 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
                 ex.printStackTrace();
             }      
             
-        }
+        }*/
+        
         return true;
     }
     
