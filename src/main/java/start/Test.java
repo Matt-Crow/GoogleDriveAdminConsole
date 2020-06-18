@@ -95,7 +95,7 @@ public class Test {
         
         List<UserToFileMapping> resolveMe = UserToFileMapping.constructUserFileList(users, files);
         
-        //factory.giveAccess(resolveMe).execute();
+        factory.giveAccess(resolveMe).execute();
         /*
         factory.parseCertificationForm(
             june15,//testCertFormInfo, 
