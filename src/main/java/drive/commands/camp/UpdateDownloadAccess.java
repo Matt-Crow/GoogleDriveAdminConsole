@@ -1,10 +1,13 @@
 package drive.commands.camp;
 
+import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import drive.commands.AbstractDriveCommand;
+import drive.commands.basic.CommandBatch;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import services.ServiceAccess;
 import structs.DetailedFileInfo;
 import structs.FileListInfo;
@@ -20,7 +23,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         fileList = driveFileList;
     }
 
-    private List<DetailedFileInfo> getFiles(DetailedFileInfo root){
+    private List<DetailedFileInfo> getLeaves(DetailedFileInfo root){
         List<DetailedFileInfo> childFiles = new ArrayList<>();
         try {
             File rootFile = getDrive().files().get(root.getFileId()).execute();
@@ -36,7 +39,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                         root.shouldCopyBeEnabled() // inherit downloadability from parent
                     );
                 }).forEach((DetailedFileInfo newRootInfo)->{
-                    childFiles.addAll(getFiles(newRootInfo));
+                    childFiles.addAll(getLeaves(newRootInfo));
                 });
             } else {
                 // if root is a file, just return it
@@ -55,18 +58,35 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         System.out.println("All files:");
         allCampFiles.forEach(System.out::println);
         
-        List<DetailedFileInfo> allChildNodes = new ArrayList<>();
+        List<DetailedFileInfo> allLeafNodes = new ArrayList<>();
         allCampFiles.forEach((file)->{
-            allChildNodes.addAll(getFiles(file));
+            allLeafNodes.addAll(getLeaves(file));
         });
         
         System.out.println("All children:");
-        allChildNodes.forEach(System.out::println);
+        allLeafNodes.forEach(System.out::println);
+        
+        Drive.Files files = getDrive().files();
+        List<Drive.Files.Update> updates = allLeafNodes
+            .stream()
+            .map((DetailedFileInfo info)->{
+                Drive.Files.Update update = null;
+                File newChanges = new File();
+                try {
+                    newChanges.setViewersCanCopyContent((info.shouldCopyBeEnabled()) ? Boolean.TRUE: Boolean.FALSE);
+                    update = files.update(info.getFileId(), newChanges);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                return update;
+            }).filter((req)->req != null).collect(Collectors.toList());
         
         // batch requests to add or remove download access for viewers
         
-        //String[] updated = new DisableDownloads(getServiceAccess(), allCampFiles).execute();
-        return null;
+        CommandBatch<File> batch = new CommandBatch<>(getServiceAccess(), updates);
+        List<File> updated = batch.execute();
+        String[] updatedIds = updated.stream().map((f)->f.getId()).toArray((size)->new String[size]);
+        return updatedIds;
     }
 
 }
