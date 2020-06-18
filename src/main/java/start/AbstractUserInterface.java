@@ -1,7 +1,12 @@
 package start;
 
 import drive.commands.CommandFactory;
+import fileUtils.FileSelector;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import structs.FileListInfo;
 
 /**
  *
@@ -54,6 +59,17 @@ public abstract interface AbstractUserInterface {
     }
     
     
+    public default void askCreateDefaultProps(){
+        FileSelector.createNewFile("Where do you want to save the default properties?", (File newFile)->{
+            try {
+                new FileListInfo().save(newFile);
+            } catch (FileNotFoundException ex) {
+                reportError(ex);
+            } catch (IOException ex) {
+                reportError(ex);
+            }
+        });
+    }
     
     public default void reportError(Exception ex){
         writeOutput(ex.getMessage());
