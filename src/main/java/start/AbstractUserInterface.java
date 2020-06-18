@@ -2,10 +2,13 @@ package start;
 
 import drive.commands.CommandFactory;
 import fileUtils.FileSelector;
+import fileUtils.FileType;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import structs.DetailedFileInfo;
 import structs.FileListInfo;
 
 /**
@@ -58,11 +61,48 @@ public abstract interface AbstractUserInterface {
         }
     }
     
+    public default void askReadFileList(){
+        new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
+            try {
+                FileListInfo info = new FileListInfo();
+                info.load(new FileInputStream(f));
+                writeOutput(info.toString());
+                ArrayList<DetailedFileInfo> files = getCmdFactory().readFileList(info).execute();
+                writeOutput("Contains the following files:");
+                files.forEach((i)->writeOutput("* " + i.toString()));
+            } catch (FileNotFoundException ex) {
+                reportError(ex);
+            } catch (IOException ex) {
+                reportError(ex);
+            }
+        }).openDialog();
+    }
     
-    public default void askCreateDefaultProps(){
+    public default void askDownloadPermissions(){
+        new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
+            try {
+                FileListInfo info = new FileListInfo();
+                info.load(new FileInputStream(f));
+                writeOutput(info.toString());
+                String[] ret = getCmdFactory().updateDownloadOptions(info).execute();
+                writeOutput("The following files were updated:");
+                for(String id : ret){
+                    writeOutput("* " + id);
+                }
+            } catch (FileNotFoundException ex) {
+                reportError(ex);
+            } catch (IOException ex) {
+                reportError(ex);
+            }
+        }).openDialog();
+    }
+    
+    
+    public default void askCreateDefaultFileListProps(){
         FileSelector.createNewFile("Where do you want to save the default properties?", (File newFile)->{
             try {
                 new FileListInfo().save(newFile);
+                writeOutput("Created file list properties in " + newFile.getAbsolutePath());
             } catch (FileNotFoundException ex) {
                 reportError(ex);
             } catch (IOException ex) {

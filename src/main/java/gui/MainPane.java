@@ -52,14 +52,14 @@ public class MainPane extends JPanel{
         menu.add(servAcc);
         
         JMenu driveManage = new JMenu("Drive management");
-        addMenuItem(driveManage, "Update download permissions for files", notImpl);
+        addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
         addMenuItem(driveManage, "Give an email access to files", notImpl);
-        addMenuItem(driveManage, "Read a file list", notImpl);
+        addMenuItem(driveManage, "Read a file list", ()->backend.askReadFileList());
         addMenuItem(driveManage, "Read a certification form", notImpl);
         menu.add(driveManage);
         
         JMenu props = new JMenu("Create properties");
-        addMenuItem(props, "Create default properties", ()->backend.askCreateDefaultProps());
+        addMenuItem(props, "Create default file list properties", ()->backend.askCreateDefaultFileListProps());
         menu.add(props);
         
         JMenu newCamp = new JMenu("New Camp");

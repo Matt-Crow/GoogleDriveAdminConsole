@@ -11,30 +11,23 @@ import java.util.Properties;
  * @author Matt
  */
 public class FileListInfo extends Properties{
-    private final String spreadsheetId;
-    private final String viewSheetName;
-    private final String copySheetName;
-    private final String idHeader;
-    private final String descHeader;
-    private final String urlHeader;
-    private final String levelHeader;
+    private static final String SHEET_ID_KEY = "spreadsheetId";
+    private static final String VIEW_SHEET_NAME_KEY = "viewSheetName";
+    private static final String COPY_SHEET_NAME_KEY = "copySheetName";
+    private static final String ID_HEADER_KEY = "idHeader";
+    private static final String DESC_HEADER_KEY = "descHeader";
+    private static final String URL_HEADER_KEY = "urlHeader";
+    private static final String LEVEL_HEADER_KEY = "levelHeader";
     
     public FileListInfo(String spreadsheetFileId, String viewFilesSheetName, String copyFileSheetName, String idCol, String descCol, String urlCol, String levelCol){
         super();
-        setProperty("spreadsheetId", spreadsheetFileId);
-        spreadsheetId = spreadsheetFileId;
-        setProperty("viewSheetName", viewFilesSheetName);
-        viewSheetName = viewFilesSheetName;
-        setProperty("copySheetName", copyFileSheetName);
-        copySheetName = copyFileSheetName;
-        setProperty("idHeader", idCol);
-        idHeader = idCol;
-        setProperty("descHeader", descCol);
-        descHeader = descCol;
-        setProperty("urlHeader", urlCol);
-        urlHeader = urlCol;
-        setProperty("levelHeader", levelCol);
-        levelHeader = levelCol;
+        setProperty(SHEET_ID_KEY, spreadsheetFileId);
+        setProperty(VIEW_SHEET_NAME_KEY, viewFilesSheetName);
+        setProperty(COPY_SHEET_NAME_KEY, copyFileSheetName);
+        setProperty(ID_HEADER_KEY, idCol);
+        setProperty(DESC_HEADER_KEY, descCol);
+        setProperty(URL_HEADER_KEY, urlCol);
+        setProperty(LEVEL_HEADER_KEY, levelCol);
     }
     
     public FileListInfo(){
@@ -42,34 +35,42 @@ public class FileListInfo extends Properties{
     }
     
     public String getFileId(){
-        return spreadsheetId;
+        return getProperty(SHEET_ID_KEY);
     }
     
     public String getViewSheetName(){
-        return viewSheetName;
+        return getProperty(VIEW_SHEET_NAME_KEY);
     }
     
     public String getCopySheetName(){
-        return copySheetName;
+        return getProperty(COPY_SHEET_NAME_KEY);
     }
     
     public String getFileIdHeader(){
-        return idHeader;
+        return getProperty(ID_HEADER_KEY);
     }
     
     public String getDescHeader(){
-        return descHeader;
+        return getProperty(DESC_HEADER_KEY);
     }
     
     public String getUrlHeader(){
-        return urlHeader;
+        return getProperty(URL_HEADER_KEY);
     }
     
     public String getParticipationLevelHeader(){
-        return levelHeader;
+        return getProperty(LEVEL_HEADER_KEY);
     }
     
     public void save(File f) throws FileNotFoundException, IOException{
         store(new FileOutputStream(f), "This file contains information about which Google Sheet to query for information on a file list");
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder bob = new StringBuilder();
+        bob.append("FILE LIST INFO:\n");
+        forEach((k, v)->bob.append(String.format("* %s : %s \n", k, v)));
+        return bob.toString();
     }
 }

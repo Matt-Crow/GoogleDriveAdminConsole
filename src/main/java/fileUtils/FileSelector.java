@@ -19,7 +19,9 @@ public class FileSelector {
         chooser = new JFileChooser();
         chooser.setDialogTitle(text);
         chooser.setFileSelectionMode((type == FileType.DIR) ? JFileChooser.DIRECTORIES_ONLY : JFileChooser.FILES_ONLY);
-        chooser.setFileFilter(new FileNameExtensionFilter(type.getDisplayText(), type.getExtensions()));
+        if(type != FileType.ANY){
+            chooser.setFileFilter(new FileNameExtensionFilter(type.getDisplayText(), type.getExtensions()));
+        }
         onChoose = onSelect;
         onFail = eatBadNews;
     }
