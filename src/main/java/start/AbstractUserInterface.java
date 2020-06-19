@@ -8,10 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import structs.CertificationFormInfo;
 import structs.DetailedFileInfo;
 import structs.DetailedUserInfo;
 import structs.FileListInfo;
+import structs.UserToFileMapping;
 
 /**
  *
@@ -93,6 +95,32 @@ public abstract interface AbstractUserInterface {
             } catch (IOException ex) {
                 reportError(ex);
             }
+        }).openDialog();
+    }
+    
+    public default void askParseCertificationForm(){
+        new FileSelector("Select a file containing certification form properties", FileType.ANY, (File certFormInfoFile)->{
+            new FileSelector("Select a file containing file list properties", FileType.ANY, (File fileListInfoFile)->{
+                String accessListId = ask("Enter the file ID of the Minecraft server access list to add these users to");
+                try{
+                    CertificationFormInfo userInfo = new CertificationFormInfo();
+                    userInfo.load(new FileInputStream(certFormInfoFile));
+                    
+                    FileListInfo fileInfo = new FileListInfo();
+                    fileInfo.load(new FileInputStream(fileListInfoFile));
+                    
+                    writeOutput(userInfo.toString());
+                    writeOutput(fileInfo.toString());
+                    
+                    List<UserToFileMapping> mappings = getCmdFactory().parseCertificationForm(userInfo, fileInfo, accessListId).execute();
+                    writeOutput("Resolved the following mappings:");
+                    mappings.forEach((m)->writeOutput(m.toString()));
+                } catch (FileNotFoundException ex) {
+                    reportError(ex);
+                } catch (IOException ex) {
+                    reportError(ex);
+                }
+            }).openDialog();
         }).openDialog();
     }
     
