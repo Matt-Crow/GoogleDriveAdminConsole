@@ -1,13 +1,13 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 /**
  *
@@ -15,6 +15,7 @@ import javax.swing.JPanel;
  */
 public class MainPane extends JPanel{
     private final OutputPage outputPage;
+    private final ParseCertFormPage parseFormPage;
     private final JMenuBar menu;
     private final GuiBackend backend;
     
@@ -32,13 +33,14 @@ public class MainPane extends JPanel{
         setLayout(new BorderLayout());
         
         // construct the page content area
-        JPanel contentArea = new JPanel();
-        contentArea.setLayout(new CardLayout());
+        JTabbedPane contentArea = new JTabbedPane();
         add(contentArea, BorderLayout.CENTER);
         
         outputPage = new OutputPage(this);
-        contentArea.add(outputPage, OUTPUT);
+        contentArea.addTab(OUTPUT, outputPage);
         
+        parseFormPage = new ParseCertFormPage(this);
+        contentArea.addTab("Parse Cert Fomr", parseFormPage);
         
         // construct the menu bar
         menu = new JMenuBar();
