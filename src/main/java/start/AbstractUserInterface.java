@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import structs.CertificationFormInfo;
 import structs.DetailedFileInfo;
+import structs.DetailedUserInfo;
 import structs.FileListInfo;
 
 /**
@@ -77,6 +79,22 @@ public abstract interface AbstractUserInterface {
             }
         }).openDialog();
     }
+    public default void askReadCertForm(){
+        new FileSelector("Select a file containing certification form properties", FileType.ANY, (File f)->{
+            try{
+                CertificationFormInfo info = new CertificationFormInfo();
+                info.load(new FileInputStream(f));
+                writeOutput(info.toString());
+                ArrayList<DetailedUserInfo> users = getCmdFactory().readCertForm(info).execute();
+                writeOutput("Contains the following users:");
+                users.forEach((i)->writeOutput(i.toString()));
+            } catch (FileNotFoundException ex) {
+                reportError(ex);
+            } catch (IOException ex) {
+                reportError(ex);
+            }
+        }).openDialog();
+    }
     
     public default void askDownloadPermissions(){
         new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
@@ -99,10 +117,22 @@ public abstract interface AbstractUserInterface {
     
     
     public default void askCreateDefaultFileListProps(){
-        FileSelector.createNewFile("Where do you want to save the default properties?", (File newFile)->{
+        FileSelector.createNewFile("Where do you want to save the default file list properties?", (File newFile)->{
             try {
                 new FileListInfo().save(newFile);
                 writeOutput("Created file list properties in " + newFile.getAbsolutePath());
+            } catch (FileNotFoundException ex) {
+                reportError(ex);
+            } catch (IOException ex) {
+                reportError(ex);
+            }
+        });
+    }
+    public default void askCreateDefaultCertFormProps(){
+        FileSelector.createNewFile("Where do you want to save the default user list properties?", (File newFile)->{
+            try{
+                new CertificationFormInfo().save(newFile);
+                writeOutput("Created user list properties in " + newFile.getAbsolutePath());
             } catch (FileNotFoundException ex) {
                 reportError(ex);
             } catch (IOException ex) {
