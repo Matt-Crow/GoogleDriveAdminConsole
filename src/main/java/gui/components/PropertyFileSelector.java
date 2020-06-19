@@ -8,42 +8,43 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import structs.CertificationFormInfo;
 
 /**
  *
  * @author Matt
  */
-public class CertFormPropSelector extends JComponent{
-    private CertificationFormInfo selectedInfo;
+public class PropertyFileSelector extends JComponent{
+    private final Properties selectedProperties;
     private final TextScroller output;
     private final JButton chooseFile;
     
-    public CertFormPropSelector(){
+    public PropertyFileSelector(String header, String selectText, Properties defaultProps){
         super();
-        selectedInfo = new CertificationFormInfo();
+        
+        selectedProperties = defaultProps;
         
         setLayout(new BorderLayout());
         
-        add(new JLabel("Certification Form Info"), BorderLayout.PAGE_START);
+        add(new JLabel(header), BorderLayout.PAGE_START);
         
         output = new TextScroller();
         add(output, BorderLayout.CENTER);
         
         chooseFile = new JButton("Select File");
         chooseFile.addActionListener((e)->{
-            new FileSelector("Select a file containing certification form properties", FileType.ANY, (File certFormInfoFile)->{
+            new FileSelector(selectText, FileType.ANY, (File f)->{
                 try{
-                    selectedInfo.clear();
-                    selectedInfo.load(new FileInputStream(certFormInfoFile));
+                    selectedProperties.clear();
+                    selectedProperties.load(new FileInputStream(f));
                     output.clear();
-                    output.addText("Contents of " + certFormInfoFile + ":");
-                    output.addText(selectedInfo.toString());
+                    output.addText(String.format("Contents of %s :", f.getAbsolutePath()));
+                    output.addText(selectedProperties.toString());
                 } catch (FileNotFoundException ex) {
-                    output.addText("Failed to locate file " + certFormInfoFile.getAbsolutePath());
+                    output.addText("Failed to locate file " + f.getAbsolutePath());
                 } catch (IOException ex) {
                     output.addText("Oops! " + ex.getLocalizedMessage());
                 }
@@ -52,7 +53,7 @@ public class CertFormPropSelector extends JComponent{
         add(chooseFile, BorderLayout.PAGE_END);
     }
     
-    public final CertificationFormInfo getSelectedInfo(){
-        return selectedInfo;
+    public final Properties getSelectedProperties(){
+        return selectedProperties;
     }
 }
