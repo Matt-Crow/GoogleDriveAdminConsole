@@ -1,25 +1,24 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Matt
  */
 public class MainPane extends JPanel{
-    private final JScrollPane scroll;
-    private final JTextArea text;
+    private final OutputPage outputPage;
     private final JMenuBar menu;
     private final GuiBackend backend;
+    
+    private static final String OUTPUT = "output";
     
     public MainPane(){
         super();
@@ -32,16 +31,16 @@ public class MainPane extends JPanel{
         
         setLayout(new BorderLayout());
         
-        text = new JTextArea();
-        text.setWrapStyleWord(true);
-        text.setLineWrap(true);
-        text.setEditable(false);
+        // construct the page content area
+        JPanel contentArea = new JPanel();
+        contentArea.setLayout(new CardLayout());
+        add(contentArea, BorderLayout.CENTER);
         
-        scroll = new JScrollPane(text);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        add(scroll, BorderLayout.CENTER);
+        outputPage = new OutputPage(this);
+        contentArea.add(outputPage, OUTPUT);
         
+        
+        // construct the menu bar
         menu = new JMenuBar();
         
         JMenu servAcc = new JMenu("Server access");
@@ -68,6 +67,16 @@ public class MainPane extends JPanel{
         menu.add(newCamp);
         
         add(menu, BorderLayout.PAGE_START);
+        
+        // exit button
+        JPanel end = new JPanel();
+        end.setLayout(new FlowLayout());
+        JButton exit = new JButton("EMERGENCY EXIT");
+        exit.addActionListener((e)->{
+            System.exit(0);
+        });
+        end.add(exit);
+        add(end, BorderLayout.PAGE_END);
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
@@ -78,13 +87,6 @@ public class MainPane extends JPanel{
     }
     
     public final void addText(String appendMe){
-        text.append(appendMe);
-        text.append("\n");
-        SwingUtilities.invokeLater(()->{
-            JScrollBar bar = scroll.getVerticalScrollBar();
-            bar.setValue(bar.getMaximum());
-            revalidate();
-            repaint();
-        });
+        outputPage.addText(appendMe);
     }
 }

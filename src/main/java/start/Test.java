@@ -42,14 +42,6 @@ public class Test {
             "Participating At What Level?"
         );
         
-        FileSelector.createNewFile("test cert form", (f)->{
-            try {
-                testCertFormInfo.save(f);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        
         CertificationFormInfo realCertFormInfo = new CertificationFormInfo(
             "1piKiPp3mqMVDsjEIZl5YJ2juDDFN8IL1esunD8okza0",
             "Form Responses 1",
@@ -59,13 +51,6 @@ public class Test {
             "Participating At What Level?"
         );
         
-        FileSelector.createNewFile("real cert form", (f)->{
-            try {
-                realCertFormInfo.save(f);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
         
         CertificationFormInfo june15 = new CertificationFormInfo(
             "1nF8Rbuc1Mnb0v_8ZB81Ci-Apge1bVQmMcA4AGHKsf4M",
