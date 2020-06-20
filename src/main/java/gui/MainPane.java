@@ -1,5 +1,6 @@
 package gui;
 
+import gui.pages.IndividualAccessPage;
 import gui.pages.PageContent;
 import gui.pages.OutputPage;
 import gui.pages.ParseCertFormPage;
@@ -21,6 +22,7 @@ import javax.swing.JTabbedPane;
 public class MainPane extends JPanel{
     private final OutputPage outputPage;
     private final ParseCertFormPage parseFormPage;
+    private final IndividualAccessPage indivAccPage;
     private final JMenuBar menu;
     private final GuiBackend backend;
     private final JTabbedPane contentArea;
@@ -51,6 +53,10 @@ public class MainPane extends JPanel{
         parseFormPage = new ParseCertFormPage(this);
         contentArea.addTab(PageName.PARSE_FORM.getDisplayValue(), parseFormPage);
         pages.put(PageName.PARSE_FORM, parseFormPage);
+        
+        indivAccPage = new IndividualAccessPage(this);
+        contentArea.addTab(PageName.INDIV_ACC.getDisplayValue(), indivAccPage);
+        pages.put(PageName.INDIV_ACC, indivAccPage);
         
         // construct the menu bar
         menu = new JMenuBar();

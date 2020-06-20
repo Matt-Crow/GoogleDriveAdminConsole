@@ -11,6 +11,7 @@ package gui.pages;
  */
 public enum PageName {
     OUTPUT("output"),
+    INDIV_ACC("give drive access"),
     PARSE_FORM("parse certification form");
     
     private final String value;
