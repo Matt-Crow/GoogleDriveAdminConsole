@@ -1,5 +1,6 @@
-package gui;
+package gui.pages;
 
+import gui.MainPane;
 import javax.swing.JPanel;
 
 /**

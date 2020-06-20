@@ -1,4 +1,4 @@
-package drive.commands.accessList;
+package drive.commands;
 
 import com.google.api.client.http.FileContent;
 import drive.commands.AbstractDriveCommand;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.HashSet;
-import services.ServiceAccess;
+import start.ServiceAccess;
 
 /**
  *

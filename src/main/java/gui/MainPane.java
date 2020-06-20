@@ -1,5 +1,8 @@
 package gui;
 
+import gui.pages.PageContent;
+import gui.pages.OutputPage;
+import gui.pages.ParseCertFormPage;
 import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

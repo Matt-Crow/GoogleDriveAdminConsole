@@ -1,4 +1,4 @@
-package gui;
+package gui.components;
 
 import java.awt.GridLayout;
 import javax.swing.JComponent;

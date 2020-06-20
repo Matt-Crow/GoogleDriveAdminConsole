@@ -1,11 +1,11 @@
-package drive.commands.accessList;
+package drive.commands;
 
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.Permission;
 import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
-import services.ServiceAccess;
+import start.ServiceAccess;
 
 /**
  *

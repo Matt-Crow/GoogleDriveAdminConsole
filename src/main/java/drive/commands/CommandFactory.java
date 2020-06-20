@@ -1,16 +1,7 @@
 package drive.commands;
 
-import drive.commands.camp.ReadFileList;
-import drive.commands.camp.ReadCertificationForm;
-import drive.commands.accessList.SetAccessListContent;
-import drive.commands.accessList.GetAccessList;
-import drive.commands.accessList.CreateAccessList;
-import drive.commands.accessList.AddToAccessList;
-import drive.commands.basic.GiveViewAccess;
-import drive.commands.camp.ParseCertificationForm;
-import drive.commands.camp.UpdateDownloadAccess;
 import java.util.List;
-import services.ServiceAccess;
+import start.ServiceAccess;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;
 import structs.UserToFileMapping;

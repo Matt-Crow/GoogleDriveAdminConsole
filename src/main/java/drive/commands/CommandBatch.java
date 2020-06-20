@@ -1,4 +1,4 @@
-package drive.commands.basic;
+package drive.commands;
 
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
@@ -9,7 +9,7 @@ import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import services.ServiceAccess;
+import start.ServiceAccess;
 
 /**
  *

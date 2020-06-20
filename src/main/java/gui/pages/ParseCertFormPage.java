@@ -1,5 +1,6 @@
-package gui;
+package gui.pages;
 
+import gui.MainPane;
 import gui.components.PropertyFileSelector;
 import gui.pages.PageName;
 import java.awt.BorderLayout;

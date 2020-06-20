@@ -1,12 +1,12 @@
-package drive.commands.camp;
+package drive.commands;
 
 import drive.commands.AbstractDriveCommand;
-import drive.commands.accessList.AddToAccessList;
-import drive.commands.basic.GiveViewAccess;
+import drive.commands.AddToAccessList;
+import drive.commands.GiveViewAccess;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import services.ServiceAccess;
+import start.ServiceAccess;
 import structs.DetailedFileInfo;
 import structs.CertificationFormInfo;
 import structs.FileListInfo;

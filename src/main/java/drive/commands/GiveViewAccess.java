@@ -1,5 +1,6 @@
-package drive.commands.basic;
+package drive.commands;
 
+import drive.commands.CommandBatch;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
 import drive.commands.AbstractDriveCommand;
@@ -7,7 +8,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import services.ServiceAccess;
+import start.ServiceAccess;
 import structs.UserToFileMapping;
 
 /**

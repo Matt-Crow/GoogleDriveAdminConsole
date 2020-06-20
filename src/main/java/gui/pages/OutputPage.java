@@ -1,5 +1,7 @@
-package gui;
+package gui.pages;
 
+import gui.MainPane;
+import gui.components.TextScroller;
 import java.awt.GridLayout;
 
 /**

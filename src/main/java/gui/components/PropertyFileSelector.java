@@ -2,7 +2,6 @@ package gui.components;
 
 import fileUtils.FileSelector;
 import fileUtils.FileType;
-import gui.TextScroller;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileInputStream;

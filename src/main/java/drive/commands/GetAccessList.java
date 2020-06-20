@@ -1,11 +1,11 @@
-package drive.commands.accessList;
+package drive.commands;
 
 import drive.commands.AbstractDriveCommand;
 import fileUtils.FileReadWriteUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import services.ServiceAccess;
+import start.ServiceAccess;
 
 /**
  *
