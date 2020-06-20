@@ -29,7 +29,7 @@ public class IndividualAccessPage extends PageContent{
         
         JButton run = new JButton("Give these emails access to these files");
         run.addActionListener((e)->{
-            
+            //this.getPaneParent().getBackend().getCmdFactory().giveAccess(mappings);
         });
         add(run, BorderLayout.PAGE_END);
     }

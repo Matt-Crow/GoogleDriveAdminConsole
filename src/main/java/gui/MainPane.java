@@ -32,10 +32,6 @@ public class MainPane extends JPanel{
     public MainPane(){
         super();
         
-        Runnable notImpl = () -> {
-            throw new UnsupportedOperationException();
-        };
-        
         backend = new GuiBackend(this);
         
         setLayout(new BorderLayout());
@@ -70,7 +66,6 @@ public class MainPane extends JPanel{
         
         JMenu driveManage = new JMenu("Drive management");
         addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
-        addMenuItem(driveManage, "Give an email access to files", notImpl);
         addMenuItem(driveManage, "Read a file list", ()->backend.askReadFileList());
         addMenuItem(driveManage, "Read a certification form", ()->backend.askReadCertForm());
         menu.add(driveManage);

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -20,12 +21,11 @@ public class EditableItemList extends JComponent{
     private final JPanel itemList;
     private final JScrollPane scroll;
     private final GridBagConstraints gbc;
-    private final ArrayList<JTextField> fields; // better data struct for this
-    
+    private final HashSet<ListItem> items;
     public EditableItemList(String listTitle){
         super();
         
-        fields = new ArrayList<>();
+        items = new HashSet<>();
         
         setLayout(new BorderLayout());
         
@@ -51,27 +51,26 @@ public class EditableItemList extends JComponent{
         
         JButton addAnItem = new JButton("Add a new item");
         addAnItem.addActionListener((e)->{
-            addItem(new JTextField());
+            addItem();
         });
         add(addAnItem, BorderLayout.PAGE_END);
     }
     
-    private void removeItem(JComponent j){
-        itemList.remove(j);
+    public void removeItem(ListItem i){
+        items.remove(i);
+        itemList.remove(i);
         itemList.revalidate();
         itemList.repaint();
     }
-    private void addItem(JComponent j){
-        JPanel newItem = new JPanel();
-        newItem.setLayout(new BorderLayout());
-        newItem.add(j, BorderLayout.CENTER);
-        JButton del = new JButton("Remove");
-        del.addActionListener((e)->{
-            removeItem(newItem);
-        });
-        newItem.add(del, BorderLayout.LINE_START);
+    private void addItem(){
+        ListItem newItem = new ListItem(this);
+        items.add(newItem);
         itemList.add(newItem, gbc);
         itemList.revalidate();
         itemList.repaint();
+    }
+    
+    public final String[] getItems(){
+        return items.stream().map((listItem)->listItem.getContent()).toArray((size)->new String[size]);
     }
 }
