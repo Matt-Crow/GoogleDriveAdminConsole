@@ -112,7 +112,7 @@ public abstract interface AbstractUserInterface {
                     writeOutput(userInfo.toString());
                     writeOutput(fileInfo.toString());
                     
-                    List<UserToFileMapping> mappings = getCmdFactory().parseCertificationForm(userInfo, fileInfo, accessListId).execute();
+                    List<UserToFileMapping> mappings = getCmdFactory().parseCertificationForm(userInfo, fileInfo, accessListId, false).execute();
                     writeOutput("Resolved the following mappings:");
                     mappings.forEach((m)->writeOutput(m.toString()));
                 } catch (FileNotFoundException ex) {

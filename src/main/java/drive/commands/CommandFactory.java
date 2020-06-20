@@ -51,8 +51,8 @@ public class CommandFactory {
         return new ReadFileList(services, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String accessListId){
-        return new ParseCertificationForm(services, formInfo, fileInfo, accessListId);
+    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String accessListId, boolean isTest){
+        return new ParseCertificationForm(services, formInfo, fileInfo, accessListId, isTest);
     }
     
     public final GiveViewAccess giveAccess(List<UserToFileMapping> mappings){

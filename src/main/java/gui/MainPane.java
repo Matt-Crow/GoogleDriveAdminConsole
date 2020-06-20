@@ -81,6 +81,10 @@ public class MainPane extends JPanel{
         add(end, BorderLayout.PAGE_END);
     }
     
+    public final GuiBackend getBackend(){
+        return backend;
+    }
+    
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
         JMenuItem newItem = new JMenuItem(text);
         newItem.addActionListener((e)->r.run());

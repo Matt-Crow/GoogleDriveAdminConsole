@@ -21,12 +21,14 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
     private final CertificationFormInfo certFormInfo;
     private final FileListInfo fileListInfo;
     private final String accessListId;
+    private final boolean isTest;
     
-    public ParseCertificationForm(ServiceAccess service, CertificationFormInfo source, FileListInfo fileList, String accessListFileId) {
+    public ParseCertificationForm(ServiceAccess service, CertificationFormInfo source, FileListInfo fileList, String accessListFileId, boolean thisIsATest) {
         super(service);
         certFormInfo = source;
         fileListInfo = fileList;
         accessListId = accessListFileId;
+        isTest = thisIsATest;
     }
 
     @Override
@@ -47,21 +49,23 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
         
         // construct the command
         AbstractDriveCommand cmd = new GiveViewAccess(getServiceAccess(), whoGetsWhat);
+        
         System.out.println(cmd);
-        try{
-            cmd.execute();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        
+        if(!isTest){
+            try{
+                cmd.execute();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            // add people to the Minecraft user list
+            String[] newMcUsers = newCampers.stream().map((userData)->{
+                return userData.getMinecraftUsername();
+            }).toArray((size)->new String[size]);
+
+            new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
         }
-        
-        
-        // add people to the Minecraft user list
-        String[] newMcUsers = newCampers.stream().map((userData)->{
-            return userData.getMinecraftUsername();
-        }).toArray((size)->new String[size]);
-        
-        new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
-        
         return whoGetsWhat;
     }
 }
