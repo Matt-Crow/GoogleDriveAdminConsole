@@ -1,6 +1,7 @@
 package gui;
 
 import gui.components.PropertyFileSelector;
+import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
@@ -66,6 +67,7 @@ public class ParseCertFormPage extends PageContent{
             @Override
             public void run(){
                 MainPane parent = getPaneParent();
+                parent.switchToTab(PageName.OUTPUT);
                 try {
                     List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm(
                         (CertificationFormInfo)certFormSel.getSelectedProperties(),
@@ -81,8 +83,6 @@ public class ParseCertFormPage extends PageContent{
                 }
             }
         };
-        
         t.start();
-        
     }
 }

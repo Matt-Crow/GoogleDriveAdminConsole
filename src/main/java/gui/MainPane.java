@@ -1,7 +1,9 @@
 package gui;
 
+import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -18,8 +20,12 @@ public class MainPane extends JPanel{
     private final ParseCertFormPage parseFormPage;
     private final JMenuBar menu;
     private final GuiBackend backend;
+    private final JTabbedPane contentArea;
     
-    private static final String OUTPUT = "output";
+    public static final String OUTPUT_PAGE = "output";
+    public static final String PARSE_FORM_PAGE = "parse certification form";
+    
+    private final HashMap<PageName, PageContent> pages;
     
     public MainPane(){
         super();
@@ -33,14 +39,18 @@ public class MainPane extends JPanel{
         setLayout(new BorderLayout());
         
         // construct the page content area
-        JTabbedPane contentArea = new JTabbedPane();
+        pages = new HashMap<>();
+        
+        contentArea = new JTabbedPane();
         add(contentArea, BorderLayout.CENTER);
         
         outputPage = new OutputPage(this);
-        contentArea.addTab(OUTPUT, outputPage);
+        contentArea.addTab(PageName.OUTPUT.getDisplayValue(), outputPage);
+        pages.put(PageName.OUTPUT, outputPage);
         
         parseFormPage = new ParseCertFormPage(this);
-        contentArea.addTab("Parse Cert Fomr", parseFormPage);
+        contentArea.addTab(PageName.PARSE_FORM.getDisplayValue(), parseFormPage);
+        pages.put(PageName.PARSE_FORM, parseFormPage);
         
         // construct the menu bar
         menu = new JMenuBar();
@@ -90,6 +100,10 @@ public class MainPane extends JPanel{
         newItem.addActionListener((e)->r.run());
         addTo.add(newItem);
         return newItem;
+    }
+    
+    public final void switchToTab(PageName tabName){
+        contentArea.setSelectedComponent(pages.get(tabName));
     }
     
     public final void addText(String appendMe){
