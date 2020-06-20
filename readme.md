@@ -8,3 +8,6 @@
 * [Sheets Javadoc](https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/)
 * Use this to download a file's contents: https://drive.google.com/uc?export=download&id=ID
 To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
+
+## TODO ##
+* Add a command queue thread to command factories to prevent multiple commands from running at one time, and also make it easier to abort all active commands.

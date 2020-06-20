@@ -2,12 +2,10 @@ package gui.pages;
 
 import gui.MainPane;
 import gui.components.PropertyFileSelector;
-import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.List;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -69,6 +67,7 @@ public class ParseCertFormPage extends PageContent{
             public void run(){
                 MainPane parent = getPaneParent();
                 parent.switchToTab(PageName.OUTPUT);
+                parent.setTabSwitchingEnabled(false);
                 try {
                     List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm(
                         (CertificationFormInfo)certFormSel.getSelectedProperties(),
@@ -82,6 +81,7 @@ public class ParseCertFormPage extends PageContent{
                 } catch (IOException ex) {
                     parent.getBackend().reportError(ex);
                 }
+                parent.setTabSwitchingEnabled(true);
             }
         };
         t.start();

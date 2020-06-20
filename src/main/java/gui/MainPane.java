@@ -25,9 +25,6 @@ public class MainPane extends JPanel{
     private final GuiBackend backend;
     private final JTabbedPane contentArea;
     
-    public static final String OUTPUT_PAGE = "output";
-    public static final String PARSE_FORM_PAGE = "parse certification form";
-    
     private final HashMap<PageName, PageContent> pages;
     
     public MainPane(){
@@ -77,10 +74,6 @@ public class MainPane extends JPanel{
         addMenuItem(props, "Create default certification form properties", ()->backend.askCreateDefaultCertFormProps());
         menu.add(props);
         
-        JMenu newCamp = new JMenu("New Camp");
-        addMenuItem(newCamp, "Parse a certification form", notImpl);
-        menu.add(newCamp);
-        
         add(menu, BorderLayout.PAGE_START);
         
         // exit button
@@ -107,6 +100,10 @@ public class MainPane extends JPanel{
     
     public final void switchToTab(PageName tabName){
         contentArea.setSelectedComponent(pages.get(tabName));
+    }
+    
+    public final void setTabSwitchingEnabled(boolean allowSwitching){
+        contentArea.setEnabled(allowSwitching);
     }
     
     public final void addText(String appendMe){
