@@ -1,7 +1,7 @@
 package gui.pages;
 
 import gui.MainPane;
-import gui.components.EditableItemList;
+import gui.components.EditableStringList;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
@@ -18,9 +18,9 @@ import structs.UserToFileMapping;
  *
  * @author Matt
  */
-public class IndividualAccessPage extends FormSubmit{
-    private final EditableItemList users;
-    private final EditableItemList files;
+public class IndividualAccessPage extends AbstractFormPage{
+    private final EditableStringList users;
+    private final EditableStringList files;
     
     public IndividualAccessPage(MainPane inPane) {
         super(inPane);
@@ -28,9 +28,9 @@ public class IndividualAccessPage extends FormSubmit{
         
         JPanel center = new JPanel();
         center.setLayout(new GridLayout(1, 2));
-        users = new EditableItemList("Emails");
+        users = new EditableStringList("Emails");
         center.add(users);
-        files = new EditableItemList("File IDS");
+        files = new EditableStringList("File IDS");
         center.add(files);
         add(center, BorderLayout.CENTER);
         

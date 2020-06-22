@@ -3,26 +3,24 @@ package gui.components;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 /**
  *
  * @author Matt
  */
-public class EditableItemList extends JComponent{
+public class EditableStringList extends JComponent{
     private final JPanel itemList;
     private final JScrollPane scroll;
     private final GridBagConstraints gbc;
-    private final HashSet<ListItem> items;
-    public EditableItemList(String listTitle){
+    private final HashSet<StringListItem> items;
+    public EditableStringList(String listTitle){
         super();
         
         items = new HashSet<>();
@@ -56,14 +54,14 @@ public class EditableItemList extends JComponent{
         add(addAnItem, BorderLayout.PAGE_END);
     }
     
-    public void removeItem(ListItem i){
+    public void removeItem(StringListItem i){
         items.remove(i);
         itemList.remove(i);
         itemList.revalidate();
         itemList.repaint();
     }
     private void addItem(){
-        ListItem newItem = new ListItem(this);
+        StringListItem newItem = new StringListItem(this);
         items.add(newItem);
         itemList.add(newItem, gbc);
         itemList.revalidate();

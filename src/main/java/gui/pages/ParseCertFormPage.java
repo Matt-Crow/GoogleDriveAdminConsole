@@ -1,7 +1,7 @@
 package gui.pages;
 
 import gui.MainPane;
-import gui.components.PropertyFileSelector;
+import gui.components.PropertyFileChooser;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
@@ -18,9 +18,9 @@ import structs.UserToFileMapping;
  *
  * @author Matt
  */
-public class ParseCertFormPage extends FormSubmit{
-    private final PropertyFileSelector certFormSel;
-    private final PropertyFileSelector fileListSel;
+public class ParseCertFormPage extends AbstractFormPage{
+    private final PropertyFileChooser certFormSel;
+    private final PropertyFileChooser fileListSel;
     private final JTextField enterAccListId;
     private final JCheckBox isTest;
     private final JButton run;
@@ -33,10 +33,10 @@ public class ParseCertFormPage extends FormSubmit{
         JPanel selGroup = new JPanel();
         selGroup.setLayout(new GridLayout(1, 2));
         
-        certFormSel = new PropertyFileSelector("Certification Form Info", "Select a file containing certification form properties", new CertificationFormInfo());
+        certFormSel = new PropertyFileChooser("Certification Form Info", "Select a file containing certification form properties", new CertificationFormInfo());
         selGroup.add(certFormSel);
         
-        fileListSel = new PropertyFileSelector("File List Info", "Select a file containing file list properties", new FileListInfo());
+        fileListSel = new PropertyFileChooser("File List Info", "Select a file containing file list properties", new FileListInfo());
         selGroup.add(fileListSel);
         
         add(selGroup, BorderLayout.CENTER);

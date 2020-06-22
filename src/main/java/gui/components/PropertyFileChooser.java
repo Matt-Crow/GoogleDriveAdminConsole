@@ -16,12 +16,12 @@ import javax.swing.JLabel;
  *
  * @author Matt
  */
-public class PropertyFileSelector extends JComponent{
+public class PropertyFileChooser extends JComponent{
     private final Properties selectedProperties;
     private final TextScroller output;
     private final JButton chooseFile;
     
-    public PropertyFileSelector(String header, String selectText, Properties defaultProps){
+    public PropertyFileChooser(String header, String selectText, Properties defaultProps){
         super();
         
         selectedProperties = defaultProps;

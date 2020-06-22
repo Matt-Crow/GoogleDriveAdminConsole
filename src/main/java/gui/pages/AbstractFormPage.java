@@ -6,9 +6,9 @@ import gui.MainPane;
  *
  * @author Matt
  */
-public abstract class FormSubmit extends PageContent{
+public abstract class AbstractFormPage extends PageContent{
 
-    public FormSubmit(MainPane inPane) {
+    public AbstractFormPage(MainPane inPane) {
         super(inPane);
     }
     
@@ -27,9 +27,8 @@ public abstract class FormSubmit extends PageContent{
         return t;
     }
     
-    public void submit(){
-        PageContent self = (PageContent)this;
-        MainPane parent = self.getPaneParent();
+    public final void submit(){
+        MainPane parent = getPaneParent();
         parent.switchToTab(PageName.OUTPUT);
         parent.setTabSwitchingEnabled(false);
         submitAsync();

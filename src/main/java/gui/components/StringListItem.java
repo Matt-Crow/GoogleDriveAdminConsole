@@ -9,10 +9,10 @@ import javax.swing.JTextField;
  *
  * @author Matt
  */
-public class ListItem extends JComponent{
-    private final EditableItemList inList;
+public class StringListItem extends JComponent{
+    private final EditableStringList inList;
     private final JTextField input;
-    public ListItem(EditableItemList list){
+    public StringListItem(EditableStringList list){
         super();
         inList = list;
         
