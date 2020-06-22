@@ -1,6 +1,6 @@
-package drive.commands;
+package drive.commands.implementations;
 
-import drive.commands.AbstractDriveCommand;
+import drive.commands.utils.AbstractDriveCommand;
 import fileUtils.FileReadWriteUtil;
 import java.io.IOException;
 import java.io.InputStream;

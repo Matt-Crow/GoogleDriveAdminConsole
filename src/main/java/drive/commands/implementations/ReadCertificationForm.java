@@ -1,8 +1,8 @@
-package drive.commands;
+package drive.commands.implementations;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
 import start.ServiceAccess;
-import drive.commands.AbstractDriveCommand;
+import drive.commands.utils.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

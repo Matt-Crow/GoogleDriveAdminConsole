@@ -1,8 +1,8 @@
-package drive.commands;
+package drive.commands.implementations;
 
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.Permission;
-import drive.commands.AbstractDriveCommand;
+import drive.commands.utils.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import start.ServiceAccess;

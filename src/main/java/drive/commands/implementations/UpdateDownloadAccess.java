@@ -1,10 +1,9 @@
-package drive.commands;
+package drive.commands.implementations;
 
-import drive.commands.ReadFileList;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
-import drive.commands.AbstractDriveCommand;
-import drive.commands.CommandBatch;
+import drive.commands.utils.AbstractDriveCommand;
+import drive.commands.utils.CommandBatch;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

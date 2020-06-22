@@ -3,7 +3,7 @@ package start;
 import com.google.api.services.drive.Drive;
 import structs.DetailedFileInfo;
 import structs.UserToFileMapping;
-import drive.commands.CommandFactory;
+import drive.commands.utils.CommandFactory;
 import fileUtils.FileSelector;
 
 import java.io.IOException;

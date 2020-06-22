@@ -1,6 +1,6 @@
 package gui;
 
-import drive.commands.CommandFactory;
+import drive.commands.utils.CommandFactory;
 import fileUtils.FileSelector;
 import fileUtils.FileType;
 import java.io.File;

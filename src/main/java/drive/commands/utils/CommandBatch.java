@@ -1,11 +1,10 @@
-package drive.commands;
+package drive.commands.utils;
 
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.services.drive.DriveRequest;
-import drive.commands.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

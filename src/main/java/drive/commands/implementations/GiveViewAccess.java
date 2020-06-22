@@ -1,9 +1,9 @@
-package drive.commands;
+package drive.commands.implementations;
 
-import drive.commands.CommandBatch;
+import drive.commands.utils.CommandBatch;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
-import drive.commands.AbstractDriveCommand;
+import drive.commands.utils.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

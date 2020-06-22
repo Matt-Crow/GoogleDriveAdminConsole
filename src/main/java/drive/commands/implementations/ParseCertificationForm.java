@@ -1,8 +1,6 @@
-package drive.commands;
+package drive.commands.implementations;
 
-import drive.commands.AbstractDriveCommand;
-import drive.commands.AddToAccessList;
-import drive.commands.GiveViewAccess;
+import drive.commands.utils.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
