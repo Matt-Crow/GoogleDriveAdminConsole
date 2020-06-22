@@ -1,4 +1,10 @@
 # CA Aerospace Museum STEM Camp Administration Console
+This application is currently in development, and is not ready for release yet!
+
+## Running the Application ##
+1. The easiest way to run the application is through the JAR file under build/libs.
+2. Make sure to sign in using the Aerospace museum GMail account!
+3. You can find property files under src/main/resources/properties. Use these if you want to parse the certification form.
 
 ## Helpful Links ##
 * [The Google API console](https://console.developers.google.com/apis/credentials?authuser=2&project=camp-administration-console)
