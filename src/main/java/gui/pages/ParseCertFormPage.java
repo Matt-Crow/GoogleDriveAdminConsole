@@ -18,7 +18,7 @@ import structs.UserToFileMapping;
  *
  * @author Matt
  */
-public class ParseCertFormPage extends PageContent{
+public class ParseCertFormPage extends FormSubmit{
     private final PropertyFileSelector certFormSel;
     private final PropertyFileSelector fileListSel;
     private final JTextField enterAccListId;
@@ -54,36 +54,24 @@ public class ParseCertFormPage extends PageContent{
         
         run = new JButton("Run");
         run.addActionListener((e)->{
-            parseCertForm();
+            submit();
         });
         bottom.add(run, BorderLayout.PAGE_END);
         
         add(bottom, BorderLayout.PAGE_END);
     }
     
-    private void parseCertForm(){
-        Thread t = new Thread(){
-            @Override
-            public void run(){
-                MainPane parent = getPaneParent();
-                parent.switchToTab(PageName.OUTPUT);
-                parent.setTabSwitchingEnabled(false);
-                try {
-                    List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm(
-                        (CertificationFormInfo)certFormSel.getSelectedProperties(),
-                        (FileListInfo) fileListSel.getSelectedProperties(),
-                        enterAccListId.getText(),
-                        isTest.isSelected()
-                    ).execute();
+    @Override
+    public void doSubmit() throws IOException {
+        MainPane parent = getPaneParent();
+        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm(
+            (CertificationFormInfo)certFormSel.getSelectedProperties(),
+            (FileListInfo) fileListSel.getSelectedProperties(),
+            enterAccListId.getText(),
+            isTest.isSelected()
+        ).execute();
 
-                    parent.addText("Parsing Certification Form yielded the following information:");
-                    resolvedMappings.forEach((mapping)->parent.addText(mapping.toString()));
-                } catch (IOException ex) {
-                    parent.getBackend().reportError(ex);
-                }
-                parent.setTabSwitchingEnabled(true);
-            }
-        };
-        t.start();
+        parent.addText("Parsing Certification Form yielded the following information:");
+        resolvedMappings.forEach((mapping)->parent.addText(mapping.toString()));
     }
 }

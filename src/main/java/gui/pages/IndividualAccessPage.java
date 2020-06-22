@@ -5,7 +5,6 @@ import gui.components.EditableItemList;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ import structs.UserToFileMapping;
  *
  * @author Matt
  */
-public class IndividualAccessPage extends PageContent{
+public class IndividualAccessPage extends FormSubmit{
     private final EditableItemList users;
     private final EditableItemList files;
     
@@ -37,12 +36,13 @@ public class IndividualAccessPage extends PageContent{
         
         JButton run = new JButton("Give these emails access to these files");
         run.addActionListener((e)->{
-            giveAccess();
+            submit();
         });
         add(run, BorderLayout.PAGE_END);
     }
     
-    private void giveAccess(){
+    @Override
+    public void doSubmit() throws IOException{
         MainPane parent = getPaneParent();
         
         String[] emailStrs = users.getItems();
@@ -53,15 +53,11 @@ public class IndividualAccessPage extends PageContent{
         
         List<UserToFileMapping> mappings = UserToFileMapping.constructUserFileList(userInfo, fileInfo);
         
-        try {
-            parent.getBackend().getCmdFactory().giveAccess(mappings).execute();
-            parent.addText("Successfully gave acccess to the following files:");
-            mappings.forEach((mapping)->{
-                parent.addText(String.format("* %s", mapping.toString()));
-            });
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        parent.getBackend().getCmdFactory().giveAccess(mappings).execute();
+        parent.addText("Successfully gave acccess to the following files:");
+        mappings.forEach((mapping)->{
+            parent.addText(String.format("* %s", mapping.toString()));
+        });
     }
 
 }
