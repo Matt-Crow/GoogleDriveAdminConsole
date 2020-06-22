@@ -11,3 +11,4 @@ To check if something is a folder, check if its MIME type is "application/vnd.go
 
 ## TODO ##
 * Add a command queue thread to command factories to prevent multiple commands from running at one time, and also make it easier to abort all active commands.
+* Add a component factory
