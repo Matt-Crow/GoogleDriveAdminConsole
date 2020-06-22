@@ -4,8 +4,16 @@ import gui.MainPane;
 import gui.components.EditableItemList;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import structs.SimpleFileInfo;
+import structs.SimpleUserInfo;
+import structs.UserToFileMapping;
 
 /**
  *
@@ -29,9 +37,31 @@ public class IndividualAccessPage extends PageContent{
         
         JButton run = new JButton("Give these emails access to these files");
         run.addActionListener((e)->{
-            //this.getPaneParent().getBackend().getCmdFactory().giveAccess(mappings);
+            giveAccess();
         });
         add(run, BorderLayout.PAGE_END);
+    }
+    
+    private void giveAccess(){
+        MainPane parent = getPaneParent();
+        
+        String[] emailStrs = users.getItems();
+        String[] fileIdStrs = files.getItems();
+        
+        List<SimpleUserInfo> userInfo = Arrays.stream(emailStrs).map((str)->new SimpleUserInfo(str)).collect(Collectors.toList());
+        List<SimpleFileInfo> fileInfo = Arrays.stream(fileIdStrs).map((str)->new SimpleFileInfo(str)).collect(Collectors.toList());
+        
+        List<UserToFileMapping> mappings = UserToFileMapping.constructUserFileList(userInfo, fileInfo);
+        
+        try {
+            parent.getBackend().getCmdFactory().giveAccess(mappings).execute();
+            parent.addText("Successfully gave acccess to the following files:");
+            mappings.forEach((mapping)->{
+                parent.addText(String.format("* %s", mapping.toString()));
+            });
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }
