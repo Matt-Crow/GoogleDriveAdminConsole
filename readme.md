@@ -13,7 +13,11 @@ This application is currently in development, and is not ready for release yet!
 * [Drive Javadoc](https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html)
 * [Sheets Javadoc](https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/)
 * Use this to download a file's contents: https://drive.google.com/uc?export=download&id=ID
+* https://cloud.google.com/compute/docs/api-rate-limits
+* https://console.developers.google.com/apis/api/drive.googleapis.com/quotas?authuser=2&project=camp-administration-console
+
 To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
+For crying out loud REMEMBER .EXECUTE()!!!
 
 ## TODO ##
 * Add a command queue thread to command factories to prevent multiple commands from running at one time, and also make it easier to abort all active commands.
