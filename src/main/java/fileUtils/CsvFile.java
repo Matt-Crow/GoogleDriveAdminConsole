@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +48,13 @@ public class CsvFile {
         return this;
     }
     
+    public final int getColumnIdx(String header){
+        header = header.toUpperCase();
+        if(!hasHeader(header)){
+            throw new RuntimeException(String.format("Does not contain header %s. Valid headers are %s", header, String.join(", ", headers)));
+        }
+        return columns.get(header);
+    }
     public final boolean hasHeader(String header){
         return columns.containsKey(header.toUpperCase());
     }
@@ -62,6 +70,11 @@ public class CsvFile {
             ret.add(row.get(colIdx));
         });
         return ret;
+    }
+    
+    public final CsvFile forEachBodyRow(Consumer<List<String>> rowConsumer){
+        rows.forEach(rowConsumer);
+        return this;
     }
     
     public static final CsvFile from(List<List<Object>> nestedLists){
