@@ -4,10 +4,10 @@ import structs.DetailedFileInfo;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import start.ServiceAccess;
 import drive.commands.utils.AbstractDriveCommand;
+import fileUtils.CsvFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import fileUtils.CsvParser;
 import structs.AccessType;
 import structs.FileListInfo;
 
@@ -28,10 +28,11 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<DetailedFileInf
         ArrayList<DetailedFileInfo> ret = new ArrayList<>();
         ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sourceInfo.getSheetName()).execute();
         List<List<Object>> data = range.getValues();
-        String[] ids = CsvParser.getColumn(data, FileListInfo.ID_HEADER);
-        String[] descs = CsvParser.getColumn(data, FileListInfo.DESC_HEADER);
-        String[] urls = CsvParser.getColumn(data, FileListInfo.URL_HEADER);
-        String[] accType = CsvParser.getColumn(data, FileListInfo.ACC_TYPE_HEADER);
+        CsvFile file = CsvFile.from(data);
+        String[] ids = file.getColumn(FileListInfo.ID_HEADER).toArray(new String[0]);
+        String[] descs = file.getColumn(FileListInfo.DESC_HEADER).toArray(new String[0]);
+        String[] urls = file.getColumn(FileListInfo.URL_HEADER).toArray(new String[0]);
+        String[] accType = file.getColumn(FileListInfo.ACC_TYPE_HEADER).toArray(new String[0]);
         boolean ableToDownload = false;
         for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
             if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
