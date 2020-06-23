@@ -4,6 +4,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import drive.commands.utils.AbstractDriveCommand;
 import drive.commands.utils.CommandBatch;
+import fileUtils.FileList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +55,17 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     }
     @Override
     public String[] execute() throws IOException {
-        List<DetailedFileInfo> allCampFiles = new ReadFileList(getServiceAccess(), fileList).execute();
+        FileList allCampFiles = new ReadFileList(getServiceAccess(), fileList).execute();
         System.out.println("All files:");
         allCampFiles.forEach(System.out::println);
         
         List<DetailedFileInfo> allLeafNodes = new ArrayList<>();
         allCampFiles.forEach((file)->{
-            allLeafNodes.addAll(getLeaves(file));
+            if(file instanceof DetailedFileInfo){
+                allLeafNodes.addAll(getLeaves((DetailedFileInfo)file));
+            } else {
+                System.err.println("Not a detailed file info in UpdateDownloadAccess: " + file.toString());
+            }
         });
         
         System.out.println("All children:");

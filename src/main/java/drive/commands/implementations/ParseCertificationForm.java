@@ -1,6 +1,7 @@
 package drive.commands.implementations;
 
 import drive.commands.utils.AbstractDriveCommand;
+import fileUtils.FileList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
         
         
         // next, get the list of files campers will get access to
-        ArrayList<DetailedFileInfo> files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
+        FileList files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
         System.out.println("Files they will get:");
         files.forEach(System.out::println);
         

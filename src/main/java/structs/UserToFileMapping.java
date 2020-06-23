@@ -1,5 +1,6 @@
 package structs;
 
+import fileUtils.FileList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class UserToFileMapping {
         file = camperFile;
     }
     
-    public static ArrayList<UserToFileMapping> constructUserFileList(List<? extends SimpleUserInfo> users, List<? extends SimpleFileInfo> files){
+    public static ArrayList<UserToFileMapping> constructUserFileList(List<? extends SimpleUserInfo> users, FileList files){
         ArrayList<UserToFileMapping> products = new ArrayList<>();
         users.forEach((user) -> {
             files.forEach((file) -> {

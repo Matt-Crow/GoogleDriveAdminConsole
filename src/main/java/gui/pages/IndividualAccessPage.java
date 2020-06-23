@@ -1,5 +1,6 @@
 package gui.pages;
 
+import fileUtils.FileList;
 import gui.MainPane;
 import gui.components.EditableStringList;
 import java.awt.BorderLayout;
@@ -50,8 +51,8 @@ public class IndividualAccessPage extends AbstractFormPage{
         
         List<SimpleUserInfo> userInfo = Arrays.stream(emailStrs).map((str)->new SimpleUserInfo(str)).collect(Collectors.toList());
         List<SimpleFileInfo> fileInfo = Arrays.stream(fileIdStrs).map((str)->new SimpleFileInfo(str)).collect(Collectors.toList());
-        
-        List<UserToFileMapping> mappings = UserToFileMapping.constructUserFileList(userInfo, fileInfo);
+        FileList fileList = new FileList(fileInfo);
+        List<UserToFileMapping> mappings = UserToFileMapping.constructUserFileList(userInfo, fileList);
         
         parent.getBackend().getCmdFactory().giveAccess(mappings).execute();
         parent.addText("Successfully gave acccess to the following files:");

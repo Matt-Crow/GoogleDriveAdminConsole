@@ -1,16 +1,16 @@
 package fileUtils;
 
 import java.util.AbstractCollection;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import structs.AccessType;
 import structs.DetailedFileInfo;
 import structs.FileListInfo;
 import structs.SimpleFileInfo;
 
 /**
- *
+ * probably want to make this extends something
  * @author Matt
  */
 public class FileList {
@@ -21,7 +21,11 @@ public class FileList {
     }
     public FileList(AbstractCollection<? extends SimpleFileInfo> files){
         this();
-        files.iterator().forEachRemaining((file)->fileInfo.addLast(file));
+        files.iterator().forEachRemaining((file)->fileInfo.add(file));
+    }
+    public FileList(List<? extends SimpleFileInfo> files){
+        this();
+        files.iterator().forEachRemaining((file)->fileInfo.add(file));
     }
     public FileList(CsvFile csvFile){
         this();
@@ -32,12 +36,19 @@ public class FileList {
         
         csvFile.forEachBodyRow((List<String> row)->{
             try{
+                if(row.get(idCol).trim().isEmpty()){
+                    throw new RuntimeException(String.format("Row does not contain a file ID, it has the following data: %s", String.join(", ", row)));
+                }
                 boolean ableToDownload = AccessType.fromString(row.get(accTypeCol)).shouldAllowDownload();
                 fileInfo.add(new DetailedFileInfo(row.get(idCol), row.get(descCol), row.get(urlCol), ableToDownload));
-            } catch (IllegalArgumentException ex){
+            } catch (RuntimeException ex){
                 ex.printStackTrace();
             }
         });
-    }
+    }   
     
+    public final FileList forEach(Consumer<SimpleFileInfo> f){
+        fileInfo.forEach(f);
+        return this;
+    }
 }

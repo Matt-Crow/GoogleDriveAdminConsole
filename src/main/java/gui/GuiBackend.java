@@ -1,6 +1,7 @@
 package gui;
 
 import drive.commands.utils.CommandFactory;
+import fileUtils.FileList;
 import fileUtils.FileSelector;
 import fileUtils.FileType;
 import java.io.File;
@@ -81,7 +82,7 @@ public final class GuiBackend {
                 FileListInfo info = new FileListInfo();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
-                ArrayList<DetailedFileInfo> files = getCmdFactory().readFileList(info).execute();
+                FileList files = getCmdFactory().readFileList(info).execute();
                 writeOutput("Contains the following files:");
                 files.forEach((i)->writeOutput("* " + i.toString()));
             } catch (FileNotFoundException ex) {
