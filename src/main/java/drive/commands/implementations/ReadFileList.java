@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import fileUtils.CsvParser;
+import structs.AccessType;
 import structs.FileListInfo;
 
 /**
@@ -22,26 +23,27 @@ public class ReadFileList extends AbstractDriveCommand<ArrayList<DetailedFileInf
         sourceInfo = source;
     }
     
-    private List<DetailedFileInfo> getFilesFromSheet(String sheetName, boolean filesAreDownloadable) throws IOException{
-        ArrayList<DetailedFileInfo> files = new ArrayList<>();
-        ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sheetName).execute();
-        List<List<Object>> data = range.getValues();
-        String[] ids = CsvParser.getColumn(data, sourceInfo.getFileIdHeader());
-        String[] descs = CsvParser.getColumn(data, sourceInfo.getDescHeader());
-        String[] urls = CsvParser.getColumn(data, sourceInfo.getUrlHeader());
-        for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
-            if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
-                files.add(new DetailedFileInfo(ids[i], descs[i], urls[i], filesAreDownloadable));
-            }
-        }
-        return files;
-    }
-    
     @Override
     public ArrayList<DetailedFileInfo> execute() throws IOException {
         ArrayList<DetailedFileInfo> ret = new ArrayList<>();
-        ret.addAll(getFilesFromSheet(sourceInfo.getViewSheetName(), false));
-        ret.addAll(getFilesFromSheet(sourceInfo.getCopySheetName(), true));
+        ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sourceInfo.getSheetName()).execute();
+        List<List<Object>> data = range.getValues();
+        String[] ids = CsvParser.getColumn(data, FileListInfo.ID_HEADER);
+        String[] descs = CsvParser.getColumn(data, FileListInfo.DESC_HEADER);
+        String[] urls = CsvParser.getColumn(data, FileListInfo.URL_HEADER);
+        String[] accType = CsvParser.getColumn(data, FileListInfo.ACC_TYPE_HEADER);
+        boolean ableToDownload = false;
+        for(int i = 0; i < ids.length && i < descs.length && i < urls.length; i++){
+            if(!(ids[i].isEmpty() || descs[i].isEmpty() || urls[i].isEmpty())){
+                try{
+                    ableToDownload = AccessType.fromString(accType[i]).shouldAllowDownload();
+                    ret.add(new DetailedFileInfo(ids[i], descs[i], urls[i], ableToDownload));
+                } catch(IllegalArgumentException ex){
+                    ex.printStackTrace();
+                }
+                
+            }
+        }
         return ret;
     }
 

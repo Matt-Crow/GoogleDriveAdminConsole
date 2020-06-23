@@ -11,55 +11,34 @@ import java.util.Properties;
  * @author Matt
  */
 public class FileListInfo extends Properties{
-    private static final String SHEET_ID_KEY = "spreadsheetId";
-    private static final String VIEW_SHEET_NAME_KEY = "viewSheetName";
-    private static final String COPY_SHEET_NAME_KEY = "copySheetName";
-    private static final String ID_HEADER_KEY = "idHeader";
-    private static final String DESC_HEADER_KEY = "descHeader";
-    private static final String URL_HEADER_KEY = "urlHeader";
-    private static final String LEVEL_HEADER_KEY = "levelHeader";
+    /*
+    Attributes belonging to all file lists
+    */
+    public static final String ID_HEADER = "ID";
+    public static final String DESC_HEADER = "desc";
+    public static final String URL_HEADER = "URL";
+    public static final String ACC_TYPE_HEADER = "access type";
     
-    public FileListInfo(String spreadsheetFileId, String viewFilesSheetName, String copyFileSheetName, String idCol, String descCol, String urlCol, String levelCol){
+    
+    private static final String SHEET_ID_KEY = "spreadsheetId";
+    private static final String SHEET_NAME_KEY = "sheetName";
+    
+    public FileListInfo(String spreadsheetFileId, String filesSheetName){
         super();
         setProperty(SHEET_ID_KEY, spreadsheetFileId);
-        setProperty(VIEW_SHEET_NAME_KEY, viewFilesSheetName);
-        setProperty(COPY_SHEET_NAME_KEY, copyFileSheetName);
-        setProperty(ID_HEADER_KEY, idCol);
-        setProperty(DESC_HEADER_KEY, descCol);
-        setProperty(URL_HEADER_KEY, urlCol);
-        setProperty(LEVEL_HEADER_KEY, levelCol);
+        setProperty(SHEET_NAME_KEY, filesSheetName);
     }
     
     public FileListInfo(){
-        this("spreadsheetIdHere", "viewFileSheetNameHere", "copyFileSheetNameHere", "idColumnHeaderHere", "descColumnHeaderHere", "urlColumnHeaderHere", "levelColumnHeaderHere");
+        this("spreadsheetIdHere", "fileSheetNameHere");
     }
     
     public String getFileId(){
         return getProperty(SHEET_ID_KEY);
     }
     
-    public String getViewSheetName(){
-        return getProperty(VIEW_SHEET_NAME_KEY);
-    }
-    
-    public String getCopySheetName(){
-        return getProperty(COPY_SHEET_NAME_KEY);
-    }
-    
-    public String getFileIdHeader(){
-        return getProperty(ID_HEADER_KEY);
-    }
-    
-    public String getDescHeader(){
-        return getProperty(DESC_HEADER_KEY);
-    }
-    
-    public String getUrlHeader(){
-        return getProperty(URL_HEADER_KEY);
-    }
-    
-    public String getParticipationLevelHeader(){
-        return getProperty(LEVEL_HEADER_KEY);
+    public String getSheetName(){
+        return getProperty(SHEET_NAME_KEY);
     }
     
     public void save(File f) throws FileNotFoundException, IOException{
