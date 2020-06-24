@@ -7,6 +7,7 @@ This application is currently in development, and is not ready for release yet!
 3. You can find property files under src/main/resources/properties. Use these if you want to parse the certification form.
 
 ## Helpful Links ##
+* [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
 * [The Google API console](https://console.developers.google.com/apis/credentials?authuser=2&project=camp-administration-console)
 * [Getting started with Drive API Java](https://developers.google.com/drive/api/v3/quickstart/java)
 * [Getting started with Sheets API Java](https://developers.google.com/sheets/api/quickstart/java)

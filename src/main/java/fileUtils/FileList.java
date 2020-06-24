@@ -45,6 +45,10 @@ public class FileList extends LinkedList<SimpleFileInfo>{
      */
     public FileList(CsvFile csvFile) throws CsvException{
         this();
+        addFromCsv(csvFile);
+    }
+    
+    public final void addFromCsv(CsvFile csvFile) throws CsvException{
         int idCol = csvFile.getColumnIdx(ID_HEADER);
         int descCol = csvFile.getColumnIdx(DESC_HEADER);
         int urlCol = csvFile.getColumnIdx(URL_HEADER);
