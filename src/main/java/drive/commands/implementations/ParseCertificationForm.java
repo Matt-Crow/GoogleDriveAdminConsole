@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import start.ServiceAccess;
 import structs.DetailedFileInfo;
-import structs.CertificationFormInfo;
+import structs.UserListInfo;
 import structs.FileListInfo;
 import structs.DetailedUserInfo;
 import structs.UserToFileMapping;
@@ -17,12 +17,12 @@ import structs.UserToFileMapping;
  * @author Matt
  */
 public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{
-    private final CertificationFormInfo certFormInfo;
+    private final UserListInfo certFormInfo;
     private final FileListInfo fileListInfo;
     private final String accessListId;
     private final boolean isTest;
     
-    public ParseCertificationForm(ServiceAccess service, CertificationFormInfo source, FileListInfo fileList, String accessListFileId, boolean thisIsATest) {
+    public ParseCertificationForm(ServiceAccess service, UserListInfo source, FileListInfo fileList, String accessListFileId, boolean thisIsATest) {
         super(service);
         certFormInfo = source;
         fileListInfo = fileList;
@@ -33,7 +33,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
     @Override
     public List<UserToFileMapping> execute() throws IOException {
         // first, extract the campers from the form responses
-        ArrayList<DetailedUserInfo> newCampers = new ReadCertificationForm(getServiceAccess(), certFormInfo).execute();
+        ArrayList<DetailedUserInfo> newCampers = new ReadUserList(getServiceAccess(), certFormInfo).execute();
         System.out.println("Contents of certification form:");
         newCampers.forEach(System.out::println);
         

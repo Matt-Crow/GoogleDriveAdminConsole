@@ -7,17 +7,17 @@ import fileUtils.CsvFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import structs.CertificationFormInfo;
+import structs.UserListInfo;
 import structs.DetailedUserInfo;
 
 /**
  *
  * @author Matt
  */
-public class ReadCertificationForm extends AbstractDriveCommand<ArrayList<DetailedUserInfo>>{
-    private final CertificationFormInfo sourceInfo;
+public class ReadUserList extends AbstractDriveCommand<ArrayList<DetailedUserInfo>>{
+    private final UserListInfo sourceInfo;
     
-    public ReadCertificationForm(ServiceAccess service, CertificationFormInfo formInfo) {
+    public ReadUserList(ServiceAccess service, UserListInfo formInfo) {
         super(service);
         sourceInfo = formInfo;
     }
@@ -30,10 +30,10 @@ public class ReadCertificationForm extends AbstractDriveCommand<ArrayList<Detail
         List<List<Object>> data = values.getValues();
         CsvFile content = CsvFile.from(data);
         
-        String[] names = content.getColumn(sourceInfo.getNameHeader()).toArray(new String[0]);
-        String[] emails = content.getColumn(sourceInfo.getEmailHeader()).toArray(new String[0]);
-        String[] mcUsers = content.getColumn(sourceInfo.getMinecraftUsernameHeader()).toArray(new String[0]);
-        String[] levels = content.getColumn(sourceInfo.getParticipationLevelHeader()).toArray(new String[0]);
+        String[] names = content.getColumn(UserListInfo.NAME_HEADER).toArray(new String[0]);
+        String[] emails = content.getColumn(UserListInfo.EMAIL_HEADER).toArray(new String[0]);
+        String[] mcUsers = content.getColumn(UserListInfo.MC_USER_HEADER).toArray(new String[0]);
+        String[] levels = content.getColumn(UserListInfo.LEVEL_HEADER).toArray(new String[0]);
 
         for(int i = 0; i < names.length && i < emails.length && i < mcUsers.length && i < levels.length; i++){
             if(!(names[i].isEmpty() || emails[i].isEmpty() || mcUsers[i].isEmpty() || levels[i].isEmpty())){

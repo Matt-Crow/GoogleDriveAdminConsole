@@ -5,13 +5,13 @@ import drive.commands.implementations.CreateAccessList;
 import drive.commands.implementations.GetAccessList;
 import drive.commands.implementations.GiveViewAccess;
 import drive.commands.implementations.ParseCertificationForm;
-import drive.commands.implementations.ReadCertificationForm;
+import drive.commands.implementations.ReadUserList;
 import drive.commands.implementations.ReadFileList;
 import drive.commands.implementations.SetAccessListContent;
 import drive.commands.implementations.UpdateDownloadAccess;
 import java.util.List;
 import start.ServiceAccess;
-import structs.CertificationFormInfo;
+import structs.UserListInfo;
 import structs.FileListInfo;
 import structs.UserToFileMapping;
 
@@ -44,14 +44,14 @@ public class CommandFactory {
         return new AddToAccessList(services, accessListId, newUsers);
     }
     
-    public final ReadCertificationForm readCertForm(CertificationFormInfo info){
-        return new ReadCertificationForm(services, info);
+    public final ReadUserList readCertForm(UserListInfo info){
+        return new ReadUserList(services, info);
     }
     public final ReadFileList readFileList(FileListInfo info){
         return new ReadFileList(services, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(CertificationFormInfo formInfo, FileListInfo fileInfo, String accessListId, boolean isTest){
+    public final ParseCertificationForm parseCertificationForm(UserListInfo formInfo, FileListInfo fileInfo, String accessListId, boolean isTest){
         return new ParseCertificationForm(services, formInfo, fileInfo, accessListId, isTest);
     }
     

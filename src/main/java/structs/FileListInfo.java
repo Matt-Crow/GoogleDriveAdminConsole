@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * We will likely change the structure of how the file list works later
  * @author Matt
  */
 public class FileListInfo extends Properties{
