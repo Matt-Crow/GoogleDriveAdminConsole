@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import start.ServiceAccess;
 import structs.DetailedFileInfo;
-import structs.FileListInfo;
+import structs.FileListProperties;
 
 /**
  *
  * @author Matt
  */
 public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
-    private final FileListInfo fileList;
-    public UpdateDownloadAccess(ServiceAccess serv, FileListInfo driveFileList) {
+    private final FileListProperties fileList;
+    public UpdateDownloadAccess(ServiceAccess serv, FileListProperties driveFileList) {
         super(serv);
         fileList = driveFileList;
     }

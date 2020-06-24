@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import start.ServiceAccess;
-import structs.UserListInfo;
+import structs.UserListProperties;
 import structs.DetailedFileInfo;
 import structs.DetailedUserInfo;
-import structs.FileListInfo;
+import structs.FileListProperties;
 import structs.UserToFileMapping;
 
 /**
@@ -79,7 +79,7 @@ public final class GuiBackend {
     public void askReadFileList(){
         new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
             try {
-                FileListInfo info = new FileListInfo();
+                FileListProperties info = new FileListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
                 FileList files = getCmdFactory().readFileList(info).execute();
@@ -95,7 +95,7 @@ public final class GuiBackend {
     public void askReadCertForm(){
         new FileSelector("Select a file containing certification form properties", FileType.ANY, (File f)->{
             try{
-                UserListInfo info = new UserListInfo();
+                UserListProperties info = new UserListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
                 ArrayList<DetailedUserInfo> users = getCmdFactory().readCertForm(info).execute();
@@ -114,10 +114,10 @@ public final class GuiBackend {
             new FileSelector("Select a file containing file list properties", FileType.ANY, (File fileListInfoFile)->{
                 String accessListId = ask("Enter the file ID of the Minecraft server access list to add these users to");
                 try{
-                    UserListInfo userInfo = new UserListInfo();
+                    UserListProperties userInfo = new UserListProperties();
                     userInfo.load(new FileInputStream(certFormInfoFile));
                     
-                    FileListInfo fileInfo = new FileListInfo();
+                    FileListProperties fileInfo = new FileListProperties();
                     fileInfo.load(new FileInputStream(fileListInfoFile));
                     
                     writeOutput(userInfo.toString());
@@ -138,7 +138,7 @@ public final class GuiBackend {
     public void askDownloadPermissions(){
         new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
             try {
-                FileListInfo info = new FileListInfo();
+                FileListProperties info = new FileListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
                 String[] ret = getCmdFactory().updateDownloadOptions(info).execute();
@@ -158,7 +158,7 @@ public final class GuiBackend {
     public void askCreateDefaultFileListProps(){
         FileSelector.createNewFile("Where do you want to save the default file list properties?", (File newFile)->{
             try {
-                new FileListInfo().save(newFile);
+                new FileListProperties().save(newFile);
                 writeOutput("Created file list properties in " + newFile.getAbsolutePath());
             } catch (FileNotFoundException ex) {
                 reportError(ex);
@@ -170,7 +170,7 @@ public final class GuiBackend {
     public void askCreateDefaultCertFormProps(){
         FileSelector.createNewFile("Where do you want to save the default user list properties?", (File newFile)->{
             try{
-                new UserListInfo().save(newFile);
+                new UserListProperties().save(newFile);
                 writeOutput("Created user list properties in " + newFile.getAbsolutePath());
             } catch (FileNotFoundException ex) {
                 reportError(ex);

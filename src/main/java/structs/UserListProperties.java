@@ -7,28 +7,26 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- *
- * @author Matt
+ * UserListProperties are used to direct the application
+ * to Google Sheets containing information on registered users
+ * who should be given access to files. Sheets located
+ * by these properties must conform to the requirement shown
+ * in FileList.
+ * 
+ * @see fileUtils.FileList
+ * @author Matt Crow
  */
-public final class UserListInfo extends Properties{
-    /*
-    Attributes belonging to all user lists
-    */
-    public static final String NAME_HEADER = "name";
-    public static final String EMAIL_HEADER = "email";
-    public static final String MC_USER_HEADER = "minecraft username";
-    public static final String LEVEL_HEADER = "level";
-    
+public final class UserListProperties extends Properties{
     private static final String CERT_FORM_ID_KEY = "spreadsheetId";
     private static final String RESPONSE_SHEET_NAME_KEY = "responseSheetName";
     
-    public UserListInfo(String spreadsheetId, String responseSheetName){
+    public UserListProperties(String spreadsheetId, String responseSheetName){
         super();
         setProperty(CERT_FORM_ID_KEY, spreadsheetId);
         setProperty(RESPONSE_SHEET_NAME_KEY, responseSheetName);
     }
     
-    public UserListInfo(){
+    public UserListProperties(){
         this("sheetIdHere", "responseSheetNameHere");
     }
     
@@ -41,13 +39,13 @@ public final class UserListInfo extends Properties{
     }
     
     public void save(File f) throws FileNotFoundException, IOException{
-        store(new FileOutputStream(f), "This file contains information about which Google Sheet contains certification information");
+        store(new FileOutputStream(f), "This file contains information about which Google Sheet contains user information");
     }
     
     @Override
     public String toString(){
         StringBuilder bob = new StringBuilder();
-        bob.append("CERTIFICATION FORM INFO:\n");
+        bob.append("USER LIST INFO:\n");
         forEach((k, v)->bob.append(String.format("* %s : %s \n", k, v)));
         return bob.toString();
     }

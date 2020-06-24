@@ -67,12 +67,12 @@ public class MainPane extends JPanel{
         JMenu driveManage = new JMenu("Drive management");
         addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
         addMenuItem(driveManage, "Read a file list", ()->backend.askReadFileList());
-        addMenuItem(driveManage, "Read a certification form", ()->backend.askReadCertForm());
+        addMenuItem(driveManage, "Read a user list", ()->backend.askReadCertForm());
         menu.add(driveManage);
         
         JMenu props = new JMenu("Create properties");
         addMenuItem(props, "Create default file list properties", ()->backend.askCreateDefaultFileListProps());
-        addMenuItem(props, "Create default certification form properties", ()->backend.askCreateDefaultCertFormProps());
+        addMenuItem(props, "Create default user list properties", ()->backend.askCreateDefaultCertFormProps());
         menu.add(props);
         
         add(menu, BorderLayout.PAGE_START);

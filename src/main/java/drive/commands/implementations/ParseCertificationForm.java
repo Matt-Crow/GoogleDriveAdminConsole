@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import start.ServiceAccess;
 import structs.DetailedFileInfo;
-import structs.UserListInfo;
-import structs.FileListInfo;
+import structs.UserListProperties;
+import structs.FileListProperties;
 import structs.DetailedUserInfo;
 import structs.UserToFileMapping;
 
@@ -17,12 +17,12 @@ import structs.UserToFileMapping;
  * @author Matt
  */
 public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{
-    private final UserListInfo certFormInfo;
-    private final FileListInfo fileListInfo;
+    private final UserListProperties certFormInfo;
+    private final FileListProperties fileListInfo;
     private final String accessListId;
     private final boolean isTest;
     
-    public ParseCertificationForm(ServiceAccess service, UserListInfo source, FileListInfo fileList, String accessListFileId, boolean thisIsATest) {
+    public ParseCertificationForm(ServiceAccess service, UserListProperties source, FileListProperties fileList, String accessListFileId, boolean thisIsATest) {
         super(service);
         certFormInfo = source;
         fileListInfo = fileList;

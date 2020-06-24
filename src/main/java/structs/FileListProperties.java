@@ -7,28 +7,26 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * @author Matt
+ * FileListProperties are used to direct the application
+ * to Google Sheets containing information on Google Drive
+ * files which should be provided to campers. Sheets located
+ * by these properties must conform to the requirement shown
+ * in UserList.
+ * 
+ * @see fileUtils.UserList
+ * @author Matt Crow
  */
-public class FileListInfo extends Properties{
-    /*
-    Attributes belonging to all file lists
-    */
-    public static final String ID_HEADER = "ID";
-    public static final String DESC_HEADER = "desc";
-    public static final String URL_HEADER = "URL";
-    public static final String ACC_TYPE_HEADER = "access type";
-    
-    
+public class FileListProperties extends Properties{
     private static final String SHEET_ID_KEY = "spreadsheetId";
     private static final String SHEET_NAME_KEY = "sheetName";
     
-    public FileListInfo(String spreadsheetFileId, String filesSheetName){
+    public FileListProperties(String spreadsheetFileId, String filesSheetName){
         super();
         setProperty(SHEET_ID_KEY, spreadsheetFileId);
         setProperty(SHEET_NAME_KEY, filesSheetName);
     }
     
-    public FileListInfo(){
+    public FileListProperties(){
         this("spreadsheetIdHere", "fileSheetNameHere");
     }
     

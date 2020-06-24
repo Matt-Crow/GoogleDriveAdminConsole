@@ -9,16 +9,16 @@ import fileUtils.FileList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import structs.FileListInfo;
+import structs.FileListProperties;
 
 /**
  * currently reads the admin console, but we may change that in the future
  * @author Matt
  */
 public class ReadFileList extends AbstractDriveCommand<FileList>{
-    private final FileListInfo sourceInfo;
+    private final FileListProperties sourceInfo;
     
-    public ReadFileList(ServiceAccess service, FileListInfo source) {
+    public ReadFileList(ServiceAccess service, FileListProperties source) {
         super(service);
         sourceInfo = source;
     }

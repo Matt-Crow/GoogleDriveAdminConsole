@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import structs.UserListInfo;
-import structs.FileListInfo;
+import structs.UserListProperties;
+import structs.FileListProperties;
 import structs.UserToFileMapping;
 
 /**
@@ -33,10 +33,10 @@ public class ParseCertFormPage extends AbstractFormPage{
         JPanel selGroup = new JPanel();
         selGroup.setLayout(new GridLayout(1, 2));
         
-        certFormSel = new PropertyFileChooser("Certification Form Info", "Select a file containing certification form properties", new UserListInfo());
+        certFormSel = new PropertyFileChooser("Certification Form Info", "Select a file containing certification form properties", new UserListProperties());
         selGroup.add(certFormSel);
         
-        fileListSel = new PropertyFileChooser("File List Info", "Select a file containing file list properties", new FileListInfo());
+        fileListSel = new PropertyFileChooser("File List Info", "Select a file containing file list properties", new FileListProperties());
         selGroup.add(fileListSel);
         
         add(selGroup, BorderLayout.CENTER);
@@ -64,8 +64,8 @@ public class ParseCertFormPage extends AbstractFormPage{
     @Override
     public void doSubmit() throws IOException {
         MainPane parent = getPaneParent();
-        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm((UserListInfo)certFormSel.getSelectedProperties(),
-            (FileListInfo) fileListSel.getSelectedProperties(),
+        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm((UserListProperties)certFormSel.getSelectedProperties(),
+            (FileListProperties) fileListSel.getSelectedProperties(),
             enterAccListId.getText(),
             isTest.isSelected()
         ).execute();

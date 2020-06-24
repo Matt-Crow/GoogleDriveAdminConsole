@@ -11,8 +11,8 @@ import drive.commands.implementations.SetAccessListContent;
 import drive.commands.implementations.UpdateDownloadAccess;
 import java.util.List;
 import start.ServiceAccess;
-import structs.UserListInfo;
-import structs.FileListInfo;
+import structs.UserListProperties;
+import structs.FileListProperties;
 import structs.UserToFileMapping;
 
 /**
@@ -44,14 +44,14 @@ public class CommandFactory {
         return new AddToAccessList(services, accessListId, newUsers);
     }
     
-    public final ReadUserList readCertForm(UserListInfo info){
+    public final ReadUserList readCertForm(UserListProperties info){
         return new ReadUserList(services, info);
     }
-    public final ReadFileList readFileList(FileListInfo info){
+    public final ReadFileList readFileList(FileListProperties info){
         return new ReadFileList(services, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(UserListInfo formInfo, FileListInfo fileInfo, String accessListId, boolean isTest){
+    public final ParseCertificationForm parseCertificationForm(UserListProperties formInfo, FileListProperties fileInfo, String accessListId, boolean isTest){
         return new ParseCertificationForm(services, formInfo, fileInfo, accessListId, isTest);
     }
     
@@ -59,7 +59,7 @@ public class CommandFactory {
         return new GiveViewAccess(services, mappings);
     }
     
-    public final UpdateDownloadAccess updateDownloadOptions(FileListInfo fileList){
+    public final UpdateDownloadAccess updateDownloadOptions(FileListProperties fileList){
         return new UpdateDownloadAccess(services, fileList);
     }
 }

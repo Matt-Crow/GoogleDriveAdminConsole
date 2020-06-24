@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import structs.AccessType;
 import structs.DetailedFileInfo;
-import structs.FileListInfo;
+import structs.FileListProperties;
 import structs.SimpleFileInfo;
 
 /**
@@ -14,6 +14,14 @@ import structs.SimpleFileInfo;
  * @author Matt
  */
 public class FileList {
+
+    public static final String URL_HEADER = "URL";
+    public static final String ACC_TYPE_HEADER = "access type";
+    /*
+    Attributes belonging to all file lists
+     */
+    public static final String ID_HEADER = "ID";
+    public static final String DESC_HEADER = "desc";
     private final LinkedList<SimpleFileInfo> fileInfo;
     
     public FileList(){
@@ -29,10 +37,10 @@ public class FileList {
     }
     public FileList(CsvFile csvFile){
         this();
-        int idCol = csvFile.getColumnIdx(FileListInfo.ID_HEADER);
-        int descCol = csvFile.getColumnIdx(FileListInfo.DESC_HEADER);
-        int urlCol = csvFile.getColumnIdx(FileListInfo.URL_HEADER);
-        int accTypeCol = csvFile.getColumnIdx(FileListInfo.ACC_TYPE_HEADER);
+        int idCol = csvFile.getColumnIdx(ID_HEADER);
+        int descCol = csvFile.getColumnIdx(DESC_HEADER);
+        int urlCol = csvFile.getColumnIdx(URL_HEADER);
+        int accTypeCol = csvFile.getColumnIdx(ACC_TYPE_HEADER);
         
         csvFile.forEachBodyRow((List<String> row)->{
             try{
