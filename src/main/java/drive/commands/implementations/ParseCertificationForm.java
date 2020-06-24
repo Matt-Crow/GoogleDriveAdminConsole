@@ -2,11 +2,11 @@ package drive.commands.implementations;
 
 import drive.commands.utils.AbstractDriveCommand;
 import fileUtils.FileList;
+import fileUtils.UserList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import start.ServiceAccess;
-import structs.DetailedFileInfo;
 import structs.UserListProperties;
 import structs.FileListProperties;
 import structs.DetailedUserInfo;
@@ -33,7 +33,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
     @Override
     public List<UserToFileMapping> execute() throws IOException {
         // first, extract the campers from the form responses
-        ArrayList<DetailedUserInfo> newCampers = new ReadUserList(getServiceAccess(), certFormInfo).execute();
+        UserList newCampers = new ReadUserList(getServiceAccess(), certFormInfo).execute();
         System.out.println("Contents of certification form:");
         newCampers.forEach(System.out::println);
         
@@ -59,9 +59,16 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
             }
 
             // add people to the Minecraft user list
-            String[] newMcUsers = newCampers.stream().map((userData)->{
-                return userData.getMinecraftUsername();
-            }).toArray((size)->new String[size]);
+            String[] newMcUsers = newCampers
+                .stream()
+                .filter((userInfo)->{
+                    return userInfo instanceof DetailedUserInfo;
+                }).map((simpleUserInfo)->{
+                    return (DetailedUserInfo)simpleUserInfo;
+                }).map((detailedUserInfo)->{
+                    return detailedUserInfo.getMinecraftUsername();
+                })
+                .toArray((size)->new String[size]);
 
             new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
         }

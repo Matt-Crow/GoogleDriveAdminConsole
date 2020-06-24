@@ -4,17 +4,15 @@ import drive.commands.utils.CommandFactory;
 import fileUtils.FileList;
 import fileUtils.FileSelector;
 import fileUtils.FileType;
+import fileUtils.UserList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import start.ServiceAccess;
 import structs.UserListProperties;
-import structs.DetailedFileInfo;
-import structs.DetailedUserInfo;
 import structs.FileListProperties;
 import structs.UserToFileMapping;
 
@@ -98,7 +96,7 @@ public final class GuiBackend {
                 UserListProperties info = new UserListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
-                ArrayList<DetailedUserInfo> users = getCmdFactory().readCertForm(info).execute();
+                UserList users = getCmdFactory().readCertForm(info).execute();
                 writeOutput("Contains the following users:");
                 users.forEach((i)->writeOutput(i.toString()));
             } catch (FileNotFoundException ex) {
