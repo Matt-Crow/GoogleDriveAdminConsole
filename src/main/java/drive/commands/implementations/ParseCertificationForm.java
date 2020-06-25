@@ -11,6 +11,7 @@ import structs.UserListProperties;
 import structs.FileListProperties;
 import structs.DetailedUserInfo;
 import structs.UserToFileMapping;
+import sysUtils.Logger;
 
 /**
  * 
@@ -32,30 +33,37 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
 
     @Override
     public List<UserToFileMapping> execute() throws IOException {
+        StringBuilder msg = new StringBuilder();
+        
         // first, extract the campers from the form responses
         UserList newCampers = new ReadUserList(getServiceAccess(), certFormInfo).execute();
-        System.out.println("Contents of certification form:");
-        newCampers.forEach(System.out::println);
+        
+        msg.append("Contents of certification form:");
+        newCampers.forEach((camper)->msg.append("\n").append(camper.toString()));
         
         
         // next, get the list of files campers will get access to
         FileList files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
-        System.out.println("Files they will get:");
-        files.forEach(System.out::println);
+        msg.append("\nFiles they will get:");
+        files.forEach((file)->msg.append("\n").append(file.toString()));
         
         // construct the list of requests to make
         ArrayList<UserToFileMapping> whoGetsWhat = UserToFileMapping.constructUserFileList(newCampers, files);
         
+        msg.append("\nCreating the following mappings:");
+        whoGetsWhat.forEach((mapping)->msg.append("\n").append(mapping.toString()));
+        Logger.log(msg.toString());
+        
         // construct the command
         AbstractDriveCommand cmd = new GiveViewAccess(getServiceAccess(), whoGetsWhat);
         
-        System.out.println(cmd);
+        Logger.log(cmd.toString());
         
         if(!isTest){
             try{
                 cmd.execute();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.logError(ex);
             }
 
             // add people to the Minecraft user list

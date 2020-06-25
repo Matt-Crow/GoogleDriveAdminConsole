@@ -6,6 +6,7 @@ import java.util.List;
 import structs.AccessType;
 import structs.DetailedFileInfo;
 import structs.SimpleFileInfo;
+import sysUtils.Logger;
 
 /**
  * The FileList class is used to convert multiple formats
@@ -62,7 +63,7 @@ public class FileList extends LinkedList<SimpleFileInfo>{
                 boolean ableToDownload = AccessType.fromString(row.get(accTypeCol)).shouldAllowDownload();
                 add(new DetailedFileInfo(row.get(idCol), row.get(descCol), row.get(urlCol), ableToDownload));
             } catch (CsvException ex){
-                ex.printStackTrace();
+                Logger.logError(ex);
             }
         });
     }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import start.ServiceAccess;
 import structs.UserToFileMapping;
+import sysUtils.Logger;
 
 /**
  * GiveViewAccess is used to grant either view or edit access to files.
@@ -63,7 +64,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
                 // non-gmail accounts need notification emails to get access to the file
                 // there is no way to check whether or not they are gmail, so we need to send notifications
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.logError(ex);
             }
             
             return create;

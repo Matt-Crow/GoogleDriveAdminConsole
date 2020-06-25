@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import start.ServiceAccess;
+import sysUtils.Logger;
 
 /**
  *
@@ -39,13 +40,13 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
         JsonBatchCallback<T> jsonCallback = new JsonBatchCallback<T>() {
             @Override
             public void onFailure(GoogleJsonError gje, HttpHeaders hh) throws IOException {
-                System.err.println(gje);
-                System.err.println(hh);
+                Logger.logError(gje.toPrettyString());
+                Logger.logError(hh.toString());
             }
 
             @Override
             public void onSuccess(T t, HttpHeaders hh) throws IOException {
-                System.out.println(t);
+                Logger.log(t.toString());
                 ret.add(t);
             }
         };
@@ -57,13 +58,13 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
                 try{
                     req.queue(currentBatchReq, jsonCallback);
                 } catch(IOException ex){
-                    ex.printStackTrace();
+                    Logger.logError(ex);
                 }
             }
             try{
                 currentBatchReq.execute();
             } catch(IOException ex){
-                ex.printStackTrace();
+                Logger.logError(ex);
             }
         }
         return ret;

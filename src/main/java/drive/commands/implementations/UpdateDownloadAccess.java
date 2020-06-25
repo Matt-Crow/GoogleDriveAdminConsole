@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import start.ServiceAccess;
 import structs.DetailedFileInfo;
 import structs.FileListProperties;
+import sysUtils.Logger;
 
 /**
  *
@@ -47,7 +48,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                 childFiles.add(root);
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.logError(ex);
         }
         
         
@@ -56,20 +57,22 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     @Override
     public String[] execute() throws IOException {
         FileList allCampFiles = new ReadFileList(getServiceAccess(), fileList).execute();
-        System.out.println("All files:");
-        allCampFiles.forEach(System.out::println);
+        StringBuilder msg = new StringBuilder();
+        msg.append("All files:");
+        allCampFiles.forEach((file)->msg.append("\n").append(file.toString()));
         
         List<DetailedFileInfo> allLeafNodes = new ArrayList<>();
         allCampFiles.forEach((file)->{
             if(file instanceof DetailedFileInfo){
                 allLeafNodes.addAll(getLeaves((DetailedFileInfo)file));
             } else {
-                System.err.println("Not a detailed file info in UpdateDownloadAccess: " + file.toString());
+                Logger.logError("Not a detailed file info in UpdateDownloadAccess: " + file.toString());
             }
         });
         
-        System.out.println("All children:");
-        allLeafNodes.forEach(System.out::println);
+        msg.append("\nAll children:");
+        allLeafNodes.forEach((leaf)->msg.append("\n").append(leaf.toString()));
+        Logger.log(msg.toString());
         
         Drive.Files files = getDrive().files();
         List<Drive.Files.Update> updates = allLeafNodes
@@ -81,7 +84,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                     newChanges.setViewersCanCopyContent((info.shouldCopyBeEnabled()) ? Boolean.TRUE: Boolean.FALSE);
                     update = files.update(info.getFileId(), newChanges);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Logger.logError(ex);
                 }
                 return update;
             }).filter((req)->req != null).collect(Collectors.toList());

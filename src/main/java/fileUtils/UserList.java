@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import structs.DetailedUserInfo;
 import structs.SimpleUserInfo;
+import sysUtils.Logger;
 
 /**
  *
@@ -51,7 +52,7 @@ public class UserList extends LinkedList<SimpleUserInfo>{
                 }
                 add(new DetailedUserInfo(row.get(nameCol), row.get(emailCol), row.get(mcUserCol), row.get(lvCol)));
             } catch (CsvException ex){
-                ex.printStackTrace();
+                Logger.logError(ex);
             }
         });
     }

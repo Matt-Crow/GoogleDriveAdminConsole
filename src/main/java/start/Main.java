@@ -20,13 +20,13 @@ public class Main {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            Logger.logError(ex);
         } catch (InstantiationException ex) {
-            ex.printStackTrace();
+            Logger.logError(ex);
         } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
+            Logger.logError(ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            Logger.logError(ex);
         }
         MainWindow window = new MainWindow();
         window.addWindowListener(new WindowAdapter(){

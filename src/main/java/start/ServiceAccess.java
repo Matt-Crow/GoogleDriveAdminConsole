@@ -22,6 +22,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import start.Main;
+import sysUtils.Logger;
 
 /**
  *
@@ -83,10 +84,10 @@ public class ServiceAccess {
             try {
                 instance = new ServiceAccess();
             } catch (GeneralSecurityException ex) {
-                ex.printStackTrace();
+                Logger.logError(ex);
                 System.exit(-1);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.logError(ex);
                 System.exit(-1);
             }
         }
