@@ -48,6 +48,42 @@ public class Logger {
         }
     }
     
+    public static final void logError(String msg){
+        String loggedMsg = String.format("![%s] %s\n", getLogCaller(), msg);
+        MSG_LOG.append(loggedMsg);
+        
+        ERROR_FLAG = true;
+        
+        if(ERROR_LISTENERS.isEmpty()){
+            System.err.println(loggedMsg);
+        } else {
+            ERROR_LISTENERS.forEach((listener)->listener.errorLogged(msg));
+        }
+    }
+    
+    public static final void logError(Exception ex){
+        StringBuilder stackTrace = new StringBuilder();
+        stackTrace.append(ex.getMessage());
+        for(StackTraceElement frame : ex.getStackTrace()){
+            stackTrace.append("\n- ").append(frame.toString());
+        }
+        logError(stackTrace.toString());
+        ERROR_LISTENERS.forEach((listener)->listener.errorLogged(ex));
+    }
+    
+    public static final boolean hasLoggedError(){
+        return ERROR_FLAG;
+    }
+    
+    public static final void clearErrorFlag(){
+        ERROR_FLAG = false;
+        ERROR_LISTENERS.forEach((listener)->listener.errorLogCleared());
+    }
+    
+    public static String getLog(){
+        return MSG_LOG.toString();
+    }
+    
     private static String getLogCaller(){
         int backStep = 3; // Top of the stack is getStackTrace(), [1] is this, [2] is the logging method, so [3] is the method calling the logging method
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
@@ -62,5 +98,6 @@ public class Logger {
     
     public static void main(String[] args){
         log("Hello?");
+        logError(new Exception("BAD"));
     }
 }

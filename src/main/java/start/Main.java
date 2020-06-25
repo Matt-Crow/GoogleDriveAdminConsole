@@ -1,10 +1,13 @@
 package start;
 
 import gui.MainWindow;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import sysUtils.Logger;
 
 /**
  *
@@ -25,7 +28,12 @@ public class Main {
         } catch (UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();
         }
-        new MainWindow();
-        //Test.main(args);
+        MainWindow window = new MainWindow();
+        window.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e){
+                System.out.println(Logger.getLog());
+            }
+        });
     }
 }
