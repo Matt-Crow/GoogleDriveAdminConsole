@@ -32,6 +32,7 @@ public class Main {
         window.addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e){
+                System.out.println("CONTENTS OF LOGGER:");
                 System.out.println(Logger.getLog());
             }
         });
