@@ -12,20 +12,17 @@ package structs;
 public final class DetailedUserInfo extends SimpleUserInfo{
     private final String name;
     private final String mcUsername;
-    private final String level;
     
     /**
      * 
      * @param username the human name of this user
      * @param emailAddr the email address of this user
      * @param minecraftUsername the minecraft username of this user
-     * @param participationLevel the camp level this user is participating at.
      */
-    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, String participationLevel){
+    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername){
         super(emailAddr);
         name = username;
         mcUsername = minecraftUsername;
-        level = participationLevel;
     }
     
     /**
@@ -44,19 +41,11 @@ public final class DetailedUserInfo extends SimpleUserInfo{
         return mcUsername;
     }
     
-    /**
-     * 
-     * @return the camp participation level of this user.
-     */
-    public String getLevel(){
-        return level;
-    }
-    
     @Override
     public String toString(){
         return String.format("User %s:" 
             + "\n\tEmail: %s"
-            + "\n\tMinecraft Username: %s"
-            + "\n\tLevel: %s", name, getEmail(), mcUsername, level);
+            + "\n\tMinecraft Username: %s", 
+            name, getEmail(), mcUsername);
     }
 }
