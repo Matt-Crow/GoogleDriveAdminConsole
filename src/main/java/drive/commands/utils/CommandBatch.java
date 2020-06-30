@@ -12,7 +12,8 @@ import start.ServiceAccess;
 import sysUtils.Logger;
 
 /**
- *
+ * The CommandBatch class batches requests together such that no 
+ * batch contains more than the maximum number of batched requests (100)
  * @author Matt
  */
 public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
