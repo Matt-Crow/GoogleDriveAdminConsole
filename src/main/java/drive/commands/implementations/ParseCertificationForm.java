@@ -6,7 +6,7 @@ import fileUtils.UserList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import structs.UserListProperties;
 import structs.FileListProperties;
 import structs.DetailedUserInfo;
@@ -23,7 +23,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
     private final String accessListId;
     private final boolean isTest;
     
-    public ParseCertificationForm(ServiceAccess service, UserListProperties source, FileListProperties fileList, String accessListFileId, boolean thisIsATest) {
+    public ParseCertificationForm(GoogleDriveService service, UserListProperties source, FileListProperties fileList, String accessListFileId, boolean thisIsATest) {
         super(service);
         certFormInfo = source;
         fileListInfo = fileList;

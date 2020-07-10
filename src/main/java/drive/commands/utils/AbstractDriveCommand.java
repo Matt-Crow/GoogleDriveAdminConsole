@@ -2,7 +2,7 @@ package drive.commands.utils;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import java.io.IOException;
 
 /**
@@ -11,12 +11,12 @@ import java.io.IOException;
  * @param <T> the type execute() will return. May move to subtype later
  */
 public abstract class AbstractDriveCommand<T> {
-    private final ServiceAccess service;
-    public AbstractDriveCommand(ServiceAccess serv){
+    private final GoogleDriveService service;
+    public AbstractDriveCommand(GoogleDriveService serv){
         service = serv;
     }
     
-    public final ServiceAccess getServiceAccess(){
+    public final GoogleDriveService getServiceAccess(){
         return service;
     }
     public final Drive getDrive(){

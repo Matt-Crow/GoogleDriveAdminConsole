@@ -21,14 +21,18 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
-import start.Main;
-import sysUtils.Logger;
 
 /**
- *
- * @author Matt
+ * The GoogleDriveService is a Singleton
+ * class used to interface with Google Drive and Sheets.
+ * 
+ * Future versions may get rid of the Google Sheets
+ * interface in favor of using CSV files to maximize
+ * versatility.
+ * 
+ * @author Matt Crow
  */
-public class ServiceAccess {
+public class GoogleDriveService {
     private final NetHttpTransport httpTransport;
     private final JsonFactory jsonFactory;
     private final String tokenDirPath;
@@ -39,9 +43,9 @@ public class ServiceAccess {
     private final Drive driveService;
     private final Sheets sheetService;
     
-    private static ServiceAccess instance;
+    private static GoogleDriveService instance;
     
-    private ServiceAccess() throws GeneralSecurityException, IOException{
+    private GoogleDriveService() throws GeneralSecurityException, IOException{
         if(instance != null){
             throw new ExceptionInInitializerError("DriveAccess is a singleton");
         }
@@ -63,7 +67,7 @@ public class ServiceAccess {
     
     private Credential createCredentials() throws FileNotFoundException, IOException{
         //Load client secret
-        InputStream in = ServiceAccess.class.getResourceAsStream(credentialFilePath);
+        InputStream in = GoogleDriveService.class.getResourceAsStream(credentialFilePath);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + credentialFilePath);
         }
@@ -79,17 +83,18 @@ public class ServiceAccess {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
     
-    public static final ServiceAccess getInstance(){
+    /**
+     * Use this method to gain access to the GoogleDriveService.
+     * If the drive service has not yet been initialized, calls
+     * the constructor.
+     * 
+     * @return the GoogleDriveService instance.
+     * @throws GeneralSecurityException if Google fails to authenticate the user
+     * @throws IOException if the user hasn't saved their credentials
+     */
+    public static final GoogleDriveService getInstance() throws GeneralSecurityException, IOException{
         if(instance == null){
-            try {
-                instance = new ServiceAccess();
-            } catch (GeneralSecurityException ex) {
-                Logger.logError(ex);
-                System.exit(-1);
-            } catch (IOException ex) {
-                Logger.logError(ex);
-                System.exit(-1);
-            }
+            instance = new GoogleDriveService();
         }
         return instance;
     }

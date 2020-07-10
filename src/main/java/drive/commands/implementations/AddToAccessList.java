@@ -4,7 +4,7 @@ import drive.commands.utils.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 
 /**
  *
@@ -14,13 +14,13 @@ public class AddToAccessList extends AbstractDriveCommand<String[]>{
     private final String accessListId;
     private final String[] addedUsers;
     
-    public AddToAccessList(ServiceAccess service, String fileId, String[] newUsers) {
+    public AddToAccessList(GoogleDriveService service, String fileId, String[] newUsers) {
         super(service);
         accessListId = fileId;
         addedUsers = Arrays.stream(newUsers).map((name)->name.trim()).toArray((count)->new String[count]);
     }
     
-    public AddToAccessList(ServiceAccess service, String fileId, String newUser){
+    public AddToAccessList(GoogleDriveService service, String fileId, String newUser){
         this(service, fileId, new String[]{newUser});
     }
 

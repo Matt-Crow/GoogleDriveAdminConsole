@@ -1,7 +1,7 @@
 package drive.commands.implementations;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import drive.commands.utils.AbstractDriveCommand;
 import fileUtils.CsvFile;
 import fileUtils.FileList;
@@ -16,7 +16,7 @@ import structs.FileListProperties;
 public class ReadFileList extends AbstractDriveCommand<FileList>{
     private final FileListProperties sourceInfo;
     
-    public ReadFileList(ServiceAccess service, FileListProperties source) {
+    public ReadFileList(GoogleDriveService service, FileListProperties source) {
         super(service);
         sourceInfo = source;
     }

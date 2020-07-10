@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import structs.UserListProperties;
 import structs.FileListProperties;
 import structs.UserToFileMapping;
@@ -24,9 +24,9 @@ public final class GuiBackend {
     private final CommandFactory cmdFact;
     private final MainPane frontEnd;
     
-    public GuiBackend(MainPane pane){
+    public GuiBackend(MainPane pane, GoogleDriveService service){
         frontEnd = pane;
-        cmdFact = new CommandFactory(ServiceAccess.getInstance());
+        cmdFact = new CommandFactory(service);
     }
     
     // not sure I like the idea of having one of these for each command

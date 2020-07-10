@@ -5,7 +5,7 @@ import fileUtils.FileReadWriteUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 
 /**
  *
@@ -14,7 +14,7 @@ import start.ServiceAccess;
 public class GetAccessList extends AbstractDriveCommand<String[]>{
     private final String fileId;
     
-    public GetAccessList(ServiceAccess service, String fileId){
+    public GetAccessList(GoogleDriveService service, String fileId){
         super(service);
         this.fileId = fileId;
     }

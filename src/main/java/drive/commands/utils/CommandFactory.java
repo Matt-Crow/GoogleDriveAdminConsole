@@ -10,7 +10,7 @@ import drive.commands.implementations.ReadFileList;
 import drive.commands.implementations.SetAccessListContent;
 import drive.commands.implementations.UpdateDownloadAccess;
 import java.util.List;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import structs.UserListProperties;
 import structs.FileListProperties;
 import structs.UserToFileMapping;
@@ -20,9 +20,9 @@ import structs.UserToFileMapping;
  * @author Matt
  */
 public class CommandFactory {
-    private final ServiceAccess services;
+    private final GoogleDriveService services;
     
-    public CommandFactory(ServiceAccess service){
+    public CommandFactory(GoogleDriveService service){
         services = service;
     }
     

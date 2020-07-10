@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import structs.UserToFileMapping;
 import sysUtils.Logger;
 
@@ -34,11 +34,11 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
      * @param service the Google Services singleton... might just access this globally in the future.
      * @param mapping a List of the various UserToFileMappings this should satisfy.
      */
-    public GiveViewAccess(ServiceAccess service, List<UserToFileMapping> mapping) {
+    public GiveViewAccess(GoogleDriveService service, List<UserToFileMapping> mapping) {
         super(service);
         mappings = mapping;
     }
-    public GiveViewAccess(ServiceAccess service, UserToFileMapping mapping){
+    public GiveViewAccess(GoogleDriveService service, UserToFileMapping mapping){
         this(service, Arrays.asList(mapping));
     }
     

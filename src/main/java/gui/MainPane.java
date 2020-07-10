@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import start.GoogleDriveService;
 
 /**
  *
@@ -29,10 +30,10 @@ public class MainPane extends JPanel{
     
     private final HashMap<PageName, PageContent> pages;
     
-    public MainPane(){
+    public MainPane(GoogleDriveService service){
         super();
         
-        backend = new GuiBackend(this);
+        backend = new GuiBackend(this, service);
         
         setLayout(new BorderLayout());
         

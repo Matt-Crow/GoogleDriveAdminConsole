@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.HashSet;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 
 /**
  *
@@ -17,7 +17,7 @@ public class SetAccessListContent extends AbstractDriveCommand<Boolean>{
     private final String accessListId;
     private final String[] newUserList;
     
-    public SetAccessListContent(ServiceAccess service, String fileId, String[] newContent) {
+    public SetAccessListContent(GoogleDriveService service, String fileId, String[] newContent) {
         super(service);
         accessListId = fileId;
         HashSet<String> noDupes = new HashSet<>(Arrays.asList(newContent));

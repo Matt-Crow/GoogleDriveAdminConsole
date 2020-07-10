@@ -5,7 +5,7 @@ import com.google.api.services.drive.model.Permission;
 import drive.commands.utils.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 
 /**
  *
@@ -13,7 +13,7 @@ import start.ServiceAccess;
  */
 public class CreateAccessList extends AbstractDriveCommand<com.google.api.services.drive.model.File>{
     private final String folderId;
-    public CreateAccessList(ServiceAccess service, String inFolder) {
+    public CreateAccessList(GoogleDriveService service, String inFolder) {
         super(service);
         folderId = inFolder;
     }

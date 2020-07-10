@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import start.ServiceAccess;
+import start.GoogleDriveService;
 import structs.DetailedFileInfo;
 import structs.FileListProperties;
 import sysUtils.Logger;
@@ -20,7 +20,7 @@ import sysUtils.Logger;
  */
 public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     private final FileListProperties fileList;
-    public UpdateDownloadAccess(ServiceAccess serv, FileListProperties driveFileList) {
+    public UpdateDownloadAccess(GoogleDriveService serv, FileListProperties driveFileList) {
         super(serv);
         fileList = driveFileList;
     }
