@@ -14,6 +14,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import pluginUtils.AbstractDriveCommandPlugin;
+import pluginUtils.DriveCommandService;
 import start.GoogleDriveService;
 
 /**
@@ -76,6 +78,22 @@ public class MainPane extends JPanel{
         addMenuItem(props, "Create default user list properties", ()->backend.askCreateDefaultCertFormProps());
         menu.add(props);
         
+        
+        
+        
+        
+        
+        /*
+        NEW STUFF
+        */
+        loadServices();
+        
+        
+        
+        
+        
+        
+        
         add(menu, BorderLayout.PAGE_START);
         
         // exit button
@@ -91,6 +109,19 @@ public class MainPane extends JPanel{
     
     public final GuiBackend getBackend(){
         return backend;
+    }
+    
+    private void loadServices(){
+        HashMap<String, JMenu> menus = new HashMap<>();
+        String type;
+        for(AbstractDriveCommandPlugin plugin : DriveCommandService.getInstance().getAllPlugins()){
+            type = plugin.getType().toLowerCase();
+            if(!menus.containsKey(type)){
+                menus.put(type, new JMenu(type));
+            }
+            addMenuItem(menus.get(type), plugin.getName(), ()->System.out.println(plugin.getDescription()));
+        }
+        menus.values().forEach((subMenu)->menu.add(subMenu));
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){

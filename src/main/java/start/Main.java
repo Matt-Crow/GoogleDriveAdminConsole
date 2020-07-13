@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import pluginUtils.DriveCommandService;
+//import pluginUtils.DriveCommandService;
 import sysUtils.Logger;
 
 /**
@@ -17,9 +17,8 @@ import sysUtils.Logger;
 public class Main {
     public static final String APPLICATION_NAME = "Aerospace Camp Administration Console";
     
-    
     public static void main(String[] args) throws IOException, GeneralSecurityException{
-        DriveCommandService.main(args);
+        //DriveCommandService.main(args);
         
         GoogleDriveService service = null;
         try{
