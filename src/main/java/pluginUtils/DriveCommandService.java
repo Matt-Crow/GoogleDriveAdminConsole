@@ -4,6 +4,7 @@ import java.util.ServiceLoader;
 
 /**
  * https://docs.oracle.com/javase/tutorial/ext/basics/spi.html
+ * https://stackoverflow.com/questions/13254620/meta-inf-services-in-jar-with-gradle
  * @author Matt
  */
 public class DriveCommandService {

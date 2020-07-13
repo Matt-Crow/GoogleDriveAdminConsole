@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import pluginUtils.DriveCommandService;
 import sysUtils.Logger;
 
 /**
@@ -18,6 +19,8 @@ public class Main {
     
     
     public static void main(String[] args) throws IOException, GeneralSecurityException{
+        DriveCommandService.main(args);
+        
         GoogleDriveService service = null;
         try{
             service = GoogleDriveService.getInstance();
