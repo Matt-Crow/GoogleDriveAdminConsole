@@ -21,6 +21,7 @@ public abstract class AbstractFormPage extends PageContent{
                 } catch (Exception ex) {
                     getPaneParent().getBackend().reportError(ex);
                 }
+                getPaneParent().setTabSwitchingEnabled(true);
             }
         };
         t.start();
@@ -32,7 +33,6 @@ public abstract class AbstractFormPage extends PageContent{
         parent.switchToTab(PageName.OUTPUT);
         parent.setTabSwitchingEnabled(false);
         submitAsync();
-        parent.setTabSwitchingEnabled(true); // may need to move this
     }
     
     public abstract void doSubmit() throws Exception;

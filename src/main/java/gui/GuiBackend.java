@@ -15,6 +15,7 @@ import start.GoogleDriveService;
 import structs.UserListProperties;
 import structs.FileListProperties;
 import structs.UserToFileMapping;
+import sysUtils.Logger;
 
 /**
  *
@@ -183,6 +184,8 @@ public final class GuiBackend {
         for( StackTraceElement frame : ex.getStackTrace()){
             writeOutput(String.format("- %s", frame.toString()));
         }
+        
+        Logger.logError(ex);
     }
     
     public String ask(String question) {

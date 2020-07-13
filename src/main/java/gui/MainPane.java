@@ -111,6 +111,11 @@ public class MainPane extends JPanel{
         return backend;
     }
     
+    /**
+     * Takes each AbstractDriveCommandPlugin from the DriveCommandService,
+     * and adds menus for each of them.
+     * TODO: make this add pages for each plugin
+     */
     private void loadServices(){
         HashMap<String, JMenu> menus = new HashMap<>();
         String type;
@@ -119,6 +124,8 @@ public class MainPane extends JPanel{
             if(!menus.containsKey(type)){
                 menus.put(type, new JMenu(type));
             }
+            
+            //                                                 change this
             addMenuItem(menus.get(type), plugin.getName(), ()->System.out.println(plugin.getDescription()));
         }
         menus.values().forEach((subMenu)->menu.add(subMenu));
