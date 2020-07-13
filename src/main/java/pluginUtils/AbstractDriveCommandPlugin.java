@@ -23,4 +23,6 @@ public interface AbstractDriveCommandPlugin {
      * @return 
      */
     public abstract AbstractFormPage getFormPage();
+    
+    public abstract String getDescription();
 }

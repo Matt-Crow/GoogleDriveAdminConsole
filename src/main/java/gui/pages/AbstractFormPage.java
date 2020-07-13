@@ -32,7 +32,7 @@ public abstract class AbstractFormPage extends PageContent{
         parent.switchToTab(PageName.OUTPUT);
         parent.setTabSwitchingEnabled(false);
         submitAsync();
-        parent.setTabSwitchingEnabled(true);
+        parent.setTabSwitchingEnabled(true); // may need to move this
     }
     
     public abstract void doSubmit() throws Exception;
