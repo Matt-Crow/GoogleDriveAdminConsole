@@ -68,7 +68,7 @@ public class ParseCertFormPage extends AbstractFormPage{
             (FileListProperties) fileListSel.getSelectedProperties(),
             enterAccListId.getText(),
             isTest.isSelected()
-        ).execute();
+        ).doExecute();
 
         parent.addText("Parsing Certification Form yielded the following information:");
         resolvedMappings.forEach((mapping)->parent.addText(mapping.toString()));

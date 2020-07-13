@@ -4,6 +4,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import start.GoogleDriveService;
 import java.io.IOException;
+import sysUtils.Logger;
 
 /**
  *
@@ -26,6 +27,23 @@ public abstract class AbstractDriveCommand<T> {
         return service.getSheets();
     }
     
+    /**
+     * Executes the command, automatically logging
+     * any errors that occur, then re-throws them.
+     * 
+     * @return
+     * @throws IOException 
+     */
+    public final T execute() throws IOException {
+        T ret = null;
+        try {
+            ret = doExecute();
+        } catch(IOException ex){
+            Logger.logError(ex);
+            throw ex;
+        }
+        return ret;
+    }
     
-    public abstract T execute() throws IOException;
+    public abstract T doExecute() throws IOException;
 }

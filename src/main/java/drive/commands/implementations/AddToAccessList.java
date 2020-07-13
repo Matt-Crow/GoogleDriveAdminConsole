@@ -25,15 +25,15 @@ public class AddToAccessList extends AbstractDriveCommand<String[]>{
     }
 
     @Override
-    public String[] execute() throws IOException {
+    public String[] doExecute() throws IOException {
         ArrayList<String> totalUsers = new ArrayList<>();
-        String[] previousUsers = new GetAccessList(getServiceAccess(), accessListId).execute();
+        String[] previousUsers = new GetAccessList(getServiceAccess(), accessListId).doExecute();
         Arrays.stream(previousUsers).forEach(totalUsers::add);
         Arrays.stream(addedUsers).forEach(totalUsers::add);
         
         String[] updatedUserList = totalUsers.toArray(new String[]{});
         SetAccessListContent cmd = new SetAccessListContent(getServiceAccess(), accessListId, updatedUserList);
-        cmd.execute();
+        cmd.doExecute();
         return cmd.getNewContent();
     }
 }

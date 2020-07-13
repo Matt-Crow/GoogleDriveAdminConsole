@@ -24,7 +24,7 @@ public class ReadUserList extends AbstractDriveCommand<UserList>{
     }
 
     @Override
-    public UserList execute() throws IOException {        
+    public UserList doExecute() throws IOException {        
         ValueRange values = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sourceInfo.getSheetName()).execute();
         List<List<Object>> data = values.getValues();
         CsvFile content = CsvFile.from(data);

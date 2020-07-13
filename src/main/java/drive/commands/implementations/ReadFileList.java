@@ -22,7 +22,7 @@ public class ReadFileList extends AbstractDriveCommand<FileList>{
     }
     
     @Override
-    public FileList execute() throws IOException {
+    public FileList doExecute() throws IOException {
         ValueRange range = getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sourceInfo.getSheetName()).execute();
         List<List<Object>> data = range.getValues();
         CsvFile file = CsvFile.from(data);

@@ -32,18 +32,18 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
     }
 
     @Override
-    public List<UserToFileMapping> execute() throws IOException {
+    public List<UserToFileMapping> doExecute() throws IOException {
         StringBuilder msg = new StringBuilder();
         
         // first, extract the campers from the form responses
-        UserList newCampers = new ReadUserList(getServiceAccess(), certFormInfo).execute();
+        UserList newCampers = new ReadUserList(getServiceAccess(), certFormInfo).doExecute();
         
         msg.append("Contents of certification form:");
         newCampers.forEach((camper)->msg.append("\n").append(camper.toString()));
         
         
         // next, get the list of files campers will get access to
-        FileList files = new ReadFileList(getServiceAccess(), fileListInfo).execute();
+        FileList files = new ReadFileList(getServiceAccess(), fileListInfo).doExecute();
         msg.append("\nFiles they will get:");
         files.forEach((file)->msg.append("\n").append(file.toString()));
         
@@ -61,7 +61,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
         
         if(!isTest){
             try{
-                cmd.execute();
+                cmd.doExecute();
             } catch (IOException ex) {
                 Logger.logError(ex);
             }
@@ -78,7 +78,7 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
                 })
                 .toArray((size)->new String[size]);
 
-            new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).execute();
+            new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).doExecute();
         }
         return whoGetsWhat;
     }

@@ -35,7 +35,7 @@ public final class GuiBackend {
         String[] mcAccts = ask("Enter a list of Minecraft users to add to an access list, seperated by commas: ").split(",");
         String accListId = ask("Enter the ID of the access list to add them to: ");
         try {
-            String[] newUsers = getCmdFactory().addToAccessListCmd(accListId, mcAccts).execute();
+            String[] newUsers = getCmdFactory().addToAccessListCmd(accListId, mcAccts).doExecute();
             writeOutput("New users:");
             for(String user : newUsers){
                 writeOutput(String.format("* %s", user));
@@ -47,7 +47,7 @@ public final class GuiBackend {
     public void askCreateAccessList(){
         String parentId = ask("Enter the ID of the Google Drive folder to add this access list to: ");
         try{
-            String newFileId = getCmdFactory().createAccessListCmd(parentId).execute().getId();
+            String newFileId = getCmdFactory().createAccessListCmd(parentId).doExecute().getId();
             writeOutput(String.format("Successfully created the access list in %s. It has an id of %s. Make sure to update the Science Report to reference this new file", parentId, newFileId));
         } catch (IOException ex) {
             reportError(ex);
@@ -56,7 +56,7 @@ public final class GuiBackend {
     public void askDisplayAccessList(){
         String fileId = ask("Enter the ID of an access list to view: ");
         try{
-            String[] mcUsers = getCmdFactory().getAccessListCmd(fileId).execute();
+            String[] mcUsers = getCmdFactory().getAccessListCmd(fileId).doExecute();
             writeOutput("Users are:");
             for(String user : mcUsers){
                 writeOutput(String.format("* %s", user));
@@ -68,7 +68,7 @@ public final class GuiBackend {
     public void askClearAccessList(){
         String fileId = ask("Enter the ID of the access list to clear all users from: ");
         try{
-            getCmdFactory().setAccessListCmd(fileId, new String[0]).execute();
+            getCmdFactory().setAccessListCmd(fileId, new String[0]).doExecute();
             writeOutput(String.format("%s has been cleared.", fileId));
         } catch(IOException ex){
             reportError(ex);
@@ -81,7 +81,7 @@ public final class GuiBackend {
                 FileListProperties info = new FileListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
-                FileList files = getCmdFactory().readFileList(info).execute();
+                FileList files = getCmdFactory().readFileList(info).doExecute();
                 writeOutput("Contains the following files:");
                 files.forEach((i)->writeOutput("* " + i.toString()));
             } catch (FileNotFoundException ex) {
@@ -97,7 +97,7 @@ public final class GuiBackend {
                 UserListProperties info = new UserListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
-                UserList users = getCmdFactory().readCertForm(info).execute();
+                UserList users = getCmdFactory().readCertForm(info).doExecute();
                 writeOutput("Contains the following users:");
                 users.forEach((i)->writeOutput(i.toString()));
             } catch (FileNotFoundException ex) {
@@ -122,7 +122,7 @@ public final class GuiBackend {
                     writeOutput(userInfo.toString());
                     writeOutput(fileInfo.toString());
                     
-                    List<UserToFileMapping> mappings = getCmdFactory().parseCertificationForm(userInfo, fileInfo, accessListId, false).execute();
+                    List<UserToFileMapping> mappings = getCmdFactory().parseCertificationForm(userInfo, fileInfo, accessListId, false).doExecute();
                     writeOutput("Resolved the following mappings:");
                     mappings.forEach((m)->writeOutput(m.toString()));
                 } catch (FileNotFoundException ex) {
@@ -140,7 +140,7 @@ public final class GuiBackend {
                 FileListProperties info = new FileListProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
-                String[] ret = getCmdFactory().updateDownloadOptions(info).execute();
+                String[] ret = getCmdFactory().updateDownloadOptions(info).doExecute();
                 writeOutput("The following files were updated:");
                 for(String id : ret){
                     writeOutput("* " + id);

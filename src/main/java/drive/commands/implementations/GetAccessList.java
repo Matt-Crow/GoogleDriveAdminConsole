@@ -20,7 +20,7 @@ public class GetAccessList extends AbstractDriveCommand<String[]>{
     }
     
     @Override
-    public String[] execute() throws IOException{        
+    public String[] doExecute() throws IOException{        
         InputStream content = getDrive().files().get(fileId).executeMediaAsInputStream();
         String textContents = FileReadWriteUtil.readStream(content);
         String[] array = Arrays.stream(textContents.split(System.lineSeparator())).filter((String userName)->!"".equals(userName.trim())).toArray((int size)->new String[size]);

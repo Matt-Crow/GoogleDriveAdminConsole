@@ -80,7 +80,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
      * @throws IOException if anything fails. Note that this automatically catches failures in each batch
      */
     @Override
-    public Boolean execute() throws IOException {        
+    public Boolean doExecute() throws IOException {        
         /* 
         first, split the mappings based on the email address.
         This way, we avoid exposing everyone's emails when we
@@ -108,7 +108,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
         */
         batches.forEach((batch)->{
             try {
-                batch.execute();
+                batch.doExecute();
             } catch (IOException ex) {
                 Logger.logError(ex);
             }

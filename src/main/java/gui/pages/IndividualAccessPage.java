@@ -54,7 +54,7 @@ public class IndividualAccessPage extends AbstractFormPage{
         FileList fileList = new FileList(fileInfo);
         List<UserToFileMapping> mappings = UserToFileMapping.constructUserFileList(userInfo, fileList);
         
-        parent.getBackend().getCmdFactory().giveAccess(mappings).execute();
+        parent.getBackend().getCmdFactory().giveAccess(mappings).doExecute();
         parent.addText("Successfully gave acccess to the following files:");
         mappings.forEach((mapping)->{
             parent.addText(String.format("* %s", mapping.toString()));

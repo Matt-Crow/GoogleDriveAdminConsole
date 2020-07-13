@@ -55,8 +55,8 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         return childFiles;
     }
     @Override
-    public String[] execute() throws IOException {
-        FileList allCampFiles = new ReadFileList(getServiceAccess(), fileList).execute();
+    public String[] doExecute() throws IOException {
+        FileList allCampFiles = new ReadFileList(getServiceAccess(), fileList).doExecute();
         StringBuilder msg = new StringBuilder();
         msg.append("All files:");
         allCampFiles.forEach((file)->msg.append("\n").append(file.toString()));
@@ -92,7 +92,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         // batch requests to add or remove download access for viewers
         
         CommandBatch<File> batch = new CommandBatch<>(getServiceAccess(), updates);
-        List<File> updated = batch.execute();
+        List<File> updated = batch.doExecute();
         String[] updatedIds = updated.stream().map((f)->f.getId()).toArray((size)->new String[size]);
         return updatedIds;
     }

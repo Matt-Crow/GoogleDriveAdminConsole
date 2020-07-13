@@ -36,7 +36,7 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
     }
 
     @Override
-    public List<T> execute() throws IOException {
+    public List<T> doExecute() throws IOException {
         List<T> ret = new ArrayList<>();
         JsonBatchCallback<T> jsonCallback = new JsonBatchCallback<T>() {
             @Override

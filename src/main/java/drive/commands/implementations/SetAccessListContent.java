@@ -33,7 +33,7 @@ public class SetAccessListContent extends AbstractDriveCommand<Boolean>{
         return newUserList;
     }
     @Override 
-    public Boolean execute() throws IOException {
+    public Boolean doExecute() throws IOException {
         java.io.File temp = java.io.File.createTempFile("testing", "something");
         OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(temp));
         out.write(String.join("\n", newUserList));

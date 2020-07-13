@@ -19,7 +19,7 @@ public class CreateAccessList extends AbstractDriveCommand<com.google.api.servic
     }
     
     @Override
-    public com.google.api.services.drive.model.File execute() throws IOException {
+    public com.google.api.services.drive.model.File doExecute() throws IOException {
         com.google.api.services.drive.model.File googleFile = new com.google.api.services.drive.model.File();
         googleFile.setName("access list.txt");
         FileContent content = new FileContent("text/plain", java.io.File.createTempFile("temp", "txt"));
