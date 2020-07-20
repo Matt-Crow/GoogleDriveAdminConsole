@@ -2,9 +2,7 @@ package gui;
 
 import drive.commands.utils.CommandFactory;
 import fileUtils.FileSelector;
-import fileUtils.FileType;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -72,26 +70,6 @@ public final class GuiBackend {
         }
     }
     */
-    
-    public void askDownloadPermissions(){
-        new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
-            try {
-                GoogleSheetProperties info = new GoogleSheetProperties();
-                info.load(new FileInputStream(f));
-                writeOutput(info.toString());
-                String[] ret = getCmdFactory().updateDownloadOptions(info).doExecute();
-                writeOutput("The following files were updated:");
-                for(String id : ret){
-                    writeOutput("* " + id);
-                }
-            } catch (FileNotFoundException ex) {
-                reportError(ex);
-            } catch (IOException ex) {
-                reportError(ex);
-            }
-        }).openDialog();
-    }
-    
     
     public void askCreateDefaultFileListProps(){
         FileSelector.createNewFile("Where do you want to save the default file list properties?", (File newFile)->{

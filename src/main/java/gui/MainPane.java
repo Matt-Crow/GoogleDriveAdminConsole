@@ -7,7 +7,6 @@ import gui.pages.OutputPage;
 import gui.pages.GiveAccessPage;
 import gui.pages.PageName;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -72,19 +71,10 @@ public class MainPane extends JPanel{
         menu.add(servAcc);
         */
         
-        JMenu driveManage = new JMenu("Drive management");
-        addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
-        menu.add(driveManage);
-        
         JMenu props = new JMenu("Create properties");
         addMenuItem(props, "Create default file list properties", ()->backend.askCreateDefaultFileListProps());
         addMenuItem(props, "Create default user list properties", ()->backend.askCreateDefaultCertFormProps());
         menu.add(props);
-        
-        
-        
-        
-        
         
         /*
         NEW STUFF
@@ -92,13 +82,9 @@ public class MainPane extends JPanel{
         loadServices();
         
         
-        
-        
-        
-        
-        
         add(menu, BorderLayout.PAGE_START);
         
+        /*
         // exit button
         JPanel end = new JPanel();
         end.setLayout(new FlowLayout());
@@ -107,7 +93,7 @@ public class MainPane extends JPanel{
             System.exit(0);
         });
         end.add(exit);
-        add(end, BorderLayout.PAGE_END);
+        add(end, BorderLayout.PAGE_END);*/
     }
     
     public final GuiBackend getBackend(){

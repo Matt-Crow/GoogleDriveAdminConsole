@@ -84,7 +84,16 @@ public class GoogleSheetProperties extends Properties {
      * @throws IOException if any errors occur when writing.
      */
     public void save(File f) throws FileNotFoundException, IOException{
-        save(new FileOutputStream(f));
+        FileOutputStream fout = new FileOutputStream(f);
+        try{
+            save(fout);
+        } catch(FileNotFoundException ex){
+            fout.close();
+            throw ex;
+        } catch(IOException ex){
+            fout.close();
+            throw ex;
+        }
     }
     
     /**

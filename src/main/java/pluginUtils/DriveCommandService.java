@@ -3,6 +3,7 @@ package pluginUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ServiceLoader;
+import serviceProviderImpls.DownloadPermissionPlugin;
 import serviceProviderImpls.FileListReaderPlugin;
 import serviceProviderImpls.GiveAccessPlugin;
 import serviceProviderImpls.QuickAccessPlugin;
@@ -46,7 +47,8 @@ public class DriveCommandService {
             new QuickAccessPlugin(),
             new GiveAccessPlugin(),
             new FileListReaderPlugin(),
-            new UserListReaderPlugin()
+            new UserListReaderPlugin(),
+            new DownloadPermissionPlugin()
         );
     }
     
