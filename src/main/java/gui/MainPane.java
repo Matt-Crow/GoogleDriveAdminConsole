@@ -126,9 +126,14 @@ public class MainPane extends JPanel{
             }
             
             //                                                 change this
-            addMenuItem(menus.get(type), plugin.getName(), ()->System.out.println(plugin.getDescription()));
+            addMenuItem(menus.get(type), plugin.getName(), ()->openTab(plugin));
         }
         menus.values().forEach((subMenu)->menu.add(subMenu));
+    }
+    
+    private void openTab(AbstractDriveCommandPlugin plugin){
+        
+        System.out.println(plugin.getDescription());
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){

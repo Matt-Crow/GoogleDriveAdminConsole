@@ -3,14 +3,14 @@ package serviceProviderImpls;
 import drive.commands.utils.AbstractDriveCommand;
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pages.IndividualAccessPage;
+import gui.pages.GiveAccessPage;
 import pluginUtils.AbstractDriveCommandPlugin;
 
 /**
  *
  * @author Matt
  */
-public class QuickAccess implements AbstractDriveCommandPlugin{
+public class GiveAccessPlugin implements AbstractDriveCommandPlugin {
 
     @Override
     public AbstractDriveCommand createCommand() {
@@ -19,12 +19,7 @@ public class QuickAccess implements AbstractDriveCommandPlugin{
 
     @Override
     public AbstractFormPage getFormPage(MainPane pane) {
-        return new IndividualAccessPage(pane);
-    }
-
-    @Override
-    public String getDescription() {
-        return "Quick access is used to give access to files to multiple users without having to parse forms";
+        return new GiveAccessPage(pane);
     }
 
     @Override
@@ -34,7 +29,12 @@ public class QuickAccess implements AbstractDriveCommandPlugin{
 
     @Override
     public String getName() {
-        return "quick access";
+        return "give access";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Give access is used to read user- and file- spreadsheets, then give each user listed access to each file listed";
     }
 
 }

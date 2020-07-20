@@ -3,7 +3,8 @@ package pluginUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ServiceLoader;
-import serviceProviderImpls.QuickAccess;
+import serviceProviderImpls.GiveAccessPlugin;
+import serviceProviderImpls.QuickAccessPlugin;
 
 /**
  * https://docs.oracle.com/javase/tutorial/ext/basics/spi.html
@@ -39,7 +40,10 @@ public class DriveCommandService {
      * @return 
      */
     public List<AbstractDriveCommandPlugin> getAllPlugins(){
-        return Arrays.asList(new QuickAccess());
+        return Arrays.asList(
+            new QuickAccessPlugin(),
+            new GiveAccessPlugin()
+        );
     }
     
     public void listDescs(){
