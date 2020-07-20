@@ -1,5 +1,6 @@
 package gui;
 
+import gui.pages.AbstractFormPage;
 import gui.pages.IndividualAccessPage;
 import gui.pages.PageContent;
 import gui.pages.OutputPage;
@@ -9,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.HashMap;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -17,6 +19,7 @@ import javax.swing.JTabbedPane;
 import pluginUtils.AbstractDriveCommandPlugin;
 import pluginUtils.DriveCommandService;
 import start.GoogleDriveService;
+import sysUtils.Logger;
 
 /**
  *
@@ -131,9 +134,30 @@ public class MainPane extends JPanel{
         menus.values().forEach((subMenu)->menu.add(subMenu));
     }
     
+    // I'll want to improve this. Probably want a plugin tabbed pane class
     private void openTab(AbstractDriveCommandPlugin plugin){
+        AbstractFormPage page = plugin.getFormPage(this);
         
-        System.out.println(plugin.getDescription());
+        // the component it shows when the tab is clicked
+        contentArea.add(plugin.getName(), page);
+        
+        // create the content of the tab
+        JPanel tab = new JPanel();
+        tab.setLayout(new BorderLayout());
+        tab.add(new JLabel(plugin.getName()), BorderLayout.CENTER);
+        JButton close = new JButton("X");
+        close.addActionListener((e)->{
+            int idx = contentArea.indexOfComponent(page);
+            if(idx == -1){
+                Logger.logError("Cannot close tab " + plugin.getName());
+            } else {
+                contentArea.remove(idx);
+            }
+        });
+        tab.add(close, BorderLayout.LINE_END);
+        
+        // the actual tab that shows up in the tab list
+        contentArea.setTabComponentAt(contentArea.getTabCount() - 1, tab);
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
