@@ -11,8 +11,7 @@ import drive.commands.implementations.SetAccessListContent;
 import drive.commands.implementations.UpdateDownloadAccess;
 import java.util.List;
 import start.GoogleDriveService;
-import structs.UserListProperties;
-import structs.FileListProperties;
+import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 
 /**
@@ -44,14 +43,14 @@ public class CommandFactory {
         return new AddToAccessList(services, accessListId, newUsers);
     }
     
-    public final ReadUserList readCertForm(UserListProperties info){
+    public final ReadUserList readCertForm(GoogleSheetProperties info){
         return new ReadUserList(services, info);
     }
-    public final ReadFileList readFileList(FileListProperties info){
+    public final ReadFileList readFileList(GoogleSheetProperties info){
         return new ReadFileList(services, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(UserListProperties formInfo, FileListProperties fileInfo, String accessListId, boolean isTest){
+    public final ParseCertificationForm parseCertificationForm(GoogleSheetProperties formInfo, GoogleSheetProperties fileInfo, String accessListId, boolean isTest){
         return new ParseCertificationForm(services, formInfo, fileInfo, accessListId, isTest);
     }
     
@@ -59,7 +58,7 @@ public class CommandFactory {
         return new GiveViewAccess(services, mappings);
     }
     
-    public final UpdateDownloadAccess updateDownloadOptions(FileListProperties fileList){
+    public final UpdateDownloadAccess updateDownloadOptions(GoogleSheetProperties fileList){
         return new UpdateDownloadAccess(services, fileList);
     }
 }

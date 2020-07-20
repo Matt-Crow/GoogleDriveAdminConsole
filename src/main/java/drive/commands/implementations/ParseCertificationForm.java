@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import start.GoogleDriveService;
-import structs.UserListProperties;
-import structs.FileListProperties;
+import structs.GoogleSheetProperties;
 import structs.DetailedUserInfo;
 import structs.UserToFileMapping;
 import sysUtils.Logger;
@@ -18,12 +17,12 @@ import sysUtils.Logger;
  * @author Matt
  */
 public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{
-    private final UserListProperties certFormInfo;
-    private final FileListProperties fileListInfo;
+    private final GoogleSheetProperties certFormInfo;
+    private final GoogleSheetProperties fileListInfo;
     private final String accessListId;
     private final boolean isTest;
     
-    public ParseCertificationForm(GoogleDriveService service, UserListProperties source, FileListProperties fileList, String accessListFileId, boolean thisIsATest) {
+    public ParseCertificationForm(GoogleDriveService service, GoogleSheetProperties source, GoogleSheetProperties fileList, String accessListFileId, boolean thisIsATest) {
         super(service);
         certFormInfo = source;
         fileListInfo = fileList;

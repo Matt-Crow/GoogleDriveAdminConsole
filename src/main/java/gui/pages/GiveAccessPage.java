@@ -10,22 +10,25 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import structs.UserListProperties;
-import structs.FileListProperties;
+import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 
 /**
- *
- * @author Matt
+ * This page handles reading a user- and file-list,
+ * then gives each user access to each file.
+ * 
+ * I need a better name for this
+ * 
+ * @author Matt Crow
  */
-public class ParseCertFormPage extends AbstractFormPage{
-    private final PropertyFileChooser certFormSel;
-    private final PropertyFileChooser fileListSel;
+public class GiveAccessPage extends AbstractFormPage{
+    private final PropertyFileChooser userPropSel;
+    private final PropertyFileChooser filePropSel;
     private final JTextField enterAccListId;
     private final JCheckBox isTest;
     private final JButton run;
     
-    public ParseCertFormPage(MainPane inPane) {
+    public GiveAccessPage(MainPane inPane) {
         super(inPane);
         setLayout(new BorderLayout());
         
@@ -33,11 +36,11 @@ public class ParseCertFormPage extends AbstractFormPage{
         JPanel selGroup = new JPanel();
         selGroup.setLayout(new GridLayout(1, 2));
         
-        certFormSel = new PropertyFileChooser("Certification Form Info", "Select a file containing certification form properties", new UserListProperties());
-        selGroup.add(certFormSel);
+        userPropSel = new PropertyFileChooser("User Spreadsheet Info", "Select a file containing user spreadsheet properties", new GoogleSheetProperties());
+        selGroup.add(userPropSel);
         
-        fileListSel = new PropertyFileChooser("File List Info", "Select a file containing file list properties", new FileListProperties());
-        selGroup.add(fileListSel);
+        filePropSel = new PropertyFileChooser("File Spreadsheet Info", "Select a file containing file spreadsheet properties", new GoogleSheetProperties());
+        selGroup.add(filePropSel);
         
         add(selGroup, BorderLayout.CENTER);
         
@@ -64,13 +67,13 @@ public class ParseCertFormPage extends AbstractFormPage{
     @Override
     public void doSubmit() throws IOException {
         MainPane parent = getPaneParent();
-        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm((UserListProperties)certFormSel.getSelectedProperties(),
-            (FileListProperties) fileListSel.getSelectedProperties(),
+        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm((GoogleSheetProperties)userPropSel.getSelectedProperties(),
+            (GoogleSheetProperties) filePropSel.getSelectedProperties(),
             enterAccListId.getText(),
             isTest.isSelected()
         ).doExecute();
 
-        parent.addText("Parsing Certification Form yielded the following information:");
+        parent.addText("Giving access yielded the following information:");
         resolvedMappings.forEach((mapping)->parent.addText(mapping.toString()));
     }
 }

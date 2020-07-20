@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import start.GoogleDriveService;
-import structs.UserListProperties;
-import structs.FileListProperties;
+import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 import sysUtils.Logger;
 
@@ -78,7 +77,7 @@ public final class GuiBackend {
     public void askReadFileList(){
         new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
             try {
-                FileListProperties info = new FileListProperties();
+                GoogleSheetProperties info = new GoogleSheetProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
                 FileList files = getCmdFactory().readFileList(info).doExecute();
@@ -94,7 +93,7 @@ public final class GuiBackend {
     public void askReadCertForm(){
         new FileSelector("Select a file containing certification form properties", FileType.ANY, (File f)->{
             try{
-                UserListProperties info = new UserListProperties();
+                GoogleSheetProperties info = new GoogleSheetProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
                 UserList users = getCmdFactory().readCertForm(info).doExecute();
@@ -113,10 +112,10 @@ public final class GuiBackend {
             new FileSelector("Select a file containing file list properties", FileType.ANY, (File fileListInfoFile)->{
                 String accessListId = ask("Enter the file ID of the Minecraft server access list to add these users to");
                 try{
-                    UserListProperties userInfo = new UserListProperties();
+                    GoogleSheetProperties userInfo = new GoogleSheetProperties();
                     userInfo.load(new FileInputStream(certFormInfoFile));
                     
-                    FileListProperties fileInfo = new FileListProperties();
+                    GoogleSheetProperties fileInfo = new GoogleSheetProperties();
                     fileInfo.load(new FileInputStream(fileListInfoFile));
                     
                     writeOutput(userInfo.toString());
@@ -137,7 +136,7 @@ public final class GuiBackend {
     public void askDownloadPermissions(){
         new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
             try {
-                FileListProperties info = new FileListProperties();
+                GoogleSheetProperties info = new GoogleSheetProperties();
                 info.load(new FileInputStream(f));
                 writeOutput(info.toString());
                 String[] ret = getCmdFactory().updateDownloadOptions(info).doExecute();
@@ -157,7 +156,7 @@ public final class GuiBackend {
     public void askCreateDefaultFileListProps(){
         FileSelector.createNewFile("Where do you want to save the default file list properties?", (File newFile)->{
             try {
-                new FileListProperties().save(newFile);
+                new GoogleSheetProperties().save(newFile);
                 writeOutput("Created file list properties in " + newFile.getAbsolutePath());
             } catch (FileNotFoundException ex) {
                 reportError(ex);
@@ -169,7 +168,7 @@ public final class GuiBackend {
     public void askCreateDefaultCertFormProps(){
         FileSelector.createNewFile("Where do you want to save the default user list properties?", (File newFile)->{
             try{
-                new UserListProperties().save(newFile);
+                new GoogleSheetProperties().save(newFile);
                 writeOutput("Created user list properties in " + newFile.getAbsolutePath());
             } catch (FileNotFoundException ex) {
                 reportError(ex);

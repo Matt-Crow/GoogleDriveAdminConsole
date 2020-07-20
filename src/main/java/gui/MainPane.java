@@ -3,7 +3,7 @@ package gui;
 import gui.pages.IndividualAccessPage;
 import gui.pages.PageContent;
 import gui.pages.OutputPage;
-import gui.pages.ParseCertFormPage;
+import gui.pages.GiveAccessPage;
 import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -24,7 +24,7 @@ import start.GoogleDriveService;
  */
 public class MainPane extends JPanel{
     private final OutputPage outputPage;
-    private final ParseCertFormPage parseFormPage;
+    private final GiveAccessPage parseFormPage;
     private final IndividualAccessPage indivAccPage;
     private final JMenuBar menu;
     private final GuiBackend backend;
@@ -49,7 +49,7 @@ public class MainPane extends JPanel{
         contentArea.addTab(PageName.OUTPUT.getDisplayValue(), outputPage);
         pages.put(PageName.OUTPUT, outputPage);
         
-        parseFormPage = new ParseCertFormPage(this);
+        parseFormPage = new GiveAccessPage(this);
         contentArea.addTab(PageName.PARSE_FORM.getDisplayValue(), parseFormPage);
         pages.put(PageName.PARSE_FORM, parseFormPage);
         

@@ -6,19 +6,17 @@ import drive.commands.utils.AbstractDriveCommand;
 import fileUtils.CsvFile;
 import fileUtils.UserList;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import structs.UserListProperties;
-import structs.DetailedUserInfo;
+import structs.GoogleSheetProperties;
 
 /**
  *
  * @author Matt
  */
 public class ReadUserList extends AbstractDriveCommand<UserList>{
-    private final UserListProperties sourceInfo;
+    private final GoogleSheetProperties sourceInfo;
     
-    public ReadUserList(GoogleDriveService service, UserListProperties formInfo) {
+    public ReadUserList(GoogleDriveService service, GoogleSheetProperties formInfo) {
         super(service);
         sourceInfo = formInfo;
     }

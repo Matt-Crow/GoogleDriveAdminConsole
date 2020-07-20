@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import start.GoogleDriveService;
 import structs.DetailedFileInfo;
-import structs.FileListProperties;
+import structs.GoogleSheetProperties;
 import sysUtils.Logger;
 
 /**
@@ -19,8 +19,8 @@ import sysUtils.Logger;
  * @author Matt
  */
 public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
-    private final FileListProperties fileList;
-    public UpdateDownloadAccess(GoogleDriveService serv, FileListProperties driveFileList) {
+    private final GoogleSheetProperties fileList;
+    public UpdateDownloadAccess(GoogleDriveService serv, GoogleSheetProperties driveFileList) {
         super(serv);
         fileList = driveFileList;
     }

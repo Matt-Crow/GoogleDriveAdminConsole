@@ -7,16 +7,16 @@ import fileUtils.CsvFile;
 import fileUtils.FileList;
 import java.io.IOException;
 import java.util.List;
-import structs.FileListProperties;
+import structs.GoogleSheetProperties;
 
 /**
  * currently reads the admin console, but we may change that in the future
  * @author Matt
  */
 public class ReadFileList extends AbstractDriveCommand<FileList>{
-    private final FileListProperties sourceInfo;
+    private final GoogleSheetProperties sourceInfo;
     
-    public ReadFileList(GoogleDriveService service, FileListProperties source) {
+    public ReadFileList(GoogleDriveService service, GoogleSheetProperties source) {
         super(service);
         sourceInfo = source;
     }
