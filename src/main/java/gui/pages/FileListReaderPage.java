@@ -2,38 +2,24 @@ package gui.pages;
 
 import fileUtils.FileList;
 import gui.MainPane;
-import gui.components.PropertyFileChooser;
-import java.awt.BorderLayout;
-import javax.swing.JButton;
 import structs.GoogleSheetProperties;
 
 /**
  *
  * @author Matt
  */
-public class FileListReaderPage extends AbstractFormPage{
-    private final PropertyFileChooser chooser;
+public class FileListReaderPage extends AbstractReaderPage {
     public FileListReaderPage(MainPane inPane) {
-        super(inPane);
-        setLayout(new BorderLayout());
-        chooser = new PropertyFileChooser("File List Properies", "select the file sheet properties", new GoogleSheetProperties());
-        add(chooser, BorderLayout.CENTER);
-        
-        JButton run = new JButton("Run");
-        run.addActionListener((e)->{
-            submit();
-        });
-        add(run, BorderLayout.PAGE_END);
+        super(inPane, "File List Properies", "select the file sheet properties");
     }
-
+    
     @Override
-    public void doSubmit() throws Exception {
+    public void parse(GoogleSheetProperties props) throws Exception{
         MainPane parent = getPaneParent();
         FileList files = parent.getBackend().getCmdFactory().readFileList(
-            (GoogleSheetProperties) chooser.getSelectedProperties()
+            props
         ).doExecute();
         parent.addText("contains the following files:");
         files.forEach((f)->parent.addText(f.toString()));
     }
-
 }

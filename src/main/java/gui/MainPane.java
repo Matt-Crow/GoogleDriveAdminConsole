@@ -74,7 +74,6 @@ public class MainPane extends JPanel{
         
         JMenu driveManage = new JMenu("Drive management");
         addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
-        addMenuItem(driveManage, "Read a user list", ()->backend.askReadCertForm());
         menu.add(driveManage);
         
         JMenu props = new JMenu("Create properties");

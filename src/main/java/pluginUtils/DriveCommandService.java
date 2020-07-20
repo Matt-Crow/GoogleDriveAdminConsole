@@ -6,6 +6,7 @@ import java.util.ServiceLoader;
 import serviceProviderImpls.FileListReaderPlugin;
 import serviceProviderImpls.GiveAccessPlugin;
 import serviceProviderImpls.QuickAccessPlugin;
+import serviceProviderImpls.UserListReaderPlugin;
 
 /**
  * https://docs.oracle.com/javase/tutorial/ext/basics/spi.html
@@ -44,7 +45,8 @@ public class DriveCommandService {
         return Arrays.asList(
             new QuickAccessPlugin(),
             new GiveAccessPlugin(),
-            new FileListReaderPlugin()
+            new FileListReaderPlugin(),
+            new UserListReaderPlugin()
         );
     }
     

@@ -1,19 +1,15 @@
 package gui;
 
 import drive.commands.utils.CommandFactory;
-import fileUtils.FileList;
 import fileUtils.FileSelector;
 import fileUtils.FileType;
-import fileUtils.UserList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import javax.swing.JOptionPane;
 import start.GoogleDriveService;
 import structs.GoogleSheetProperties;
-import structs.UserToFileMapping;
 import sysUtils.Logger;
 
 /**
@@ -76,49 +72,6 @@ public final class GuiBackend {
         }
     }
     */
-    
-    public void askReadCertForm(){
-        new FileSelector("Select a file containing certification form properties", FileType.ANY, (File f)->{
-            try{
-                GoogleSheetProperties info = new GoogleSheetProperties();
-                info.load(new FileInputStream(f));
-                writeOutput(info.toString());
-                UserList users = getCmdFactory().readCertForm(info).doExecute();
-                writeOutput("Contains the following users:");
-                users.forEach((i)->writeOutput(i.toString()));
-            } catch (FileNotFoundException ex) {
-                reportError(ex);
-            } catch (IOException ex) {
-                reportError(ex);
-            }
-        }).openDialog();
-    }
-    
-    public void askParseCertificationForm(){
-        new FileSelector("Select a file containing certification form properties", FileType.ANY, (File certFormInfoFile)->{
-            new FileSelector("Select a file containing file list properties", FileType.ANY, (File fileListInfoFile)->{
-                String accessListId = ask("Enter the file ID of the Minecraft server access list to add these users to");
-                try{
-                    GoogleSheetProperties userInfo = new GoogleSheetProperties();
-                    userInfo.load(new FileInputStream(certFormInfoFile));
-                    
-                    GoogleSheetProperties fileInfo = new GoogleSheetProperties();
-                    fileInfo.load(new FileInputStream(fileListInfoFile));
-                    
-                    writeOutput(userInfo.toString());
-                    writeOutput(fileInfo.toString());
-                    
-                    List<UserToFileMapping> mappings = getCmdFactory().parseCertificationForm(userInfo, fileInfo, accessListId, false).doExecute();
-                    writeOutput("Resolved the following mappings:");
-                    mappings.forEach((m)->writeOutput(m.toString()));
-                } catch (FileNotFoundException ex) {
-                    reportError(ex);
-                } catch (IOException ex) {
-                    reportError(ex);
-                }
-            }).openDialog();
-        }).openDialog();
-    }
     
     public void askDownloadPermissions(){
         new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
