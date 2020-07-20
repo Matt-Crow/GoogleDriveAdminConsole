@@ -128,7 +128,6 @@ public class MainPane extends JPanel{
                 menus.put(type, new JMenu(type));
             }
             
-            //                                                 change this
             addMenuItem(menus.get(type), plugin.getName(), ()->openTab(plugin));
         }
         menus.values().forEach((subMenu)->menu.add(subMenu));
@@ -145,8 +144,19 @@ public class MainPane extends JPanel{
         JPanel tab = new JPanel();
         tab.setLayout(new BorderLayout());
         tab.add(new JLabel(plugin.getName()), BorderLayout.CENTER);
-        JButton close = new JButton("X");
+        JButton close = new JButton("X"); // may want this smaller
         close.addActionListener((e)->{
+            /*
+            Note: this idx is different from the one the
+            page was originally inserted into, so we mustn't
+            get this index from outside the action listener.
+            
+            for example:
+            given tabs [a] [b]
+            user opens [c]: tabs are now [a] [b] [c] (c inserted at 2)
+            user closes [b]: tabs are now [a] [c]
+            user closes [c], which is at index 1, instead of the index 2 it was inserted in
+            */
             int idx = contentArea.indexOfComponent(page);
             if(idx == -1){
                 Logger.logError("Cannot close tab " + plugin.getName());
