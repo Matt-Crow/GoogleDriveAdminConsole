@@ -29,7 +29,9 @@ public final class GuiBackend {
         cmdFact = new CommandFactory(service);
     }
     
+    
     // not sure I like the idea of having one of these for each command
+    /*
     public void askAddToAccessList(){
         String[] mcAccts = ask("Enter a list of Minecraft users to add to an access list, seperated by commas: ").split(",");
         String accListId = ask("Enter the ID of the access list to add them to: ");
@@ -73,23 +75,8 @@ public final class GuiBackend {
             reportError(ex);
         }
     }
+    */
     
-    public void askReadFileList(){
-        new FileSelector("Select a file containing file list properties", FileType.ANY, (File f)->{
-            try {
-                GoogleSheetProperties info = new GoogleSheetProperties();
-                info.load(new FileInputStream(f));
-                writeOutput(info.toString());
-                FileList files = getCmdFactory().readFileList(info).doExecute();
-                writeOutput("Contains the following files:");
-                files.forEach((i)->writeOutput("* " + i.toString()));
-            } catch (FileNotFoundException ex) {
-                reportError(ex);
-            } catch (IOException ex) {
-                reportError(ex);
-            }
-        }).openDialog();
-    }
     public void askReadCertForm(){
         new FileSelector("Select a file containing certification form properties", FileType.ANY, (File f)->{
             try{

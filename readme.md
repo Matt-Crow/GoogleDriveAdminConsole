@@ -18,8 +18,9 @@ This application is currently in development, and is not ready for release yet!
 * https://console.developers.google.com/apis/api/drive.googleapis.com/quotas?authuser=2&project=camp-administration-console
 
 To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
-For crying out loud REMEMBER .EXECUTE()!!!
+Matt, for crying out loud REMEMBER .EXECUTE()!!!
 
 ## TODO ##
 * Add a command queue thread to command factories to prevent multiple commands from running at one time, and also make it easier to abort all active commands.
 * Add a component factory
+* Redo access list methods once we have a more solid idea of how we'll do Minecraft access

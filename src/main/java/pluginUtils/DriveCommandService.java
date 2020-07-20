@@ -3,6 +3,7 @@ package pluginUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ServiceLoader;
+import serviceProviderImpls.FileListReaderPlugin;
 import serviceProviderImpls.GiveAccessPlugin;
 import serviceProviderImpls.QuickAccessPlugin;
 
@@ -42,7 +43,8 @@ public class DriveCommandService {
     public List<AbstractDriveCommandPlugin> getAllPlugins(){
         return Arrays.asList(
             new QuickAccessPlugin(),
-            new GiveAccessPlugin()
+            new GiveAccessPlugin(),
+            new FileListReaderPlugin()
         );
     }
     

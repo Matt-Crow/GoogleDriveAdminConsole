@@ -63,16 +63,17 @@ public class MainPane extends JPanel{
         // construct the menu bar
         menu = new JMenuBar();
         
+        /*
         JMenu servAcc = new JMenu("Server access");
         addMenuItem(servAcc, "Add a Minecraft username to an access list", ()->backend.askAddToAccessList());
         addMenuItem(servAcc, "Create a new access list", ()->backend.askCreateAccessList());
         addMenuItem(servAcc, "Display an access list", ()->backend.askDisplayAccessList());
         addMenuItem(servAcc, "Clear an access list", ()->backend.askClearAccessList());
         menu.add(servAcc);
+        */
         
         JMenu driveManage = new JMenu("Drive management");
         addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
-        addMenuItem(driveManage, "Read a file list", ()->backend.askReadFileList());
         addMenuItem(driveManage, "Read a user list", ()->backend.askReadCertForm());
         menu.add(driveManage);
         
