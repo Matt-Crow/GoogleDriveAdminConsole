@@ -4,10 +4,10 @@ import gui.MainPane;
 import gui.components.GoogleSheetPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -38,19 +38,13 @@ public class GiveAccessPage extends AbstractFormPage{
         JPanel selGroup = new JPanel();
         selGroup.setLayout(new GridLayout(1, 2));
         
-        JPanel left = new JPanel();
-        left.setLayout(new FlowLayout());
-        selGroup.add(left);
-        
         userPropSel = new GoogleSheetPropertyFileChooser("User Spreadsheet Info", "Select a file containing user spreadsheet properties");
-        left.add(userPropSel);
-        
-        JPanel right = new JPanel();
-        right.setLayout(new FlowLayout());
-        selGroup.add(right);
+        userPropSel.setBorder(BorderFactory.createRaisedBevelBorder());
+        selGroup.add(userPropSel);
         
         filePropSel = new GoogleSheetPropertyFileChooser("File Spreadsheet Info", "Select a file containing file spreadsheet properties");
-        right.add(filePropSel);
+        filePropSel.setBorder(BorderFactory.createRaisedBevelBorder());
+        selGroup.add(filePropSel);
         
         add(selGroup, BorderLayout.CENTER);
         
