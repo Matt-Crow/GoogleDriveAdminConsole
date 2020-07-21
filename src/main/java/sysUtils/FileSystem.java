@@ -1,5 +1,8 @@
 package sysUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -13,7 +16,7 @@ import java.nio.file.Paths;
  * 
  * @author Matt Crow
  */
-public class FileSystem {
+public final class FileSystem {
     private static final String USER_HOME = System.getProperty("user.home");
     private static final String APP_FOLDER = Paths.get(USER_HOME, "googleDriveAdminConsole").toString();
     private static final String LOG_FOLDER = Paths.get(APP_FOLDER, "logs").toString();
@@ -34,10 +37,69 @@ public class FileSystem {
      * @return the FileSystem interface used
      * by the application.
      */
-    public final FileSystem getInstance(){
+    public static final FileSystem getInstance(){
         if(instance == null){
             instance = new FileSystem();
         }
         return instance;
+    }
+    
+    /**
+     * Call this method at the start of the
+     * application to ensure all the folders it
+     * needs are created.
+     * 
+     * @throws IOException if the folders cannot
+     * be created, nor do they exist. At this point,
+     * this is considered a fatal error for the
+     * application, and it should quit.
+     */
+    public final void init() throws IOException{
+        createMissingDirs();
+    }
+    
+    /**
+     * Checks to see if a directory exists.
+     * 
+     * @param path the file path to check.
+     * @return whether or not a directory
+     * exists at the given location.
+     */
+    private boolean dirExists(String path){
+        Path p = Paths.get(path);
+        return Files.exists(p) && Files.isDirectory(p);
+    }
+    
+    /**
+     * Creates a directory at the given path, if no such directory
+     * exists.
+     * 
+     * @param path the path of the directory to create if it doesn't
+     * yet exist.
+     * 
+     * @throws IOException if the directory does not exist, but 
+     * can't be created either.
+     */
+    private void createIfNoExist(String path) throws IOException{
+        if(!dirExists(path)){
+            Logger.log(String.format("Creating folder %s", path));
+            Files.createDirectory(Paths.get(path));
+        }
+    }
+    
+    /**
+     * Regenerates the directories the
+     * application needs
+     */
+    private void createMissingDirs() throws IOException{
+        String[] dirsToCreate = new String[]{
+            APP_FOLDER, 
+            LOG_FOLDER, 
+            PROPS_FOLDER
+        };
+        
+        for(String dir : dirsToCreate){
+            createIfNoExist(dir);
+        }
     }
 }

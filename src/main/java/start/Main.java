@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import sysUtils.FileSystem;
 //import pluginUtils.DriveCommandService;
 import sysUtils.Logger;
 
@@ -17,19 +18,28 @@ import sysUtils.Logger;
 public class Main {
     public static final String APPLICATION_NAME = "Aerospace Camp Administration Console";
     
-    public static void main(String[] args) throws IOException, GeneralSecurityException{
-        //DriveCommandService.main(args);
+    public static void main(String[] args){
         
-        GoogleDriveService service = null;
+        // should probably alert the user of fatal errors.
+        Logger.log("Starting application...");
         try{
-            service = GoogleDriveService.getInstance();
-            createWindow(service);
-        } catch(GeneralSecurityException gse){
-            gse.printStackTrace();
-        } catch(IOException ioe){
-            ioe.printStackTrace();
-        }
+            FileSystem.getInstance().init();
+            Logger.log("Application folders are good");
+            GoogleDriveService service = null;
+            try{
+                service = GoogleDriveService.getInstance();
+                createWindow(service);
+            } catch(GeneralSecurityException gse){
+                Logger.logError(gse);
+            } catch(IOException ioe){
+                Logger.logError(ioe);
+            }
+        } catch (IOException ex) {
+            Logger.logError("Failed to create application folders");
+            Logger.logError(ex);
+        }   
     }
+   
     
     private static void createWindow(GoogleDriveService service){
         try {
