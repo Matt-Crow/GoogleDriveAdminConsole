@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
+import structs.GoogleSheetProperties;
 
 /**
  * The FileSystem class is
@@ -109,6 +111,20 @@ public final class FileSystem {
         }
     }
     
+    /**
+     * Saves some GoogleSheetProperties to the props folder.
+     * 
+     * @param name the name to give the property file.
+     * @param props the GoogleSheetProperties to save.
+     * @return the path to the file the properties were saved to
+     * @throws IOException if the props fail to save.
+     */
+    public String saveProperties(String name, GoogleSheetProperties props) throws IOException{
+        String path = Paths.get(PROPS_FOLDER, String.format("%s %s.properties", name, LocalDateTime.now().format(DATE_FORMAT))).toString();
+        File f = new File(path);
+        props.save(f);
+        return f.getAbsolutePath();
+    }
     /**
      * Saves the contents of the Logger to the
      * logs directory, with the current date

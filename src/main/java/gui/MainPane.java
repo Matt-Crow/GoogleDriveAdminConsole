@@ -71,11 +71,6 @@ public class MainPane extends JPanel{
         menu.add(servAcc);
         */
         
-        JMenu props = new JMenu("Create properties");
-        addMenuItem(props, "Create default file list properties", ()->backend.askCreateDefaultFileListProps());
-        addMenuItem(props, "Create default user list properties", ()->backend.askCreateDefaultCertFormProps());
-        menu.add(props);
-        
         /*
         NEW STUFF
         */

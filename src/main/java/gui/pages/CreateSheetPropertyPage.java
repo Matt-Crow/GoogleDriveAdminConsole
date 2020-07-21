@@ -4,6 +4,9 @@ import gui.MainPane;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import structs.GoogleSheetProperties;
+import sysUtils.FileSystem;
+import sysUtils.Logger;
 
 /**
  *
@@ -39,7 +42,12 @@ public class CreateSheetPropertyPage extends AbstractFormPage {
 
     @Override
     public void doSubmit() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GoogleSheetProperties gsp = new GoogleSheetProperties();
+        gsp.setFileId(spreadsheetId.getText());
+        gsp.setSheetName(sheetName.getText());
+        
+        String path = FileSystem.getInstance().saveProperties(propertyFileName.getText(), gsp);
+        Logger.log(String.format("Saved properties to %s", path));
     }
 
 }

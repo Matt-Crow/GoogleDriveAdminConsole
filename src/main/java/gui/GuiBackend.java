@@ -71,31 +71,6 @@ public final class GuiBackend {
     }
     */
     
-    public void askCreateDefaultFileListProps(){
-        FileSelector.createNewFile("Where do you want to save the default file list properties?", (File newFile)->{
-            try {
-                new GoogleSheetProperties().save(newFile);
-                writeOutput("Created file list properties in " + newFile.getAbsolutePath());
-            } catch (FileNotFoundException ex) {
-                reportError(ex);
-            } catch (IOException ex) {
-                reportError(ex);
-            }
-        });
-    }
-    public void askCreateDefaultCertFormProps(){
-        FileSelector.createNewFile("Where do you want to save the default user list properties?", (File newFile)->{
-            try{
-                new GoogleSheetProperties().save(newFile);
-                writeOutput("Created user list properties in " + newFile.getAbsolutePath());
-            } catch (FileNotFoundException ex) {
-                reportError(ex);
-            } catch (IOException ex) {
-                reportError(ex);
-            }
-        });
-    }
-    
     public void reportError(Exception ex){
         writeOutput(ex.getMessage());
         for( StackTraceElement frame : ex.getStackTrace()){

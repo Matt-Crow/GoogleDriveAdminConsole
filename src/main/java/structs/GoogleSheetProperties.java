@@ -48,12 +48,28 @@ public class GoogleSheetProperties extends Properties {
     }
     
     /**
+     * Sets the file ID stored in these properties.
+     * @param fileId the ID to store.
+     */
+    public final void setFileId(String fileId){
+        setProperty(SPREADSHEET_ID_KEY, fileId);
+    }
+    
+    /**
      * 
      * @return the Google Spreadsheet 
      * ID property stored in this.
      */
     public final String getFileId(){
         return getProperty(SPREADSHEET_ID_KEY);
+    }
+    
+    /**
+     * Sets the sheet name stored in these properties.
+     * @param name the sheet name to store.
+     */
+    public final void setSheetName(String name){
+        setProperty(SHEET_NAME_KEY, name);
     }
     
     /**
