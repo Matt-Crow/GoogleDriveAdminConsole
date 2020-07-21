@@ -1,17 +1,10 @@
 package gui;
 
 import drive.commands.utils.CommandFactory;
-import fileUtils.FileSelector;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import javax.swing.JOptionPane;
 import start.GoogleDriveService;
-import structs.GoogleSheetProperties;
-import sysUtils.Logger;
 
 /**
- *
+ * This may wind up not being used
  * @author Matt
  */
 public final class GuiBackend {
@@ -70,23 +63,6 @@ public final class GuiBackend {
         }
     }
     */
-    
-    public void reportError(Exception ex){
-        writeOutput(ex.getMessage());
-        for( StackTraceElement frame : ex.getStackTrace()){
-            writeOutput(String.format("- %s", frame.toString()));
-        }
-        
-        Logger.logError(ex);
-    }
-    
-    public String ask(String question) {
-        return JOptionPane.showInputDialog(question);
-    }
-
-    public void writeOutput(String out) {
-        frontEnd.addText(out);
-    }
 
     public CommandFactory getCmdFactory() {
         return cmdFact;

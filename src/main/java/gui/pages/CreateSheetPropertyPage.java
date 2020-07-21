@@ -42,12 +42,14 @@ public class CreateSheetPropertyPage extends AbstractFormPage {
 
     @Override
     public void doSubmit() throws Exception {
+        throw new Exception("OK");
+        /*
         GoogleSheetProperties gsp = new GoogleSheetProperties();
         gsp.setFileId(spreadsheetId.getText());
         gsp.setSheetName(sheetName.getText());
         
         String path = FileSystem.getInstance().saveProperties(propertyFileName.getText(), gsp);
-        Logger.log(String.format("Saved properties to %s", path));
+        Logger.log(String.format("Saved properties to %s", path));*/
     }
 
 }

@@ -18,6 +18,7 @@ public class OutputPage extends PageContent{
         textScroller = new TextScroller();
         add(textScroller);
         Logger.addMessageListener(textScroller);
+        Logger.addErrorListener(textScroller);
     }
 
     public final void addText(String appendMe){

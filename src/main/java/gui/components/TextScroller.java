@@ -7,13 +7,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import sysUtils.ErrorListener;
 import sysUtils.MessageListener;
 
 /**
  *
  * @author Matt
  */
-public class TextScroller extends JComponent implements MessageListener{
+public class TextScroller extends JComponent implements MessageListener, ErrorListener {
     private final JScrollPane scroll;
     private final JTextArea text;
     
@@ -56,4 +57,17 @@ public class TextScroller extends JComponent implements MessageListener{
     public void messageLogged(String message) {
         addText(message);
     }
+
+    @Override
+    public void errorLogged(String errMsg) {
+        addText("Uh oh: " + errMsg);
+    }
+
+    @Override
+    public void errorLogged(Exception ex) {
+        errorLogged(ex.getMessage());
+    }
+
+    @Override
+    public void errorLogCleared() {}
 }

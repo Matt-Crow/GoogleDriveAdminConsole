@@ -1,6 +1,7 @@
 package gui.pages;
 
 import gui.MainPane;
+import sysUtils.Logger;
 
 /**
  *
@@ -19,7 +20,7 @@ public abstract class AbstractFormPage extends PageContent{
                 try{
                     doSubmit();
                 } catch (Exception ex) {
-                    getPaneParent().getBackend().reportError(ex);
+                    Logger.logError(ex);
                 }
                 getPaneParent().setTabSwitchingEnabled(true);
             }
