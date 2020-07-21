@@ -1,7 +1,7 @@
 package gui.pluginPages;
 
 import gui.MainPane;
-import gui.components.PropertyFileChooser;
+import gui.components.GoogleSheetPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -23,8 +23,8 @@ import structs.UserToFileMapping;
  * @author Matt Crow
  */
 public class GiveAccessPage extends AbstractFormPage{
-    private final PropertyFileChooser userPropSel;
-    private final PropertyFileChooser filePropSel;
+    private final GoogleSheetPropertyFileChooser userPropSel;
+    private final GoogleSheetPropertyFileChooser filePropSel;
     private final JTextField enterAccListId;
     private final JCheckBox isTest;
     private final JButton run;
@@ -37,10 +37,10 @@ public class GiveAccessPage extends AbstractFormPage{
         JPanel selGroup = new JPanel();
         selGroup.setLayout(new GridLayout(1, 2));
         
-        userPropSel = new PropertyFileChooser("User Spreadsheet Info", "Select a file containing user spreadsheet properties", new GoogleSheetProperties());
+        userPropSel = new GoogleSheetPropertyFileChooser("User Spreadsheet Info", "Select a file containing user spreadsheet properties");
         selGroup.add(userPropSel);
         
-        filePropSel = new PropertyFileChooser("File Spreadsheet Info", "Select a file containing file spreadsheet properties", new GoogleSheetProperties());
+        filePropSel = new GoogleSheetPropertyFileChooser("File Spreadsheet Info", "Select a file containing file spreadsheet properties");
         selGroup.add(filePropSel);
         
         add(selGroup, BorderLayout.CENTER);

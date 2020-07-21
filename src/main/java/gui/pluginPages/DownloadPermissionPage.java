@@ -1,7 +1,7 @@
 package gui.pluginPages;
 
 import gui.MainPane;
-import gui.components.PropertyFileChooser;
+import gui.components.GoogleSheetPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -12,13 +12,13 @@ import structs.GoogleSheetProperties;
  * @author Matt
  */
 public class DownloadPermissionPage extends AbstractFormPage {
-    private final PropertyFileChooser chooser;
+    private final GoogleSheetPropertyFileChooser chooser;
     
     public DownloadPermissionPage(MainPane inPane) {
         super(inPane);
         setLayout(new BorderLayout());
         
-        chooser = new PropertyFileChooser("File Sheet Info", "select the property file containing file list info", new GoogleSheetProperties());
+        chooser = new GoogleSheetPropertyFileChooser("File Sheet Info", "select the property file containing file list info");
         add(chooser, BorderLayout.CENTER);
         
         JButton run = new JButton("Run");

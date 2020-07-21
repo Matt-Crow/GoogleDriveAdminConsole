@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Properties;
 import structs.GoogleSheetProperties;
 
 /**
@@ -25,8 +24,8 @@ import structs.GoogleSheetProperties;
 public final class FileSystem {
     private static final String USER_HOME = System.getProperty("user.home");
     private static final String APP_FOLDER = Paths.get(USER_HOME, "googleDriveAdminConsole").toString();
-    private static final String LOG_FOLDER = Paths.get(APP_FOLDER, "logs").toString();
-    private static final String PROPS_FOLDER = Paths.get(APP_FOLDER, "properties").toString();
+    public static final String LOG_FOLDER = Paths.get(APP_FOLDER, "logs").toString();
+    public static final String PROPS_FOLDER = Paths.get(APP_FOLDER, "properties").toString();
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM-dd-uuuu_hh_mm_a");
     

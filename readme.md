@@ -24,3 +24,4 @@ Matt, for crying out loud REMEMBER .EXECUTE()!!!
 * Add a command queue thread to command factories to prevent multiple commands from running at one time, and also make it easier to abort all active commands.
 * Add a component factory
 * Redo access list methods once we have a more solid idea of how we'll do Minecraft access
+* Add user settings file to application folder so I can disable saving logs for one

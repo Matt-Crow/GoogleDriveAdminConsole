@@ -8,7 +8,6 @@ import java.security.GeneralSecurityException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sysUtils.FileSystem;
-//import pluginUtils.DriveCommandService;
 import sysUtils.Logger;
 
 /**
@@ -19,7 +18,6 @@ public class Main {
     public static final String APPLICATION_NAME = "Aerospace Camp Administration Console";
     
     public static void main(String[] args){
-        
         // should probably alert the user of fatal errors.
         Logger.log("Starting application...");
         try{
