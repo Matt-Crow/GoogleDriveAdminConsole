@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import structs.GoogleSheetProperties;
 import sysUtils.FileSystem;
@@ -25,7 +26,7 @@ import sysUtils.FileSystem;
 public class GoogleSheetPropertyFileChooser extends JComponent{
     private final JFileChooser chooser;
     private final Properties selectedProperties;
-    private final TextScroller output;
+    private final JTextArea output;
     private final JButton chooseFile;
     private boolean fileIsSelected;
     
@@ -38,7 +39,10 @@ public class GoogleSheetPropertyFileChooser extends JComponent{
         
         add(new JLabel(header), BorderLayout.PAGE_START);
         
-        output = new TextScroller();
+        output = new JTextArea("***Property information appears here***");
+        output.setEditable(false);
+        output.setWrapStyleWord(true);
+        output.setLineWrap(true);
         add(output, BorderLayout.CENTER);
         
         chooseFile = new JButton("Select File");
@@ -63,14 +67,17 @@ public class GoogleSheetPropertyFileChooser extends JComponent{
             try{
                 selectedProperties.clear();
                 selectedProperties.load(new FileInputStream(f));
-                output.clear();
-                output.addText(String.format("Contents of %s :", f.getAbsolutePath()));
-                output.addText(selectedProperties.toString());
+                output.setText(String.format(
+                    "Contents of %s: \n%s", 
+                    f.getAbsolutePath(), 
+                    selectedProperties.toString()
+                ));
+
                 fileIsSelected = true;
             } catch (FileNotFoundException ex) {
-                output.addText("Failed to locate file " + f.getAbsolutePath());
+                output.setText("Failed to locate file " + f.getAbsolutePath());
             } catch (IOException ex) {
-                output.addText("Oops! " + ex.getLocalizedMessage());
+                output.setText("Oops! " + ex.getLocalizedMessage());
             }
         }
     }
