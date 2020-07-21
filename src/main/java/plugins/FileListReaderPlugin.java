@@ -18,7 +18,7 @@ public class FileListReaderPlugin implements AbstractPlugin{
 
     @Override
     public String getType() {
-        return "drive access";
+        return "read";
     }
 
     @Override

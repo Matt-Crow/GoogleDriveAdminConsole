@@ -18,7 +18,7 @@ public class GiveAccessPlugin implements AbstractPlugin {
 
     @Override
     public String getType() {
-        return "drive access";
+        return "share";
     }
 
     @Override
