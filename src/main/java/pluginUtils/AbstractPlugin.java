@@ -11,13 +11,7 @@ import gui.pages.AbstractFormPage;
  * 
  * @author Matt Crow
  */
-public interface AbstractDriveCommandPlugin {
-    /**
-     * Will probably need to accept a hashmap or something
-     * to pass parameters. Or I may not use it at all.
-     * @return the DriveCommand associated with this plugin
-     */
-    public abstract AbstractDriveCommand createCommand();
+public interface AbstractPlugin {
     
     /**
      * 

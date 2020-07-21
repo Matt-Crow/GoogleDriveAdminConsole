@@ -15,10 +15,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import pluginUtils.AbstractDriveCommandPlugin;
-import pluginUtils.DriveCommandService;
+import pluginUtils.PluginLoader;
 import start.GoogleDriveService;
 import sysUtils.Logger;
+import pluginUtils.AbstractPlugin;
 
 /**
  *
@@ -101,14 +101,14 @@ public class MainPane extends JPanel{
     }
     
     /**
-     * Takes each AbstractDriveCommandPlugin from the DriveCommandService,
-     * and adds menus for each of them.
+     * Takes each AbstractPlugin from the PluginLoader,
+ and adds menus for each of them.
      * TODO: make this add pages for each plugin
      */
     private void loadServices(){
         HashMap<String, JMenu> menus = new HashMap<>();
         String type;
-        for(AbstractDriveCommandPlugin plugin : DriveCommandService.getInstance().getAllPlugins()){
+        for(AbstractPlugin plugin : PluginLoader.getInstance().getAllPlugins()){
             type = plugin.getType().toLowerCase();
             if(!menus.containsKey(type)){
                 menus.put(type, new JMenu(type));
@@ -120,7 +120,7 @@ public class MainPane extends JPanel{
     }
     
     // I'll want to improve this. Probably want a plugin tabbed pane class
-    private void openTab(AbstractDriveCommandPlugin plugin){
+    private void openTab(AbstractPlugin plugin){
         AbstractFormPage page = plugin.getFormPage(this);
         
         // the component it shows when the tab is clicked

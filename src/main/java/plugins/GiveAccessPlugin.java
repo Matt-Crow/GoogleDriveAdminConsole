@@ -1,21 +1,15 @@
-package serviceProviderImpls;
+package plugins;
 
-import drive.commands.utils.AbstractDriveCommand;
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
 import gui.pages.GiveAccessPage;
-import pluginUtils.AbstractDriveCommandPlugin;
+import pluginUtils.AbstractPlugin;
 
 /**
  *
  * @author Matt
  */
-public class GiveAccessPlugin implements AbstractDriveCommandPlugin {
-
-    @Override
-    public AbstractDriveCommand createCommand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public class GiveAccessPlugin implements AbstractPlugin {
 
     @Override
     public AbstractFormPage getFormPage(MainPane pane) {

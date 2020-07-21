@@ -3,11 +3,11 @@ package pluginUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ServiceLoader;
-import serviceProviderImpls.DownloadPermissionPlugin;
-import serviceProviderImpls.FileListReaderPlugin;
-import serviceProviderImpls.GiveAccessPlugin;
-import serviceProviderImpls.QuickAccessPlugin;
-import serviceProviderImpls.UserListReaderPlugin;
+import plugins.DownloadPermissionPlugin;
+import plugins.FileListReaderPlugin;
+import plugins.GiveAccessPlugin;
+import plugins.QuickAccessPlugin;
+import plugins.UserListReaderPlugin;
 
 /**
  * https://docs.oracle.com/javase/tutorial/ext/basics/spi.html
@@ -19,21 +19,21 @@ import serviceProviderImpls.UserListReaderPlugin;
  * 
  * @author Matt
  */
-public class DriveCommandService {
-    private final ServiceLoader<AbstractDriveCommandPlugin> loader;
+public class PluginLoader {
+    private final ServiceLoader<AbstractPlugin> loader;
     
-    private static DriveCommandService instance;
+    private static PluginLoader instance;
     
-    private DriveCommandService(){
+    private PluginLoader(){
         if(instance != null){
             throw new RuntimeException();
         }
-        loader = ServiceLoader.load(AbstractDriveCommandPlugin.class);
+        loader = ServiceLoader.load(AbstractPlugin.class);
     }
     
-    public static DriveCommandService getInstance(){
+    public static PluginLoader getInstance(){
         if(instance == null){
-            instance = new DriveCommandService();
+            instance = new PluginLoader();
         }
         return instance;
     }
@@ -42,7 +42,7 @@ public class DriveCommandService {
      * This will need to be redone once the loader works
      * @return 
      */
-    public List<AbstractDriveCommandPlugin> getAllPlugins(){
+    public List<AbstractPlugin> getAllPlugins(){
         return Arrays.asList(
             new QuickAccessPlugin(),
             new GiveAccessPlugin(),
@@ -57,6 +57,6 @@ public class DriveCommandService {
     }
     
     public static void main(String[] args){
-        DriveCommandService.getInstance().listDescs();
+        PluginLoader.getInstance().listDescs();
     }
 }
