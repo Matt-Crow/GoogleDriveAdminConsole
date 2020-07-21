@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pages.CreateSheetPropertyPage;
+import gui.pluginPages.CreateSheetPropertyPage;
 import pluginUtils.AbstractPlugin;
 
 /**

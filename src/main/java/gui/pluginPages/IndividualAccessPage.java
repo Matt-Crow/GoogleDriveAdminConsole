@@ -1,8 +1,9 @@
-package gui.pages;
+package gui.pluginPages;
 
 import fileUtils.FileList;
 import gui.MainPane;
 import gui.components.EditableStringList;
+import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;

@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pages.DownloadPermissionPage;
+import gui.pluginPages.DownloadPermissionPage;
 import pluginUtils.AbstractPlugin;
 
 /**

@@ -1,10 +1,10 @@
 package gui;
 
 import gui.pages.AbstractFormPage;
-import gui.pages.IndividualAccessPage;
+import gui.pluginPages.IndividualAccessPage;
 import gui.pages.PageContent;
 import gui.pages.OutputPage;
-import gui.pages.GiveAccessPage;
+import gui.pluginPages.GiveAccessPage;
 import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.util.HashMap;

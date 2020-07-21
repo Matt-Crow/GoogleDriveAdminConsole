@@ -1,5 +1,6 @@
-package gui.pages;
+package gui.pluginPages;
 
+import gui.pluginPages.AbstractReaderPage;
 import fileUtils.UserList;
 import gui.MainPane;
 import structs.GoogleSheetProperties;

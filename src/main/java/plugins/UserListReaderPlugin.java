@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pages.UserListReaderPage;
+import gui.pluginPages.UserListReaderPage;
 import pluginUtils.AbstractPlugin;
 
 /**

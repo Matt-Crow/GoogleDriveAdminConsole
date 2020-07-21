@@ -1,7 +1,8 @@
-package gui.pages;
+package gui.pluginPages;
 
 import gui.MainPane;
 import gui.components.PropertyFileChooser;
+import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import structs.GoogleSheetProperties;

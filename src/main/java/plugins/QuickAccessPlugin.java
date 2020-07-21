@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pages.IndividualAccessPage;
+import gui.pluginPages.IndividualAccessPage;
 import pluginUtils.AbstractPlugin;
 
 /**

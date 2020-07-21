@@ -1,6 +1,7 @@
-package gui.pages;
+package gui.pluginPages;
 
 import gui.MainPane;
+import gui.pages.AbstractFormPage;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;

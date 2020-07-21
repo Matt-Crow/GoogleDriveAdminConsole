@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pages.FileListReaderPage;
+import gui.pluginPages.FileListReaderPage;
 import pluginUtils.AbstractPlugin;
 
 /**
