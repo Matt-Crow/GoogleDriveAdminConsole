@@ -13,12 +13,12 @@ import sysUtils.Logger;
  *
  * @author Matt
  */
-public class CreateSheetPropertyPage extends AbstractFormPage {
+public class GoogleSheetPropsPage extends AbstractFormPage {
     private final JTextField propertyFileName;
     private final JTextField spreadsheetId;
     private final JTextField sheetName;
     
-    public CreateSheetPropertyPage(MainPane inPane) {
+    public GoogleSheetPropsPage(MainPane inPane) {
         super(inPane);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
@@ -43,14 +43,12 @@ public class CreateSheetPropertyPage extends AbstractFormPage {
 
     @Override
     public void doSubmit() throws Exception {
-        throw new Exception("OK");
-        /*
         GoogleSheetProperties gsp = new GoogleSheetProperties();
         gsp.setFileId(spreadsheetId.getText());
         gsp.setSheetName(sheetName.getText());
         
         String path = FileSystem.getInstance().saveProperties(propertyFileName.getText(), gsp);
-        Logger.log(String.format("Saved properties to %s", path));*/
+        Logger.log(String.format("Saved properties to %s", path));
     }
 
 }

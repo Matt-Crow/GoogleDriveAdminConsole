@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.CreateSheetPropertyPage;
+import gui.pluginPages.GoogleSheetPropsPage;
 import pluginUtils.AbstractPlugin;
 
 /**
@@ -13,7 +13,7 @@ public class GoogleSheetPropsPlugin implements AbstractPlugin {
 
     @Override
     public AbstractFormPage getFormPage(MainPane pane) {
-        return new CreateSheetPropertyPage(pane);
+        return new GoogleSheetPropsPage(pane);
     }
 
     @Override

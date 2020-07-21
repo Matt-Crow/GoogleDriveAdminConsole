@@ -1,11 +1,7 @@
 package gui;
 
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.IndividualAccessPage;
-import gui.pages.PageContent;
 import gui.pages.OutputPage;
-import gui.pluginPages.GiveAccessPage;
-import gui.pages.PageName;
 import java.awt.BorderLayout;
 import java.util.HashMap;
 import javax.swing.JButton;
@@ -26,13 +22,9 @@ import pluginUtils.AbstractPlugin;
  */
 public class MainPane extends JPanel{
     private final OutputPage outputPage;
-    private final GiveAccessPage parseFormPage;
-    private final IndividualAccessPage indivAccPage;
     private final JMenuBar menu;
     private final GuiBackend backend;
     private final JTabbedPane contentArea;
-    
-    private final HashMap<PageName, PageContent> pages;
     
     public MainPane(GoogleDriveService service){
         super();
@@ -42,22 +34,12 @@ public class MainPane extends JPanel{
         setLayout(new BorderLayout());
         
         // construct the page content area
-        pages = new HashMap<>();
         
         contentArea = new JTabbedPane();
         add(contentArea, BorderLayout.CENTER);
         
         outputPage = new OutputPage(this);
-        contentArea.addTab(PageName.OUTPUT.getDisplayValue(), outputPage);
-        pages.put(PageName.OUTPUT, outputPage);
-        
-        parseFormPage = new GiveAccessPage(this);
-        contentArea.addTab(PageName.PARSE_FORM.getDisplayValue(), parseFormPage);
-        pages.put(PageName.PARSE_FORM, parseFormPage);
-        
-        indivAccPage = new IndividualAccessPage(this);
-        contentArea.addTab(PageName.INDIV_ACC.getDisplayValue(), indivAccPage);
-        pages.put(PageName.INDIV_ACC, indivAccPage);
+        contentArea.addTab("output", outputPage);
         
         // construct the menu bar
         menu = new JMenuBar();
@@ -97,7 +79,7 @@ public class MainPane extends JPanel{
     
     /**
      * Takes each AbstractPlugin from the PluginLoader,
- and adds menus for each of them.
+     * and adds menus for each of them.
      * TODO: make this add pages for each plugin
      */
     private void loadServices(){
@@ -115,12 +97,13 @@ public class MainPane extends JPanel{
     }
     
     // I'll want to improve this. Probably want a plugin tabbed pane class
+    // do we care if we have multiple tabs open for a single plugin?
     private void openTab(AbstractPlugin plugin){
         AbstractFormPage page = plugin.getFormPage(this);
         
         // the component it shows when the tab is clicked
         contentArea.add(plugin.getName(), page);
-        
+
         // create the content of the tab
         JPanel tab = new JPanel();
         tab.setLayout(new BorderLayout());
@@ -131,7 +114,7 @@ public class MainPane extends JPanel{
             Note: this idx is different from the one the
             page was originally inserted into, so we mustn't
             get this index from outside the action listener.
-            
+
             for example:
             given tabs [a] [b]
             user opens [c]: tabs are now [a] [b] [c] (c inserted at 2)
@@ -146,9 +129,11 @@ public class MainPane extends JPanel{
             }
         });
         tab.add(close, BorderLayout.LINE_END);
-        
+
         // the actual tab that shows up in the tab list
         contentArea.setTabComponentAt(contentArea.getTabCount() - 1, tab);
+
+        contentArea.setSelectedComponent(page);
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
@@ -158,8 +143,8 @@ public class MainPane extends JPanel{
         return newItem;
     }
     
-    public final void switchToTab(PageName tabName){
-        contentArea.setSelectedComponent(pages.get(tabName));
+    public final void switchToOutputTab(){
+        contentArea.setSelectedComponent(outputPage);
     }
     
     public final void setTabSwitchingEnabled(boolean allowSwitching){

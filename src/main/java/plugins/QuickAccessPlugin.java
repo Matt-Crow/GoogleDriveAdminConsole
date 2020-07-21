@@ -2,7 +2,7 @@ package plugins;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.IndividualAccessPage;
+import gui.pluginPages.QuickAccessPage;
 import pluginUtils.AbstractPlugin;
 
 /**
@@ -13,7 +13,7 @@ public class QuickAccessPlugin implements AbstractPlugin{
 
     @Override
     public AbstractFormPage getFormPage(MainPane pane) {
-        return new IndividualAccessPage(pane);
+        return new QuickAccessPage(pane);
     }
 
     @Override

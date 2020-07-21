@@ -31,7 +31,7 @@ public abstract class AbstractFormPage extends PageContent{
     
     public final void submit(){
         MainPane parent = getPaneParent();
-        parent.switchToTab(PageName.OUTPUT);
+        parent.switchToOutputTab();
         parent.setTabSwitchingEnabled(false);
         submitAsync();
     }

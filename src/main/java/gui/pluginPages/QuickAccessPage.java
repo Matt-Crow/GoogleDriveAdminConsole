@@ -20,11 +20,11 @@ import structs.UserToFileMapping;
  *
  * @author Matt
  */
-public class IndividualAccessPage extends AbstractFormPage{
+public class QuickAccessPage extends AbstractFormPage{
     private final EditableStringList users;
     private final EditableStringList files;
     
-    public IndividualAccessPage(MainPane inPane) {
+    public QuickAccessPage(MainPane inPane) {
         super(inPane);
         setLayout(new BorderLayout());
         
