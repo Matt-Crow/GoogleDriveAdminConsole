@@ -59,6 +59,12 @@ public class Main {
             public void windowClosing(WindowEvent e){
                 System.out.println("CONTENTS OF LOGGER:");
                 System.out.println(Logger.getLog());
+                try {
+                    FileSystem.getInstance().saveLog();
+                } catch (Exception ex) {
+                    System.err.println("Failed to save log:");
+                    ex.printStackTrace();
+                }
             }
         });
     }

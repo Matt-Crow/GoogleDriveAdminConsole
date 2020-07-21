@@ -1,9 +1,13 @@
 package sysUtils;
 
+import fileUtils.FileReadWriteUtil;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The FileSystem class is
@@ -21,6 +25,8 @@ public final class FileSystem {
     private static final String APP_FOLDER = Paths.get(USER_HOME, "googleDriveAdminConsole").toString();
     private static final String LOG_FOLDER = Paths.get(APP_FOLDER, "logs").toString();
     private static final String PROPS_FOLDER = Paths.get(APP_FOLDER, "properties").toString();
+    
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM-dd-uuuu_hh_mm_a");
     
     private static FileSystem instance;
     
@@ -101,5 +107,19 @@ public final class FileSystem {
         for(String dir : dirsToCreate){
             createIfNoExist(dir);
         }
+    }
+    
+    /**
+     * Saves the contents of the Logger to the
+     * logs directory, with the current date
+     * appended to the end of the file name.
+     * 
+     * @throws IOException if it fails to write
+     * the file.
+     */
+    public void saveLog() throws IOException{
+        String logText = Logger.getLog();
+        String logPath = Paths.get(LOG_FOLDER, String.format("log %s.txt", LocalDateTime.now().format(DATE_FORMAT))).toString();
+        FileReadWriteUtil.writeFile(new File(logPath), logText);
     }
 }
