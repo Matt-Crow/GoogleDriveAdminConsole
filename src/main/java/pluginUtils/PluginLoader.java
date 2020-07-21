@@ -6,6 +6,7 @@ import java.util.ServiceLoader;
 import plugins.DownloadPermissionPlugin;
 import plugins.FileListReaderPlugin;
 import plugins.GiveAccessPlugin;
+import plugins.GoogleSheetPropsPlugin;
 import plugins.QuickAccessPlugin;
 import plugins.UserListReaderPlugin;
 
@@ -48,7 +49,8 @@ public class PluginLoader {
             new GiveAccessPlugin(),
             new FileListReaderPlugin(),
             new UserListReaderPlugin(),
-            new DownloadPermissionPlugin()
+            new DownloadPermissionPlugin(),
+            new GoogleSheetPropsPlugin()
         );
     }
     
