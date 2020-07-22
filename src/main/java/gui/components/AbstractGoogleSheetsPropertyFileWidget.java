@@ -20,13 +20,13 @@ import sysUtils.FileSystem;
 import sysUtils.Logger;
 
 /**
- * The GoogleSheetPropertyFileChooser is used to allow the user
- * to select .property files created by the user via
- * this program.
+ * The AbstractGoogleSheetsPropertyFileWidget is used to allow the user
+ to select .property files created by the user via
+ this program.
  * 
  * @author Matt Crow
  */
-public class GoogleSheetPropertyFileChooser extends JComponent{
+public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
     private final JFileChooser chooser;
     private final GoogleSheetProperties selectedProperties;
     private final JTextArea fileIdDisplay;
@@ -34,7 +34,7 @@ public class GoogleSheetPropertyFileChooser extends JComponent{
     private final JButton chooseFile;
     private boolean fileIsSelected;
     
-    public GoogleSheetPropertyFileChooser(String header, String selectText){
+    public AbstractGoogleSheetsPropertyFileWidget(String header, String selectText){
         super();
         
         selectedProperties = new GoogleSheetProperties();

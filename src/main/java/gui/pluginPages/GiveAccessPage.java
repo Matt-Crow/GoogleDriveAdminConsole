@@ -1,7 +1,7 @@
 package gui.pluginPages;
 
 import gui.MainPane;
-import gui.components.GoogleSheetPropertyFileChooser;
+import gui.components.GoogleSheetsPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 
@@ -25,8 +24,8 @@ import structs.UserToFileMapping;
  * @author Matt Crow
  */
 public class GiveAccessPage extends AbstractFormPage{
-    private final GoogleSheetPropertyFileChooser userPropSel;
-    private final GoogleSheetPropertyFileChooser filePropSel;
+    private final GoogleSheetsPropertyFileChooser userPropSel;
+    private final GoogleSheetsPropertyFileChooser filePropSel;
     private final JCheckBox isTest;
     private final JButton run;
     
@@ -42,7 +41,7 @@ public class GiveAccessPage extends AbstractFormPage{
         left.setLayout(new FlowLayout(FlowLayout.CENTER));
         selGroup.add(left);
         
-        userPropSel = new GoogleSheetPropertyFileChooser("User Spreadsheet Info", "Select a file containing user spreadsheet properties");
+        userPropSel = new GoogleSheetsPropertyFileChooser("User Spreadsheet Info", "Select a file containing user spreadsheet properties");
         userPropSel.setBorder(BorderFactory.createRaisedBevelBorder());
         left.add(userPropSel);
         
@@ -50,7 +49,7 @@ public class GiveAccessPage extends AbstractFormPage{
         right.setLayout(new FlowLayout(FlowLayout.CENTER));
         selGroup.add(right);
         
-        filePropSel = new GoogleSheetPropertyFileChooser("File Spreadsheet Info", "Select a file containing file spreadsheet properties");
+        filePropSel = new GoogleSheetsPropertyFileChooser("File Spreadsheet Info", "Select a file containing file spreadsheet properties");
         filePropSel.setBorder(BorderFactory.createRaisedBevelBorder());
         right.add(filePropSel);
         

@@ -1,7 +1,7 @@
 package gui.pluginPages;
 
 import gui.MainPane;
-import gui.components.GoogleSheetPropertyFileChooser;
+import gui.components.GoogleSheetsPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -14,7 +14,7 @@ import structs.GoogleSheetProperties;
  * @author Matt
  */
 public abstract class AbstractReaderPage extends AbstractFormPage {
-    private final GoogleSheetPropertyFileChooser chooser;
+    private final GoogleSheetsPropertyFileChooser chooser;
     
     public AbstractReaderPage(MainPane inPane, String propChooserHeader, String propChooserPopupText) {
         super(inPane);
@@ -23,7 +23,7 @@ public abstract class AbstractReaderPage extends AbstractFormPage {
         center.setLayout(new FlowLayout(FlowLayout.CENTER));
         add(center, BorderLayout.CENTER);
         
-        chooser = new GoogleSheetPropertyFileChooser(propChooserHeader, propChooserPopupText);
+        chooser = new GoogleSheetsPropertyFileChooser(propChooserHeader, propChooserPopupText);
         center.add(chooser);
         
         JButton run = new JButton("Run");
