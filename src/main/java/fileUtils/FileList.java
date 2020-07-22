@@ -6,6 +6,7 @@ import java.util.List;
 import structs.AccessType;
 import structs.DetailedFileInfo;
 import structs.SimpleFileInfo;
+import structs.UserToFileMapping;
 import sysUtils.Logger;
 
 /**
@@ -25,6 +26,7 @@ public class FileList extends LinkedList<SimpleFileInfo>{
     public static final String DESC_HEADER = "desc";
     public static final String URL_HEADER = "URL";
     public static final String ACC_TYPE_HEADER = "access type";
+    public static final String GROUP_HEADER = "group";
     
     public FileList(){
         super();
@@ -54,14 +56,23 @@ public class FileList extends LinkedList<SimpleFileInfo>{
         int descCol = csvFile.getColumnIdx(DESC_HEADER);
         int urlCol = csvFile.getColumnIdx(URL_HEADER);
         int accTypeCol = csvFile.getColumnIdx(ACC_TYPE_HEADER);
+        int groupCol = csvFile.getColumnIdx(GROUP_HEADER);
         
         csvFile.forEachBodyRow((List<String> row)->{
             try{
                 if(row.get(idCol).trim().isEmpty()){
                     throw new CsvException(String.format("Row does not contain a file ID, it has the following data: %s", String.join(", ", row)));
                 }
+                
+                String groupName = (row.get(groupCol).trim().isEmpty()) ? UserToFileMapping.ALL_GROUP : row.get(groupCol).trim();
                 boolean ableToDownload = AccessType.fromString(row.get(accTypeCol)).shouldAllowDownload();
-                add(new DetailedFileInfo(row.get(idCol), row.get(descCol), row.get(urlCol), ableToDownload));
+                add(new DetailedFileInfo(
+                    row.get(idCol), 
+                    row.get(descCol), 
+                    row.get(urlCol), 
+                    groupName, 
+                    ableToDownload
+                ));
             } catch (CsvException ex){
                 Logger.logError(ex);
             }

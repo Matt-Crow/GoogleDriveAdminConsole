@@ -14,6 +14,8 @@ public class UserToFileMapping {
     private final SimpleUserInfo user;
     private final SimpleFileInfo file;
     
+    public static final String ALL_GROUP = "*";
+    
     public UserToFileMapping(SimpleUserInfo camper, SimpleFileInfo camperFile){
         user = camper;
         file = camperFile;
