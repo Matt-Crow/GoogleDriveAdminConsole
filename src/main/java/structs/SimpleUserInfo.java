@@ -32,4 +32,8 @@ public class SimpleUserInfo {
     public String toString(){
         return email;
     }
+    
+    public boolean shouldGet(SimpleFileInfo file){
+        return true;
+    }
 }

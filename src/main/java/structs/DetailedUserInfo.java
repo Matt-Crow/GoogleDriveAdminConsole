@@ -48,6 +48,13 @@ public final class DetailedUserInfo extends SimpleUserInfo{
         return group;
     }
     
+    // group class for this
+    @Override
+    public boolean shouldGet(SimpleFileInfo info){
+        //     has no designated group             or                          this user is in the group
+        return !(info instanceof DetailedFileInfo) || ((DetailedFileInfo)info).getGroup().equalsIgnoreCase(group);
+    }
+    
     @Override
     public String toString(){
         return String.format("User %s:" 

@@ -25,7 +25,9 @@ public class UserToFileMapping {
         ArrayList<UserToFileMapping> products = new ArrayList<>();
         users.forEach((user) -> {
             files.forEach((file) -> {
-                products.add(new UserToFileMapping(user, file));
+                if(user.shouldGet(file)){
+                    products.add(new UserToFileMapping(user, file));
+                }
             });
         });
         return products;
