@@ -4,7 +4,9 @@ import gui.MainPane;
 import gui.components.GoogleSheetPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import structs.GoogleSheetProperties;
 
 /**
@@ -18,8 +20,12 @@ public class DownloadPermissionPage extends AbstractFormPage {
         super(inPane);
         setLayout(new BorderLayout());
         
+        JPanel center = new JPanel();
+        center.setLayout(new FlowLayout(FlowLayout.CENTER));
+        add(center, BorderLayout.CENTER);
+        
         chooser = new GoogleSheetPropertyFileChooser("File Sheet Info", "select the property file containing file list info");
-        add(chooser, BorderLayout.CENTER);
+        center.add(chooser);
         
         JButton run = new JButton("Run");
         run.addActionListener((e)->submit());

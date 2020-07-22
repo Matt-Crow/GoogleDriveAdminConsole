@@ -120,13 +120,6 @@ public class GoogleSheetPropertyFileChooser extends JComponent{
                 selectedProperties.load(new FileInputStream(f));
                 fileIdDisplay.setText(selectedProperties.getFileId());
                 sheetNameDisplay.setText(selectedProperties.getSheetName());
-                /*
-                output.setText(String.format(
-                    "Contents of %s: \n%s", 
-                    f.getAbsolutePath(), 
-                    selectedProperties.toString()
-                ));
-                */
                 fileIsSelected = true;
             } catch (FileNotFoundException ex) {
                 Logger.logError("Failed to locate file " + f.getAbsolutePath());
