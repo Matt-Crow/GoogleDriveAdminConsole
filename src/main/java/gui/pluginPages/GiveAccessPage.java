@@ -4,6 +4,7 @@ import gui.MainPane;
 import gui.components.GoogleSheetPropertyFileChooser;
 import gui.pages.AbstractFormPage;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.List;
@@ -49,17 +50,17 @@ public class GiveAccessPage extends AbstractFormPage{
         
         // bottom
         JPanel bottom = new JPanel();
-        bottom.setLayout(new BorderLayout());
+        bottom.setLayout(new FlowLayout(FlowLayout.LEADING));
         
         isTest = new JCheckBox("This is just a test");
         isTest.setSelected(true);
-        bottom.add(isTest, BorderLayout.LINE_END);
+        bottom.add(isTest);
         
         run = new JButton("Run");
         run.addActionListener((e)->{
             submit();
         });
-        bottom.add(run, BorderLayout.PAGE_END);
+        bottom.add(run);
         
         add(bottom, BorderLayout.PAGE_END);
     }
