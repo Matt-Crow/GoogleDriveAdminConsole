@@ -25,3 +25,5 @@ Matt, for crying out loud REMEMBER .EXECUTE()!!!
 * Add a component factory
 * Redo access list methods once we have a more solid idea of how we'll do Minecraft access
 * Add user settings file to application folder so I can disable saving logs for one
+* Remove whitelisting
+* Different name for application

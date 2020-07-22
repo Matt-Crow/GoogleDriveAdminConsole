@@ -15,8 +15,8 @@ import java.util.Properties;
  * @author Matt Crow
  */
 public class GoogleSheetProperties extends Properties {
-    private static final String SPREADSHEET_ID_KEY = "spreadsheet ID";
-    private static final String SHEET_NAME_KEY = "sheet name";
+    private static final String SPREADSHEET_ID_KEY = "spreadsheetId";
+    private static final String SHEET_NAME_KEY = "sheetName";
     
     /**
      * Creates a set of GoogleSheetProperties in the Java VM memory.
