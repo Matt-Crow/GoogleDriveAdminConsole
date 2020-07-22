@@ -16,12 +16,15 @@ import plugins.UserListReaderPlugin;
  * 
  * 
  * Currently doesn't work
- * Will likely rename this at some point
+ * 
+ * Change this to do the following:
+ * 1. Iterate over the classpath (not just loaded classes)
+ * 2. Gather each class implementing AbstractPlugin
  * 
  * @author Matt
  */
 public class PluginLoader {
-    private final ServiceLoader<AbstractPlugin> loader;
+    //private final ServiceLoader<AbstractPlugin> loader;
     
     private static PluginLoader instance;
     
@@ -29,7 +32,7 @@ public class PluginLoader {
         if(instance != null){
             throw new RuntimeException();
         }
-        loader = ServiceLoader.load(AbstractPlugin.class);
+        //loader = ServiceLoader.load(AbstractPlugin.class);
     }
     
     public static PluginLoader getInstance(){
