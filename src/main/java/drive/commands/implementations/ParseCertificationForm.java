@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import start.GoogleDriveService;
 import structs.GoogleSheetProperties;
-import structs.DetailedUserInfo;
 import structs.UserToFileMapping;
 import sysUtils.Logger;
 
@@ -19,14 +18,12 @@ import sysUtils.Logger;
 public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{
     private final GoogleSheetProperties certFormInfo;
     private final GoogleSheetProperties fileListInfo;
-    private final String accessListId;
     private final boolean isTest;
     
-    public ParseCertificationForm(GoogleDriveService service, GoogleSheetProperties source, GoogleSheetProperties fileList, String accessListFileId, boolean thisIsATest) {
+    public ParseCertificationForm(GoogleDriveService service, GoogleSheetProperties source, GoogleSheetProperties fileList, boolean thisIsATest) {
         super(service);
         certFormInfo = source;
         fileListInfo = fileList;
-        accessListId = accessListFileId;
         isTest = thisIsATest;
     }
 
@@ -64,20 +61,6 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
             } catch (IOException ex) {
                 Logger.logError(ex);
             }
-
-            // add people to the Minecraft user list
-            String[] newMcUsers = newCampers
-                .stream()
-                .filter((userInfo)->{
-                    return userInfo instanceof DetailedUserInfo;
-                }).map((simpleUserInfo)->{
-                    return (DetailedUserInfo)simpleUserInfo;
-                }).map((detailedUserInfo)->{
-                    return detailedUserInfo.getMinecraftUsername();
-                })
-                .toArray((size)->new String[size]);
-
-            new AddToAccessList(getServiceAccess(), accessListId, newMcUsers).doExecute();
         }
         return whoGetsWhat;
     }

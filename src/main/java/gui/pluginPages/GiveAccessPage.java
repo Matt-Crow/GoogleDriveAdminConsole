@@ -26,7 +26,6 @@ import structs.UserToFileMapping;
 public class GiveAccessPage extends AbstractFormPage{
     private final GoogleSheetPropertyFileChooser userPropSel;
     private final GoogleSheetPropertyFileChooser filePropSel;
-    private final JTextField enterAccListId;
     private final JCheckBox isTest;
     private final JButton run;
     
@@ -52,9 +51,6 @@ public class GiveAccessPage extends AbstractFormPage{
         JPanel bottom = new JPanel();
         bottom.setLayout(new BorderLayout());
         
-        enterAccListId = new JTextField("Enter access list id");
-        bottom.add(enterAccListId, BorderLayout.CENTER);
-        
         isTest = new JCheckBox("This is just a test");
         isTest.setSelected(true);
         bottom.add(isTest, BorderLayout.LINE_END);
@@ -73,7 +69,6 @@ public class GiveAccessPage extends AbstractFormPage{
         MainPane parent = getPaneParent();
         List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm((GoogleSheetProperties)userPropSel.getSelectedProperties(),
             (GoogleSheetProperties) filePropSel.getSelectedProperties(),
-            enterAccListId.getText(),
             isTest.isSelected()
         ).doExecute();
 
