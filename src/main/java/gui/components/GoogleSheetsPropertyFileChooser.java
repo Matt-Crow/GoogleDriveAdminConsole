@@ -20,7 +20,7 @@ public class GoogleSheetsPropertyFileChooser extends AbstractGoogleSheetsPropert
     private boolean fileIsSelected;
     
     public GoogleSheetsPropertyFileChooser(String header, String selectText) {
-        super(header, selectText);
+        super(header, false, "Select File");
         // might move this to FileSelector
         chooser = new JFileChooser(FileSystem.PROPS_FOLDER);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -39,6 +39,7 @@ public class GoogleSheetsPropertyFileChooser extends AbstractGoogleSheetsPropert
                 GoogleSheetProperties selectedProperties = getSelectedProperties();
                 selectedProperties.clear();
                 selectedProperties.load(new FileInputStream(f));
+                setLocalFileNameText(f.getAbsolutePath());
                 setFileIdText(selectedProperties.getFileId());
                 setSheetNameText(selectedProperties.getSheetName());
                 fileIsSelected = true;
