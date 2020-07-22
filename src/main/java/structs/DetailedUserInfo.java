@@ -12,17 +12,20 @@ package structs;
 public final class DetailedUserInfo extends SimpleUserInfo{
     private final String name;
     private final String mcUsername;
+    private final String group;
     
     /**
      * 
      * @param username the human name of this user
      * @param emailAddr the email address of this user
      * @param minecraftUsername the minecraft username of this user
+     * @param groupName the name of the group this user belongs to
      */
-    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername){
+    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, String groupName){
         super(emailAddr);
         name = username;
         mcUsername = minecraftUsername;
+        group = groupName;
     }
     
     /**
@@ -41,11 +44,16 @@ public final class DetailedUserInfo extends SimpleUserInfo{
         return mcUsername;
     }
     
+    public String getGroupName(){
+        return group;
+    }
+    
     @Override
     public String toString(){
         return String.format("User %s:" 
             + "\n\tEmail: %s"
-            + "\n\tMinecraft Username: %s", 
-            name, getEmail(), mcUsername);
+            + "\n\tMinecraft Username: %s"
+            + "\n\tGroup: %s", 
+            name, getEmail(), mcUsername, group);
     }
 }
