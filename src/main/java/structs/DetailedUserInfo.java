@@ -12,20 +12,20 @@ package structs;
 public final class DetailedUserInfo extends SimpleUserInfo{
     private final String name;
     private final String mcUsername;
-    private final String group;
+    private final Groups groups;
     
     /**
      * 
      * @param username the human name of this user
      * @param emailAddr the email address of this user
      * @param minecraftUsername the minecraft username of this user
-     * @param groupName the name of the group this user belongs to
+     * @param groupNames the names of the groups this user belongs to, separated by '/''s
      */
-    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, String groupName){
+    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, String groupNames){
         super(emailAddr);
         name = username;
         mcUsername = minecraftUsername;
-        group = groupName;
+        groups = new Groups(groupNames);
     }
     
     /**
@@ -44,15 +44,11 @@ public final class DetailedUserInfo extends SimpleUserInfo{
         return mcUsername;
     }
     
-    public String getGroupName(){
-        return group;
-    }
-    
     // group class for this
     @Override
     public boolean shouldGet(SimpleFileInfo info){
         //     has no designated group             or                          this user is in the group
-        return !(info instanceof DetailedFileInfo) || ((DetailedFileInfo)info).getGroup().equalsIgnoreCase(group);
+        return !(info instanceof DetailedFileInfo) || Groups.intersects(((DetailedFileInfo)info).getGroups(), groups);
     }
     
     @Override
@@ -61,6 +57,6 @@ public final class DetailedUserInfo extends SimpleUserInfo{
             + "\n\tEmail: %s"
             + "\n\tMinecraft Username: %s"
             + "\n\tGroup: %s", 
-            name, getEmail(), mcUsername, group);
+            name, getEmail(), mcUsername, groups.toString());
     }
 }

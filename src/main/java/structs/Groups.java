@@ -32,6 +32,19 @@ public class Groups {
     }
     
     /**
+     * Used to check if two Groups share a common group name.
+     * @param g1
+     * @param g2
+     * @return whether or not the intersection of g1 and g2's 
+     * group name sets contains at least one element.
+     */
+    public static boolean intersects(Groups g1, Groups g2){
+        return g1.groupNames.stream().anyMatch((String groupName)->{
+            return g2.groupNames.contains(groupName);
+        });
+    }
+    
+    /**
      * Adds the given groups to this set of Groups.
      * Groups are separated by "/"s.
      * 
@@ -50,7 +63,7 @@ public class Groups {
     
     @Override
     public String toString(){
-        return "Groups " + String.join(", ", groupNames);
+        return String.join(GROUP_DELIMINATOR, groupNames);
     }
     
     public static void main(String[] args){
@@ -58,10 +71,16 @@ public class Groups {
         
         System.out.println(g);
         
-        g.add("group #1");
+        g.add("this / is / a / test / test / test");
         System.out.println(g);
         
-        g.add("this / is / a / test / with / group #1 / test / test / test");
+        Groups g2 = new Groups();
+        g2.add("group #1 / group #2 / group #3");
+        System.out.println(g2);
+        System.out.println(Groups.intersects(g, g2));
+        
+        g.add("gRoUp #1");
         System.out.println(g);
+        System.out.println(Groups.intersects(g, g2));
     }
 }
