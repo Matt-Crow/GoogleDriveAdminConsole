@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import structs.AccessType;
 import structs.DetailedFileInfo;
+import structs.Groups;
 import structs.SimpleFileInfo;
-import structs.UserToFileMapping;
 import sysUtils.Logger;
 
 /**
@@ -64,7 +64,7 @@ public class FileList extends LinkedList<SimpleFileInfo>{
                     throw new CsvException(String.format("Row does not contain a file ID, it has the following data: %s", String.join(", ", row)));
                 }
                 
-                String groupName = (row.get(groupCol).trim().isEmpty()) ? UserToFileMapping.ALL_GROUP : row.get(groupCol).trim();
+                String groupName = (row.get(groupCol).trim().isEmpty()) ? Groups.ALL_GROUP : row.get(groupCol).trim();
                 boolean ableToDownload = AccessType.fromString(row.get(accTypeCol)).shouldAllowDownload();
                 add(new DetailedFileInfo(
                     row.get(idCol), 

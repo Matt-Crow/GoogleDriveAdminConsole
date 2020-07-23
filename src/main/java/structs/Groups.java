@@ -14,6 +14,7 @@ public class Groups {
     private final HashSet<String> groupNames;
     
     public static final String GROUP_DELIMINATOR = "/";
+    public static final String ALL_GROUP = "*";
     
     public Groups(){
         groupNames = new HashSet<>();
