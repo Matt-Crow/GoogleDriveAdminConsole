@@ -3,8 +3,15 @@ package structs;
 import java.util.Arrays;
 
 /**
- *
- * @author Matt
+ * AccessType is used to
+ * decide how files are
+ * shared by the console.
+ * Currently, this only
+ * designates whether or
+ * not files can be downloaded
+ * and copied.
+ * 
+ * @author Matt Crow
  */
 public enum AccessType {
     MAKE_COPY("copy", true),
@@ -14,11 +21,12 @@ public enum AccessType {
     private final String name;
     
     private AccessType(String accessTypeName, boolean enableDownload){
-        name = accessTypeName;
+        name = accessTypeName.toUpperCase();
         allowDownload = enableDownload;
     }
     
     public static final AccessType fromString(String s){
+        s = s.toUpperCase();
         AccessType ret = null;
         AccessType[] vals = values();
         for(int i = 0; i < vals.length && ret == null; i++){
