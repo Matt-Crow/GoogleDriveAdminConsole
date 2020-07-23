@@ -9,15 +9,26 @@ package structs;
  * 
  * @author Matt Crow
  */
-public class SimpleUserInfo {
+public class SimpleUserInfo implements Groupable {
     private final String email;
+    private final Groups groups;
+    
+    /**
+     * 
+     * @param emailAddr the email address of this user 
+     * @param g the Groups this user belongs to
+     */
+    public SimpleUserInfo(String emailAddr, Groups g){
+        email = emailAddr;
+        groups = g;
+    }
     
     /**
      * 
      * @param emailAddr the email address of this user 
      */
     public SimpleUserInfo(String emailAddr){
-        email = emailAddr;
+        this(emailAddr, new Groups(Groups.ALL_GROUP));
     }
     
     /**
@@ -32,8 +43,9 @@ public class SimpleUserInfo {
     public String toString(){
         return email;
     }
-    
-    public boolean shouldGet(SimpleFileInfo file){
-        return true;
+
+    @Override
+    public Groups getGroups() {
+        return groups;
     }
 }

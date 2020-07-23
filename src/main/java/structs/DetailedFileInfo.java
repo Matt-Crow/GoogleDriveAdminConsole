@@ -14,7 +14,6 @@ package structs;
 public class DetailedFileInfo extends SimpleFileInfo{
     private final String fileDesc;
     private final String fileUrl;
-    private final Groups groups;
     private final boolean isDownloadable;
     
     /**
@@ -22,14 +21,13 @@ public class DetailedFileInfo extends SimpleFileInfo{
      * @param id the ID of the Google Drive file or folder this represents
      * @param desc a brief textual description of the file
      * @param url a URL camp admins can use to view the file
-     * @param groupNames the groups this file should be given to
+     * @param forGroups the groups this file should be given to
      * @param viewersShouldDownload whether or not viewers should be able to download this file
      */
-    public DetailedFileInfo(String id, String desc, String url, String groupNames, boolean viewersShouldDownload){
-        super(id);
+    public DetailedFileInfo(String id, String desc, String url, Groups forGroups, boolean viewersShouldDownload){
+        super(id, forGroups);
         fileDesc = desc;
         fileUrl = url;
-        groups = new Groups(groupNames);
         isDownloadable = viewersShouldDownload;
     }
     
@@ -37,16 +35,12 @@ public class DetailedFileInfo extends SimpleFileInfo{
         return isDownloadable;
     }
     
-    public final Groups getGroups(){
-        return groups;
-    }
-    
     @Override
     public String toString(){
         return String.format(
             "People of group %s should be given %s access to %s (%s),"
             + "which you can find at %s",
-            groups.toString(),
+            getGroups().toString(),
             (isDownloadable) ? "copy" : "view",
             getFileId(),
             fileDesc,

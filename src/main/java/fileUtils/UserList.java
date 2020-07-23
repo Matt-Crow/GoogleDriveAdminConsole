@@ -4,6 +4,7 @@ import java.util.AbstractCollection;
 import java.util.LinkedList;
 import java.util.List;
 import structs.DetailedUserInfo;
+import structs.Groups;
 import structs.SimpleUserInfo;
 import sysUtils.Logger;
 
@@ -50,7 +51,8 @@ public class UserList extends LinkedList<SimpleUserInfo>{
                 if(row.get(emailCol).trim().isEmpty()){
                     throw new CsvException(String.format("Row does not contain an email address, it has the following data: %s", String.join(", ", row)));
                 }
-                add(new DetailedUserInfo(row.get(nameCol), row.get(emailCol), row.get(mcUserCol), row.get(groupCol)));
+                String groupNames = (row.get(groupCol).trim().isEmpty()) ? Groups.ALL_GROUP : row.get(groupCol).trim();
+                add(new DetailedUserInfo(row.get(nameCol), row.get(emailCol), row.get(mcUserCol), new Groups(groupNames)));
             } catch (CsvException ex){
                 Logger.logError(ex);
             }

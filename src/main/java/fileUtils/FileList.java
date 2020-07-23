@@ -64,13 +64,13 @@ public class FileList extends LinkedList<SimpleFileInfo>{
                     throw new CsvException(String.format("Row does not contain a file ID, it has the following data: %s", String.join(", ", row)));
                 }
                 
-                String groupName = (row.get(groupCol).trim().isEmpty()) ? Groups.ALL_GROUP : row.get(groupCol).trim();
+                String groupNames = (row.get(groupCol).trim().isEmpty()) ? Groups.ALL_GROUP : row.get(groupCol).trim();
                 boolean ableToDownload = AccessType.fromString(row.get(accTypeCol)).shouldAllowDownload();
                 add(new DetailedFileInfo(
                     row.get(idCol), 
                     row.get(descCol), 
                     row.get(urlCol), 
-                    groupName, 
+                    new Groups(groupNames), 
                     ableToDownload
                 ));
             } catch (CsvException ex){

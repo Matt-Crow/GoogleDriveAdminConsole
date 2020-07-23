@@ -23,7 +23,7 @@ public class UserToFileMapping {
         ArrayList<UserToFileMapping> products = new ArrayList<>();
         users.forEach((user) -> {
             files.forEach((file) -> {
-                if(user.shouldGet(file)){
+                if(Groups.intersects(user, file)){
                     products.add(new UserToFileMapping(user, file));
                 }
             });

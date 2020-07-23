@@ -32,6 +32,12 @@ public class Groups {
         }
     }
     
+    public Groups copy(){
+        Groups clone = new Groups();
+        groupNames.forEach((n)->clone.add(n));
+        return clone;
+    }
+    
     /**
      * Used to check if two Groups share a common group name.
      * @param g1
@@ -81,7 +87,7 @@ public class Groups {
     
     @Override
     public String toString(){
-        return String.join(GROUP_DELIMINATOR, groupNames);
+        return String.format("Groups{%s}", String.join(", ", groupNames));
     }
     
     public static void main(String[] args){

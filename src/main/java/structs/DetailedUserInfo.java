@@ -12,20 +12,18 @@ package structs;
 public final class DetailedUserInfo extends SimpleUserInfo{
     private final String name;
     private final String mcUsername;
-    private final Groups groups;
     
     /**
      * 
      * @param username the human name of this user
      * @param emailAddr the email address of this user
      * @param minecraftUsername the minecraft username of this user
-     * @param groupNames the names of the groups this user belongs to, separated by '/''s
+     * @param inGroups the groups this user belongs to
      */
-    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, String groupNames){
-        super(emailAddr);
+    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, Groups inGroups){
+        super(emailAddr, inGroups);
         name = username;
         mcUsername = minecraftUsername;
-        groups = new Groups(groupNames);
     }
     
     /**
@@ -44,19 +42,12 @@ public final class DetailedUserInfo extends SimpleUserInfo{
         return mcUsername;
     }
     
-    // group class for this
-    @Override
-    public boolean shouldGet(SimpleFileInfo info){
-        //     has no designated group             or                          this user is in the group
-        return !(info instanceof DetailedFileInfo) || Groups.intersects(((DetailedFileInfo)info).getGroups(), groups);
-    }
-    
     @Override
     public String toString(){
         return String.format("User %s:" 
             + "\n\tEmail: %s"
             + "\n\tMinecraft Username: %s"
             + "\n\tGroup: %s", 
-            name, getEmail(), mcUsername, groups.toString());
+            name, getEmail(), mcUsername, getGroups().toString());
     }
 }
