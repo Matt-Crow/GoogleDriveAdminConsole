@@ -37,12 +37,29 @@ public class Groups {
      * @param g1
      * @param g2
      * @return whether or not the intersection of g1 and g2's 
-     * group name sets contains at least one element.
+     * group name sets contains at least one element, or if either of them contain the all group.
      */
     public static boolean intersects(Groups g1, Groups g2){
-        return g1.groupNames.stream().anyMatch((String groupName)->{
-            return g2.groupNames.contains(groupName);
-        });
+        // first, if either of them belongs to the Universal Set of groups, they are considered to intersect
+        boolean doIntersect = g1.groupNames.contains(ALL_GROUP) || g2.groupNames.contains(ALL_GROUP);
+        
+        if(!doIntersect){
+            // check if they share a common element
+            doIntersect = g1.groupNames.stream().anyMatch((String groupName)->g2.groupNames.contains(groupName));
+        }
+        
+        return doIntersect;
+    }
+    
+    /**
+     * Used to check if two Groups share a common group name.
+     * @param g1
+     * @param g2
+     * @return whether or not the intersection of g1 and g2's 
+     * group name sets contains at least one element.
+     */
+    public static boolean intersects(Groupable g1, Groupable g2){
+        return intersects(g1.getGroups(), g2.getGroups());
     }
     
     /**
