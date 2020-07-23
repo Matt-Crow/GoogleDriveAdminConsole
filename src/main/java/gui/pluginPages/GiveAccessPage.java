@@ -75,7 +75,7 @@ public class GiveAccessPage extends AbstractFormPage{
     @Override
     public void doSubmit() throws IOException {
         MainPane parent = getPaneParent();
-        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().parseCertificationForm((GoogleSheetProperties)userPropSel.getSelectedProperties(),
+        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().shareFiles((GoogleSheetProperties)userPropSel.getSelectedProperties(),
             (GoogleSheetProperties) filePropSel.getSelectedProperties(),
             isTest.isSelected()
         ).doExecute();

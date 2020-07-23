@@ -1,7 +1,7 @@
 package drive.commands.utils;
 
 import drive.commands.implementations.GiveViewAccess;
-import drive.commands.implementations.ParseCertificationForm;
+import drive.commands.implementations.ShareFiles;
 import drive.commands.implementations.ReadUserList;
 import drive.commands.implementations.ReadFileList;
 import drive.commands.implementations.UpdateDownloadAccess;
@@ -11,7 +11,7 @@ import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 
 /**
- *
+ * Likely get rid of this in the future
  * @author Matt
  */
 public class CommandFactory {
@@ -21,15 +21,15 @@ public class CommandFactory {
         services = service;
     }
     
-    public final ReadUserList readCertForm(GoogleSheetProperties info){
+    public final ReadUserList readUserList(GoogleSheetProperties info){
         return new ReadUserList(services, info);
     }
     public final ReadFileList readFileList(GoogleSheetProperties info){
         return new ReadFileList(services, info);
     }
     
-    public final ParseCertificationForm parseCertificationForm(GoogleSheetProperties formInfo, GoogleSheetProperties fileInfo, boolean isTest){
-        return new ParseCertificationForm(services, formInfo, fileInfo, isTest);
+    public final ShareFiles shareFiles(GoogleSheetProperties formInfo, GoogleSheetProperties fileInfo, boolean isTest){
+        return new ShareFiles(services, formInfo, fileInfo, isTest);
     }
     
     public final GiveViewAccess giveAccess(List<UserToFileMapping> mappings){

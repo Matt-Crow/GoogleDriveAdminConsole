@@ -3,7 +3,7 @@ package structs;
 /**
  * This class is used to store data
  * downloaded from the user list via
- * the ParseCertificationForm command.
+ * the ReadUserList command.
  * It is used to connect various account
  * information datums together.
  * 

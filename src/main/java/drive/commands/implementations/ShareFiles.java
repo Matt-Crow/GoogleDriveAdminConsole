@@ -15,15 +15,15 @@ import sysUtils.Logger;
  * 
  * @author Matt
  */
-public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFileMapping>>{
-    private final GoogleSheetProperties certFormInfo;
-    private final GoogleSheetProperties fileListInfo;
+public class ShareFiles extends AbstractDriveCommand<List<UserToFileMapping>>{
+    private final GoogleSheetProperties userListProps;
+    private final GoogleSheetProperties fileListProps;
     private final boolean isTest;
     
-    public ParseCertificationForm(GoogleDriveService service, GoogleSheetProperties source, GoogleSheetProperties fileList, boolean thisIsATest) {
+    public ShareFiles(GoogleDriveService service, GoogleSheetProperties source, GoogleSheetProperties fileList, boolean thisIsATest) {
         super(service);
-        certFormInfo = source;
-        fileListInfo = fileList;
+        userListProps = source;
+        fileListProps = fileList;
         isTest = thisIsATest;
     }
 
@@ -32,19 +32,19 @@ public class ParseCertificationForm extends AbstractDriveCommand<List<UserToFile
         StringBuilder msg = new StringBuilder();
         
         // first, extract the campers from the form responses
-        UserList newCampers = new ReadUserList(getServiceAccess(), certFormInfo).doExecute();
+        UserList newUsers = new ReadUserList(getServiceAccess(), userListProps).doExecute();
         
-        msg.append("Contents of certification form:");
-        newCampers.forEach((camper)->msg.append("\n").append(camper.toString()));
+        msg.append("Contents of user list:");
+        newUsers.forEach((user)->msg.append("\n").append(user.toString()));
         
         
         // next, get the list of files campers will get access to
-        FileList files = new ReadFileList(getServiceAccess(), fileListInfo).doExecute();
+        FileList files = new ReadFileList(getServiceAccess(), fileListProps).doExecute();
         msg.append("\nFiles they will get:");
         files.forEach((file)->msg.append("\n").append(file.toString()));
         
         // construct the list of requests to make
-        ArrayList<UserToFileMapping> whoGetsWhat = UserToFileMapping.constructUserFileList(newCampers, files);
+        ArrayList<UserToFileMapping> whoGetsWhat = UserToFileMapping.constructUserFileList(newUsers, files);
         
         msg.append("\nCreating the following mappings:");
         whoGetsWhat.forEach((mapping)->msg.append("\n").append(mapping.toString()));

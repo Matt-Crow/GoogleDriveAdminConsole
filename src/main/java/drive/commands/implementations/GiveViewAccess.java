@@ -15,7 +15,7 @@ import structs.UserToFileMapping;
 import sysUtils.Logger;
 
 /**
- * GiveViewAccess is used to grant either view or edit access to files.
+ * GiveViewAccess is used to grant view access to files.
  * It automatically batches the requests it makes.
  * 
  * @author Matt Crow
@@ -113,8 +113,6 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
                 Logger.logError(ex);
             }
         });
-        
-        
         
         return true;
     }
