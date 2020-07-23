@@ -25,10 +25,10 @@ public class CsvFile {
         rows = new LinkedList<>();
     }
     
-    public final CsvFile addHeader(String header){
+    public final CsvFile addHeader(String header) throws CsvException{
         header = header.toUpperCase();
         if(columns.containsKey(header)){
-            throw new IllegalArgumentException("This already has header " + header + ". Cannot duplicate headers");
+            throw new CsvException("This already has header " + header + ". Cannot duplicate headers");
         }
         columns.put(header, headers.size());
         headers.add(header);
@@ -77,10 +77,12 @@ public class CsvFile {
         return this;
     }
     
-    public static final CsvFile from(List<List<Object>> nestedLists){
+    public static final CsvFile from(List<List<Object>> nestedLists) throws CsvException{
         CsvFile ret = new CsvFile();
         if(!nestedLists.isEmpty()){
-            nestedLists.get(0).forEach((header)->ret.addHeader(header.toString()));
+            for(Object header : nestedLists.get(0)){
+                ret.addHeader(header.toString());
+            }
             for(int rowNum = 1; rowNum < nestedLists.size(); rowNum++){
                 ret.addRow(nestedLists.get(rowNum));
             }
