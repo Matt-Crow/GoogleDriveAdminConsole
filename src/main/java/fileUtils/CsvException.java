@@ -1,12 +1,11 @@
 package fileUtils;
 
-import java.io.IOException;
 
 /**
  *
  * @author Matt
  */
-public class CsvException extends IOException {
+public class CsvException extends RuntimeException {
 
     CsvException(String msg) {
         super(msg);

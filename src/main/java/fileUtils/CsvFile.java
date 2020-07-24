@@ -48,10 +48,10 @@ public class CsvFile {
         return this;
     }
     
-    public final int getColumnIdx(String header){
+    public final int getColumnIdx(String header) throws MissingHeaderException{
         header = header.toUpperCase();
         if(!hasHeader(header)){
-            throw new RuntimeException(String.format("Does not contain header %s. Valid headers are %s", header, String.join(", ", headers)));
+            throw new MissingHeaderException(header, this);
         }
         return columns.get(header);
     }
@@ -59,10 +59,14 @@ public class CsvFile {
         return columns.containsKey(header.toUpperCase());
     }
     
-    public final ArrayList<String> getColumn(String header){
+    public final String[] getHeaders(){
+        return headers.toArray(new String[]{});
+    }
+    
+    public final ArrayList<String> getColumn(String header) throws MissingHeaderException{
         header = header.toUpperCase();
         if(!hasHeader(header)){
-            throw new RuntimeException(String.format("Does not contain header %s. Valid headers are %s", header, String.join(", ", headers)));
+            throw new MissingHeaderException(header, this);
         }
         ArrayList<String> ret = new ArrayList<>();
         int colIdx = columns.get(header);

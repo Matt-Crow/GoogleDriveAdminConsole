@@ -19,7 +19,7 @@ public class UserList extends LinkedList<SimpleUserInfo>{
     public static final String NAME_HEADER = "name";
     public static final String EMAIL_HEADER = "email";
     public static final String MC_USER_HEADER = "minecraft username";
-    public static final String GROUP_HEADER = "group";
+    public static final String GROUP_HEADER = "groups";
     
     public UserList(){
         super();

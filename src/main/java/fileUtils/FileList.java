@@ -26,7 +26,7 @@ public class FileList extends LinkedList<SimpleFileInfo>{
     public static final String DESC_HEADER = "desc";
     public static final String URL_HEADER = "URL";
     public static final String ACC_TYPE_HEADER = "access type";
-    public static final String GROUP_HEADER = "group";
+    public static final String GROUP_HEADER = "groups";
     
     public FileList(){
         super();
@@ -51,12 +51,26 @@ public class FileList extends LinkedList<SimpleFileInfo>{
         addFromCsv(csvFile);
     }
     
-    public final void addFromCsv(CsvFile csvFile) throws CsvException{
+    public final void addFromCsv(CsvFile csvFile) throws MissingHeaderException {
+        // first, see if it has the mandatory columns.
         int idCol = csvFile.getColumnIdx(ID_HEADER);
-        int descCol = csvFile.getColumnIdx(DESC_HEADER);
+        
+        // next, optional ones
+        // I really don't like this. Need better way
+        if(!csvFile.hasHeader(URL_HEADER)){
+            csvFile.addHeader(URL_HEADER);
+        }
+        if(!csvFile.hasHeader(ACC_TYPE_HEADER)){
+            csvFile.addHeader(ACC_TYPE_HEADER);
+        }
+        if(!csvFile.hasHeader(GROUP_HEADER)){
+            csvFile.addHeader(GROUP_HEADER);
+        }
+        int descCol = csvFile.getColumnIdx(DESC_HEADER);; 
         int urlCol = csvFile.getColumnIdx(URL_HEADER);
         int accTypeCol = csvFile.getColumnIdx(ACC_TYPE_HEADER);
         int groupCol = csvFile.getColumnIdx(GROUP_HEADER);
+        
         
         csvFile.forEachBodyRow((List<String> row)->{
             try{
