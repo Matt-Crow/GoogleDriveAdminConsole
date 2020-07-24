@@ -2,12 +2,10 @@ package pluginUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.ServiceLoader;
 import plugins.DownloadPermissionPlugin;
 import plugins.FileListReaderPlugin;
 import plugins.GiveAccessPlugin;
 import plugins.GoogleSheetPropsPlugin;
-import plugins.QuickAccessPlugin;
 import plugins.UserListReaderPlugin;
 
 /**
@@ -48,7 +46,6 @@ public class PluginLoader {
      */
     public List<AbstractPlugin> getAllPlugins(){
         return Arrays.asList(
-            new QuickAccessPlugin(),
             new GiveAccessPlugin(),
             new FileListReaderPlugin(),
             new UserListReaderPlugin(),
