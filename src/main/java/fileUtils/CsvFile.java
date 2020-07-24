@@ -63,6 +63,10 @@ public class CsvFile {
         return headers.toArray(new String[]{});
     }
     
+    public final int getHeaderCount(){
+        return headers.size();
+    }
+    
     public final ArrayList<String> getColumn(String header) throws MissingHeaderException{
         header = header.toUpperCase();
         if(!hasHeader(header)){
