@@ -61,13 +61,18 @@ public class FileList extends LinkedList<SimpleFileInfo>{
                     throw new CsvException(String.format("Row does not contain a file ID, it has the following data: %s", row.toString()));
                 }
                 
+                String groupsString = row.getOrDefault(GROUP_HEADER, Groups.ALL_GROUP).trim();
+                if(groupsString.isEmpty()){
+                    groupsString = Groups.ALL_GROUP;
+                }
+                
                 // how to handle optional AccessType?
                 boolean ableToDownload = AccessType.fromString(row.get(ACC_TYPE_HEADER)).shouldAllowDownload();
                 add(new DetailedFileInfo(
                     row.get(idCol).trim(), 
                     row.getOrDefault(DESC_HEADER, "no description").trim(), 
                     row.getOrDefault(URL_HEADER, "no URL provided").trim(), 
-                    new Groups(row.getOrDefault(GROUP_HEADER, Groups.ALL_GROUP).trim()), 
+                    new Groups(groupsString), 
                     ableToDownload
                 ));
             } catch (CsvException ex){

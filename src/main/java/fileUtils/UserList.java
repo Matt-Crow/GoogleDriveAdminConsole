@@ -48,11 +48,17 @@ public class UserList extends LinkedList<SimpleUserInfo>{
                 if(row.get(emailCol).trim().isEmpty()){
                     throw new CsvException(String.format("Row does not contain an email address, it has the following data: %s", row.toString()));
                 }
+                
+                String groupsString = row.getOrDefault(GROUP_HEADER, Groups.ALL_GROUP).trim();
+                if(groupsString.isEmpty()){
+                    groupsString = Groups.ALL_GROUP;
+                }
+                
                 add(new DetailedUserInfo(
                     row.getOrDefault(NAME_HEADER, "name not set").trim(), 
                     row.get(emailCol).trim(), 
                     row.getOrDefault(MC_USER_HEADER, "Minecraft username not set").trim(), 
-                    new Groups(row.getOrDefault(GROUP_HEADER, Groups.ALL_GROUP).trim())
+                    new Groups(groupsString)
                 ));
             } catch (CsvException ex){
                 Logger.logError(ex);

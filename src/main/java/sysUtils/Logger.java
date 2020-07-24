@@ -64,6 +64,7 @@ public class Logger {
     public static final void logError(Exception ex){
         StringBuilder stackTrace = new StringBuilder();
         stackTrace.append(ex.getMessage());
+        stackTrace.append("\n").append(ex.toString());
         for(StackTraceElement frame : ex.getStackTrace()){
             stackTrace.append("\n- ").append(frame.toString());
         }

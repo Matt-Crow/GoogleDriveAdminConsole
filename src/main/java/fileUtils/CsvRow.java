@@ -1,5 +1,6 @@
 package fileUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import sysUtils.Logger;
@@ -14,7 +15,7 @@ public class CsvRow {
     
     public CsvRow(CsvFile file){
         parent = file;
-        values = Arrays.asList();
+        values = new ArrayList<>();
         padValues();
     }
     
