@@ -9,7 +9,9 @@ package structs;
  * 
  * @author Matt Crow
  */
-public final class DetailedUserInfo extends SimpleUserInfo{
+public final class UserInfo implements Groupable {
+    private final String email;
+    private final Groups groups;
     private final String name;
     private final String mcUsername;
     
@@ -20,10 +22,11 @@ public final class DetailedUserInfo extends SimpleUserInfo{
      * @param minecraftUsername the minecraft username of this user
      * @param inGroups the groups this user belongs to
      */
-    public DetailedUserInfo(String username, String emailAddr, String minecraftUsername, Groups inGroups){
-        super(emailAddr, inGroups);
+    public UserInfo(String username, String emailAddr, String minecraftUsername, Groups inGroups){
+        email = emailAddr;
         name = username;
         mcUsername = minecraftUsername;
+        groups = inGroups;
     }
     
     /**
@@ -36,6 +39,14 @@ public final class DetailedUserInfo extends SimpleUserInfo{
     
     /**
      * 
+     * @return the email address of this user 
+     */
+    public final String getEmail(){
+        return email;
+    }
+    
+    /**
+     * 
      * @return the Minecraft username of this user.
      */
     public String getMinecraftUsername(){
@@ -43,11 +54,16 @@ public final class DetailedUserInfo extends SimpleUserInfo{
     }
     
     @Override
+    public Groups getGroups() {
+        return groups;
+    }
+    
+    @Override
     public String toString(){
         return String.format("User %s:" 
             + "\n\tEmail: %s"
             + "\n\tMinecraft Username: %s"
-            + "\n\tGroup: %s", 
-            name, getEmail(), mcUsername, getGroups().toString());
+            + "\n\tGroups: %s", 
+            name, email, mcUsername, groups.toString());
     }
 }

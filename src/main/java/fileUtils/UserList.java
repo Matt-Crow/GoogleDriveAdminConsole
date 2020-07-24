@@ -3,16 +3,15 @@ package fileUtils;
 import java.util.AbstractCollection;
 import java.util.LinkedList;
 import java.util.List;
-import structs.DetailedUserInfo;
+import structs.UserInfo;
 import structs.Groups;
-import structs.SimpleUserInfo;
 import sysUtils.Logger;
 
 /**
  *
  * @author Matt
  */
-public class UserList extends LinkedList<SimpleUserInfo>{
+public class UserList extends LinkedList<UserInfo>{
     /*
     Attributes belonging to all user lists
     */
@@ -25,12 +24,12 @@ public class UserList extends LinkedList<SimpleUserInfo>{
         super();
     }
     
-    public UserList(AbstractCollection<? extends SimpleUserInfo> users){
+    public UserList(AbstractCollection<UserInfo> users){
         this();
         addAll(users);
     }
     
-    public UserList(List<? extends SimpleUserInfo> users){
+    public UserList(List<UserInfo> users){
         this();
         addAll(users);
     }
@@ -54,7 +53,7 @@ public class UserList extends LinkedList<SimpleUserInfo>{
                     groupsString = Groups.ALL_GROUP;
                 }
                 
-                add(new DetailedUserInfo(
+                add(new UserInfo(
                     row.getOrDefault(NAME_HEADER, "name not set").trim(), 
                     row.get(emailCol).trim(), 
                     row.getOrDefault(MC_USER_HEADER, "Minecraft username not set").trim(), 
