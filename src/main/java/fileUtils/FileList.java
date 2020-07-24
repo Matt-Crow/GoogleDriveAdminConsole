@@ -55,36 +55,19 @@ public class FileList extends LinkedList<SimpleFileInfo>{
         // first, see if it has the mandatory columns.
         int idCol = csvFile.getColumnIdx(ID_HEADER);
         
-        // next, optional ones
-        // I really don't like this. Need better way
-        if(!csvFile.hasHeader(URL_HEADER)){
-            csvFile.addHeader(URL_HEADER);
-        }
-        if(!csvFile.hasHeader(ACC_TYPE_HEADER)){
-            csvFile.addHeader(ACC_TYPE_HEADER);
-        }
-        if(!csvFile.hasHeader(GROUP_HEADER)){
-            csvFile.addHeader(GROUP_HEADER);
-        }
-        int descCol = csvFile.getColumnIdx(DESC_HEADER);; 
-        int urlCol = csvFile.getColumnIdx(URL_HEADER);
-        int accTypeCol = csvFile.getColumnIdx(ACC_TYPE_HEADER);
-        int groupCol = csvFile.getColumnIdx(GROUP_HEADER);
-        
-        
-        csvFile.forEachBodyRow((List<String> row)->{
+        csvFile.forEachBodyRow((CsvRow row)->{
             try{
                 if(row.get(idCol).trim().isEmpty()){
-                    throw new CsvException(String.format("Row does not contain a file ID, it has the following data: %s", String.join(", ", row)));
+                    throw new CsvException(String.format("Row does not contain a file ID, it has the following data: %s", row.toString()));
                 }
                 
-                String groupNames = (row.get(groupCol).trim().isEmpty()) ? Groups.ALL_GROUP : row.get(groupCol).trim();
-                boolean ableToDownload = AccessType.fromString(row.get(accTypeCol)).shouldAllowDownload();
+                // how to handle optional AccessType?
+                boolean ableToDownload = AccessType.fromString(row.get(ACC_TYPE_HEADER)).shouldAllowDownload();
                 add(new DetailedFileInfo(
-                    row.get(idCol), 
-                    row.get(descCol), 
-                    row.get(urlCol), 
-                    new Groups(groupNames), 
+                    row.get(idCol).trim(), 
+                    row.getOrDefault(DESC_HEADER, "no description").trim(), 
+                    row.getOrDefault(URL_HEADER, "no URL provided").trim(), 
+                    new Groups(row.getOrDefault(GROUP_HEADER, Groups.ALL_GROUP).trim()), 
                     ableToDownload
                 ));
             } catch (CsvException ex){

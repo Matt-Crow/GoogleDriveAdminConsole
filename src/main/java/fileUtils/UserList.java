@@ -41,18 +41,19 @@ public class UserList extends LinkedList<SimpleUserInfo>{
     }
     
     public final void addFromCsv(CsvFile csvFile) throws CsvException{
-        int nameCol = csvFile.getColumnIdx(NAME_HEADER);
         int emailCol = csvFile.getColumnIdx(EMAIL_HEADER);
-        int mcUserCol = csvFile.getColumnIdx(MC_USER_HEADER);
-        int groupCol = csvFile.getColumnIdx(GROUP_HEADER);
         
-        csvFile.forEachBodyRow((List<String> row)->{
+        csvFile.forEachBodyRow((CsvRow row)->{
             try{
                 if(row.get(emailCol).trim().isEmpty()){
-                    throw new CsvException(String.format("Row does not contain an email address, it has the following data: %s", String.join(", ", row)));
+                    throw new CsvException(String.format("Row does not contain an email address, it has the following data: %s", row.toString()));
                 }
-                String groupNames = (row.get(groupCol).trim().isEmpty()) ? Groups.ALL_GROUP : row.get(groupCol).trim();
-                add(new DetailedUserInfo(row.get(nameCol), row.get(emailCol), row.get(mcUserCol), new Groups(groupNames)));
+                add(new DetailedUserInfo(
+                    row.getOrDefault(NAME_HEADER, "name not set").trim(), 
+                    row.get(emailCol).trim(), 
+                    row.getOrDefault(MC_USER_HEADER, "Minecraft username not set").trim(), 
+                    new Groups(row.getOrDefault(GROUP_HEADER, Groups.ALL_GROUP).trim())
+                ));
             } catch (CsvException ex){
                 Logger.logError(ex);
             }

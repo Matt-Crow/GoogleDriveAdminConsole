@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 public class CsvFile {
     private final HashMap<String, Integer> columns;
     private final ArrayList<String> headers;
-    private final LinkedList<List<String>> rows;
+    private final LinkedList<CsvRow> rows;
     
     /**
      * Creates an empty CSV file interface
@@ -33,18 +32,13 @@ public class CsvFile {
         columns.put(header, headers.size());
         headers.add(header);
         // pad out rows
-        rows.forEach((list)->{
-            while(list.size() < headers.size()){
-                list.add("");
-            }
+        rows.forEach((row)->{
+            row.padValues();
         });
         return this;
     }
     public final CsvFile addRow(List<Object> row){
-        List<String> newRow = row.stream().map((obj)->{
-            return obj.toString();
-        }).collect(Collectors.toList());
-        rows.add(newRow);
+        rows.add(new CsvRow(this, row.toArray()));
         return this;
     }
     
@@ -74,13 +68,13 @@ public class CsvFile {
         }
         ArrayList<String> ret = new ArrayList<>();
         int colIdx = columns.get(header);
-        rows.forEach((List<String> row)->{
+        rows.forEach((CsvRow row)->{
             ret.add(row.get(colIdx));
         });
         return ret;
     }
     
-    public final CsvFile forEachBodyRow(Consumer<List<String>> rowConsumer){
+    public final CsvFile forEachBodyRow(Consumer<CsvRow> rowConsumer){
         rows.forEach(rowConsumer);
         return this;
     }

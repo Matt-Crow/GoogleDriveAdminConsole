@@ -18,6 +18,13 @@ public class CsvRow {
         padValues();
     }
     
+    public CsvRow(CsvFile file, Object[] vals){
+        this(file);
+        for(int i = 0; i < vals.length; i++){
+            values.set(i, vals[i].toString());
+        }
+    }
+    
     /**
      * Adds blank cells to this row
      * until it is as wide as its parent.
@@ -38,14 +45,17 @@ public class CsvRow {
         values.set(idx, value);
     }
     
-    public String get(String columnHeader){
-        int idx = parent.getColumnIdx(columnHeader);
-        
+    
+    public String get(int idx){
         if(idx >= values.size()){
             padValues();
         }
         return values.get(idx);
     }
+    
+    public String get(String columnHeader){
+        return get(parent.getColumnIdx(columnHeader));
+    }    
     
     /**
      * Returns the value in the given column, or defaultValue if this CsvRow
@@ -58,11 +68,15 @@ public class CsvRow {
     public String getOrDefault(String columnHeader, String defaultValue){
         String ret = defaultValue;
         try{
-            int idx = parent.getColumnIdx(columnHeader);
             ret = get(columnHeader);
         } catch(MissingHeaderException ex){
             Logger.logError(ex);
         }
         return ret;
+    }
+    
+    @Override
+    public String toString(){
+        return String.join(", ", values);
     }
 }
