@@ -4,9 +4,8 @@ import java.util.AbstractCollection;
 import java.util.LinkedList;
 import java.util.List;
 import structs.AccessType;
-import structs.DetailedFileInfo;
+import structs.FileInfo;
 import structs.Groups;
-import structs.SimpleFileInfo;
 import sysUtils.Logger;
 
 /**
@@ -18,7 +17,7 @@ import sysUtils.Logger;
  * 
  * @author Matt Crow
  */
-public class FileList extends LinkedList<SimpleFileInfo>{
+public class FileList extends LinkedList<FileInfo>{
     /*
     Attributes belonging to all file lists
      */
@@ -31,11 +30,11 @@ public class FileList extends LinkedList<SimpleFileInfo>{
     public FileList(){
         super();
     }
-    public FileList(AbstractCollection<? extends SimpleFileInfo> files){
+    public FileList(AbstractCollection<FileInfo> files){
         this();
         addAll(files);
     }
-    public FileList(List<? extends SimpleFileInfo> files){
+    public FileList(List<FileInfo> files){
         this();
         addAll(files);
     }
@@ -68,7 +67,7 @@ public class FileList extends LinkedList<SimpleFileInfo>{
                 
                 // how to handle optional AccessType?
                 boolean ableToDownload = AccessType.fromString(row.get(ACC_TYPE_HEADER)).shouldAllowDownload();
-                add(new DetailedFileInfo(
+                add(new FileInfo(
                     row.get(idCol).trim(), 
                     row.getOrDefault(DESC_HEADER, "no description").trim(), 
                     row.getOrDefault(URL_HEADER, "no URL provided").trim(), 

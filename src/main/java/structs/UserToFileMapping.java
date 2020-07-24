@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class UserToFileMapping {
     private final UserInfo user;
-    private final SimpleFileInfo file;
+    private final FileInfo file;
     
-    public UserToFileMapping(UserInfo person, SimpleFileInfo driveFile){
+    public UserToFileMapping(UserInfo person, FileInfo driveFile){
         user = person;
         file = driveFile;
     }
@@ -34,7 +34,7 @@ public class UserToFileMapping {
     public UserInfo getUser(){
         return user;        
     }
-    public SimpleFileInfo getFile(){
+    public FileInfo getFile(){
         return file;
     }
     

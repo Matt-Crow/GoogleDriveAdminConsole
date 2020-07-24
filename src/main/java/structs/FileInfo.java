@@ -11,10 +11,12 @@ package structs;
  * 
  * @author Matt Crow
  */
-public class DetailedFileInfo extends SimpleFileInfo{
+public class FileInfo implements Groupable {
+    private final String fileId;
     private final String fileDesc;
     private final String fileUrl;
     private final boolean isDownloadable;
+    private final Groups groups;
     
     /**
      * 
@@ -24,11 +26,20 @@ public class DetailedFileInfo extends SimpleFileInfo{
      * @param forGroups the groups this file should be given to
      * @param viewersShouldDownload whether or not viewers should be able to download this file
      */
-    public DetailedFileInfo(String id, String desc, String url, Groups forGroups, boolean viewersShouldDownload){
-        super(id, forGroups);
+    public FileInfo(String id, String desc, String url, Groups forGroups, boolean viewersShouldDownload){
+        fileId = id;
         fileDesc = desc;
         fileUrl = url;
         isDownloadable = viewersShouldDownload;
+        groups = forGroups;
+    }
+    
+    /**
+     * 
+     * @return the ID of the Google Drive file or folder this represents
+     */
+    public final String getFileId(){
+        return fileId;
     }
     
     public final boolean shouldCopyBeEnabled(){
@@ -36,13 +47,18 @@ public class DetailedFileInfo extends SimpleFileInfo{
     }
     
     @Override
+    public Groups getGroups() {
+        return groups;
+    }
+    
+    @Override
     public String toString(){
         return String.format(
             "People of group %s should be given %s access to %s (%s),"
             + "which you can find at %s",
-            getGroups().toString(),
+            groups.toString(),
             (isDownloadable) ? "copy" : "view",
-            getFileId(),
+            fileId,
             fileDesc,
             fileUrl
         );

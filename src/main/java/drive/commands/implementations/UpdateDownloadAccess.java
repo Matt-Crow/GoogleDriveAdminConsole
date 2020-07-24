@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import start.GoogleDriveService;
-import structs.DetailedFileInfo;
+import structs.FileInfo;
 import structs.GoogleSheetProperties;
 import sysUtils.Logger;
 
@@ -25,8 +25,8 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         fileList = driveFileList;
     }
 
-    private List<DetailedFileInfo> getLeaves(DetailedFileInfo root){
-        List<DetailedFileInfo> childFiles = new ArrayList<>();
+    private List<FileInfo> getLeaves(FileInfo root){
+        List<FileInfo> childFiles = new ArrayList<>();
         try {
             File rootFile = getDrive().files().get(root.getFileId()).execute();
             if("application/vnd.google-apps.folder".equals(rootFile.getMimeType())){
@@ -34,14 +34,14 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                 List<File> childDirsAndFiles = getDrive().files().list()
                     .setQ(String.format("'%s' in parents and trashed = false", root.getFileId())).execute().getFiles();
                 childDirsAndFiles.stream().map((File newRootFile)->{
-                    return new DetailedFileInfo(
+                    return new FileInfo(
                         newRootFile.getId(),
                         newRootFile.getName(),
                         newRootFile.getThumbnailLink(),
                         root.getGroups().copy(), // inherit group from parent
                         root.shouldCopyBeEnabled() // inherit downloadability from parent
                     );
-                }).forEach((DetailedFileInfo newRootInfo)->{
+                }).forEach((FileInfo newRootInfo)->{
                     childFiles.addAll(getLeaves(newRootInfo));
                 });
             } else {
@@ -62,10 +62,10 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         msg.append("All files:");
         allCampFiles.forEach((file)->msg.append("\n").append(file.toString()));
         
-        List<DetailedFileInfo> allLeafNodes = new ArrayList<>();
+        List<FileInfo> allLeafNodes = new ArrayList<>();
         allCampFiles.forEach((file)->{
-            if(file instanceof DetailedFileInfo){
-                allLeafNodes.addAll(getLeaves((DetailedFileInfo)file));
+            if(file instanceof FileInfo){
+                allLeafNodes.addAll(getLeaves((FileInfo)file));
             } else {
                 Logger.logError("Not a detailed file info in UpdateDownloadAccess: " + file.toString());
             }
@@ -78,7 +78,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         Drive.Files files = getDrive().files();
         List<Drive.Files.Update> updates = allLeafNodes
             .stream()
-            .map((DetailedFileInfo info)->{
+            .map((FileInfo info)->{
                 Drive.Files.Update update = null;
                 File newChanges = new File();
                 try {
