@@ -84,17 +84,31 @@ public class GoogleDriveService {
     }
     
     /**
+     * Call this method at the beginning of the program to ensure the Google Drive API works.
+     * @return
+     * @throws GeneralSecurityException
+     * @throws IOException 
+     */
+    public static final boolean validateService() throws GeneralSecurityException, IOException{
+        boolean isValidated = false;
+        if(instance == null){
+            instance = new GoogleDriveService();
+            isValidated = true;
+        } else {
+            isValidated = true;
+        }
+        return isValidated;
+    }
+    /**
      * Use this method to gain access to the GoogleDriveService.
      * If the drive service has not yet been initialized, calls
      * the constructor.
      * 
      * @return the GoogleDriveService instance.
-     * @throws GeneralSecurityException if Google fails to authenticate the user
-     * @throws IOException if the user hasn't saved their credentials
      */
-    public static final GoogleDriveService getInstance() throws GeneralSecurityException, IOException{
+    public static final GoogleDriveService getInstance(){
         if(instance == null){
-            instance = new GoogleDriveService();
+            throw new NullPointerException("It looks like someone forgot to invoke GoogleDriveService.validateService()! Please make sure to call it before this method");
         }
         return instance;
     }

@@ -24,3 +24,4 @@ Matt, for crying out loud REMEMBER .EXECUTE()!!!
 * Add user settings file to application folder so I can disable saving logs for one
 * Different name for application
 * Implement drive.commands.utils.DriveCommandResult
+* Make PluginLoader scour the classpath for plugins
