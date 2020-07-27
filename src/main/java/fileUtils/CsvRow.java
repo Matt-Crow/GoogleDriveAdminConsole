@@ -2,6 +2,7 @@ package fileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import sysUtils.Logger;
 
 /**
@@ -77,6 +78,6 @@ public class CsvRow {
     
     @Override
     public String toString(){
-        return String.join(", ", values);
+        return values.stream().map((cell)->String.format("\"%s\"", cell)).collect(Collectors.joining(", "));
     }
 }

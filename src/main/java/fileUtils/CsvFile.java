@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * The CsvFile class is used to store the data from
@@ -123,6 +124,10 @@ public class CsvFile {
             ret = input.toString();
             // trim
             ret = ret.trim();
+            // remove undesirable characters
+            while(ret.contains("\n")){
+                ret = ret.replace("\n", "");
+            }
             // remove exterior quotes
             while(ret.startsWith("\"") && ret.endsWith("\"")){
                 ret = ret.substring(1, ret.length() - 1);
@@ -132,6 +137,17 @@ public class CsvFile {
             }
         } // returns empty string if null.
         return ret;
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder b = new StringBuilder();
+        //                                               wrap in quotes
+        b.append(headers.stream().map((header)->String.format("\"%s\"", header)).collect(Collectors.joining(", ")));
+        forEachBodyRow((row)->{
+            b.append("\n").append(row.toString());
+        });
+        return b.toString();
     }
     
     public static void main(String[] args){
