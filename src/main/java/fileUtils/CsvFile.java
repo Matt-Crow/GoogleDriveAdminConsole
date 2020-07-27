@@ -1,14 +1,19 @@
 package fileUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
- *
- * @author Matt
+ * The CsvFile class is used to store the data from
+ * Google Spreadsheets sheets. Later versions may also
+ * add support for reading CSV text files into this class
+ * as well.
+ * 
+ * @author Matt Crow
  */
 public class CsvFile {
     private final HashMap<String, Integer> columns;
@@ -24,8 +29,31 @@ public class CsvFile {
         rows = new LinkedList<>();
     }
     
+    /**
+     * Converts the given List of Lists into a CsvFile.
+     * This is used to convert Google Spreadsheets sheets into CsvFiles.
+     * 
+     * @param nestedLists the sheet content to convert into a CsvFile. Note that the first
+     * row of this List (is such a row exists) is interpreted as the CsvFile's headers.
+     * 
+     * @return the CsvFile representation of the given data.
+     * @throws CsvException if the given Lists contain duplicate headers.
+     */
+    public static final CsvFile from(List<List<Object>> nestedLists) throws CsvException{
+        CsvFile ret = new CsvFile();
+        if(!nestedLists.isEmpty()){
+            nestedLists.get(0).forEach((header) -> {
+                ret.addHeader(header.toString());
+            });
+            for(int rowNum = 1; rowNum < nestedLists.size(); rowNum++){
+                ret.addRow(nestedLists.get(rowNum));
+            }
+        }
+        return ret;
+    }
+    
     public final CsvFile addHeader(String header) throws CsvException{
-        header = header.toUpperCase();
+        header = CsvFile.sanitize(header).toUpperCase();
         if(columns.containsKey(header)){
             throw new CsvException("This already has header " + header + ". Cannot duplicate headers");
         }
@@ -79,16 +107,39 @@ public class CsvFile {
         return this;
     }
     
-    public static final CsvFile from(List<List<Object>> nestedLists) throws CsvException{
-        CsvFile ret = new CsvFile();
-        if(!nestedLists.isEmpty()){
-            for(Object header : nestedLists.get(0)){
-                ret.addHeader(header.toString());
+    /**
+     * Ensures the given input is in a valid
+     * format.
+     * @param input the input to sanitize into
+     * a "pleasant" CSV format.
+     * 
+     * @return the sanitized form of the given input. 
+     */
+    public static final String sanitize(Object input){
+        String ret = "";
+        // first, ensure it is not null;
+        if(input != null){
+            // convert to string
+            ret = input.toString();
+            // trim
+            ret = ret.trim();
+            // remove exterior quotes
+            while(ret.startsWith("\"") && ret.endsWith("\"")){
+                ret = ret.substring(1, ret.length() - 1);
             }
-            for(int rowNum = 1; rowNum < nestedLists.size(); rowNum++){
-                ret.addRow(nestedLists.get(rowNum));
+            while(ret.startsWith("'") && ret.endsWith("'")){
+                ret = ret.substring(1, ret.length() - 1);
             }
-        }
+        } // returns empty string if null.
         return ret;
+    }
+    
+    public static void main(String[] args){
+        List<List<Object>> ll = new ArrayList<>();
+        ll.add(Arrays.asList("header 1", "header 2", "header 3"));
+        ll.add(Arrays.asList(null, "\"Double quotes\"", "'Single Quotes'"));
+        ll.add(Arrays.asList("\t\tHi\t", "A\nB", "\n This"));
+        CsvFile f = CsvFile.from(ll);
+        System.out.println(f.toString());
     }
 }

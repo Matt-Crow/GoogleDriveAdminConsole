@@ -1,7 +1,6 @@
 package fileUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import sysUtils.Logger;
 
@@ -22,7 +21,7 @@ public class CsvRow {
     public CsvRow(CsvFile file, Object[] vals){
         this(file);
         for(int i = 0; i < vals.length; i++){
-            values.set(i, vals[i].toString());
+            values.set(i, CsvFile.sanitize(vals[i]));
         }
     }
     
@@ -43,7 +42,7 @@ public class CsvRow {
         if(idx >= values.size()){
             padValues();
         }
-        values.set(idx, value);
+        values.set(idx, CsvFile.sanitize(value));
     }
     
     
