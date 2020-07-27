@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-import start.GoogleDriveService;
 import structs.UserToFileMapping;
 import sysUtils.Logger;
 
@@ -31,15 +30,14 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
      * Constructs a request to give access to a given list of user-to-file mappings.
      * Note that, like all other DriveCommands, this DOES NOT automatically execute the request: 
      * MAKE SURE YOU CALL THE .execute() method AAAAHHHHHH
-     * @param service the Google Services singleton... might just access this globally in the future.
      * @param mapping a List of the various UserToFileMappings this should satisfy.
      */
-    public GiveViewAccess(GoogleDriveService service, List<UserToFileMapping> mapping) {
-        super(service);
+    public GiveViewAccess(List<UserToFileMapping> mapping) {
+        super();
         mappings = mapping;
     }
-    public GiveViewAccess(GoogleDriveService service, UserToFileMapping mapping){
-        this(service, Arrays.asList(mapping));
+    public GiveViewAccess(UserToFileMapping mapping){
+        this(Arrays.asList(mapping));
     }
     
     private HashMap<String, List<UserToFileMapping>> sortMappings(){
@@ -100,7 +98,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
                 .filter((driveReq)->driveReq != null) // get rid of empty or broken requests
                 .collect(Collectors.toList()); // as a list for convenience.
             // new batch command for each email address
-            batches.add(new CommandBatch<>(getServiceAccess(), reqs));
+            batches.add(new CommandBatch<>(reqs));
         });
         
         /*

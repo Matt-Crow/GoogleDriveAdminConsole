@@ -8,7 +8,6 @@ import com.google.api.services.drive.DriveRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import start.GoogleDriveService;
 import sysUtils.Logger;
 
 /**
@@ -21,8 +20,8 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
     
     private static final int MAX_BATCH_SIZE = 100;
     
-    public CommandBatch(GoogleDriveService access, List<? extends DriveRequest<T>> reqs){
-        super(access);
+    public CommandBatch(List<? extends DriveRequest<T>> reqs){
+        super();
         batches = new ArrayList<>();
         // perform batching
         int numReqs = reqs.size();

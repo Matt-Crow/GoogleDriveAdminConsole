@@ -16,8 +16,8 @@ import structs.GoogleSheetProperties;
 public class ReadFileList extends AbstractDriveCommand<FileList>{
     private final GoogleSheetProperties sourceInfo;
     
-    public ReadFileList(GoogleDriveService service, GoogleSheetProperties source) {
-        super(service);
+    public ReadFileList(GoogleSheetProperties source) {
+        super();
         sourceInfo = source;
     }
     

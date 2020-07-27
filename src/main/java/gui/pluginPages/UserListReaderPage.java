@@ -1,6 +1,6 @@
 package gui.pluginPages;
 
-import gui.pluginPages.AbstractReaderPage;
+import drive.commands.implementations.ReadUserList;
 import fileUtils.UserList;
 import gui.MainPane;
 import structs.GoogleSheetProperties;
@@ -18,9 +18,7 @@ public class UserListReaderPage extends AbstractReaderPage {
     @Override
     public void parse(GoogleSheetProperties props) throws Exception {
         MainPane parent = getPaneParent();
-        UserList users = parent.getBackend().getCmdFactory().readUserList(
-            props
-        ).doExecute();
+        UserList users = new ReadUserList(props).doExecute();
         parent.addText("contains the following users:");
         users.forEach((f)->parent.addText(f.toString()));}
 

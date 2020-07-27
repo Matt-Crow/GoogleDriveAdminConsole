@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import start.GoogleDriveService;
 import structs.FileInfo;
 import structs.GoogleSheetProperties;
 import sysUtils.Logger;
@@ -20,8 +19,8 @@ import sysUtils.Logger;
  */
 public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     private final GoogleSheetProperties fileList;
-    public UpdateDownloadAccess(GoogleDriveService serv, GoogleSheetProperties driveFileList) {
-        super(serv);
+    public UpdateDownloadAccess(GoogleSheetProperties driveFileList) {
+        super();
         fileList = driveFileList;
     }
 
@@ -57,7 +56,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     }
     @Override
     public String[] doExecute() throws IOException {
-        FileList allCampFiles = new ReadFileList(getServiceAccess(), fileList).doExecute();
+        FileList allCampFiles = new ReadFileList(fileList).doExecute();
         StringBuilder msg = new StringBuilder();
         msg.append("All files:");
         allCampFiles.forEach((file)->msg.append("\n").append(file.toString()));
@@ -92,7 +91,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         
         // batch requests to add or remove download access for viewers
         
-        CommandBatch<File> batch = new CommandBatch<>(getServiceAccess(), updates);
+        CommandBatch<File> batch = new CommandBatch<>(updates);
         List<File> updated = batch.doExecute();
         String[] updatedIds = updated.stream().map((f)->f.getId()).toArray((size)->new String[size]);
         return updatedIds;

@@ -4,6 +4,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import start.GoogleDriveService;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import sysUtils.Logger;
 
 /**
@@ -13,7 +14,17 @@ import sysUtils.Logger;
  */
 public abstract class AbstractDriveCommand<T> {
     private final GoogleDriveService service;
-    public AbstractDriveCommand(GoogleDriveService serv){
+    
+    public AbstractDriveCommand(){
+        GoogleDriveService serv = null;
+        try {
+            serv = GoogleDriveService.getInstance();
+            // will be able to remove this try-catch once I split getInstance() into validate() and getInstance()
+        } catch (GeneralSecurityException ex) {
+            Logger.logError(ex);
+        } catch (IOException ex) {
+            Logger.logError(ex);
+        }
         service = serv;
     }
     

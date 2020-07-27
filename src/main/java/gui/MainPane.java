@@ -23,13 +23,10 @@ import pluginUtils.AbstractPlugin;
 public class MainPane extends JPanel{
     private final OutputPage outputPage;
     private final JMenuBar menu;
-    private final GuiBackend backend;
     private final JTabbedPane contentArea;
     
     public MainPane(GoogleDriveService service){
         super();
-        
-        backend = new GuiBackend(this, service);
         
         setLayout(new BorderLayout());
         
@@ -71,10 +68,6 @@ public class MainPane extends JPanel{
         });
         end.add(exit);
         add(end, BorderLayout.PAGE_END);*/
-    }
-    
-    public final GuiBackend getBackend(){
-        return backend;
     }
     
     /**

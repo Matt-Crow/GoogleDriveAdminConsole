@@ -6,7 +6,6 @@ import fileUtils.UserList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import start.GoogleDriveService;
 import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 import sysUtils.Logger;
@@ -20,8 +19,8 @@ public class ShareFiles extends AbstractDriveCommand<List<UserToFileMapping>>{
     private final GoogleSheetProperties fileListProps;
     private final boolean isTest;
     
-    public ShareFiles(GoogleDriveService service, GoogleSheetProperties source, GoogleSheetProperties fileList, boolean thisIsATest) {
-        super(service);
+    public ShareFiles(GoogleSheetProperties source, GoogleSheetProperties fileList, boolean thisIsATest) {
+        super();
         userListProps = source;
         fileListProps = fileList;
         isTest = thisIsATest;
@@ -32,14 +31,14 @@ public class ShareFiles extends AbstractDriveCommand<List<UserToFileMapping>>{
         StringBuilder msg = new StringBuilder();
         
         // first, extract the campers from the form responses
-        UserList newUsers = new ReadUserList(getServiceAccess(), userListProps).doExecute();
+        UserList newUsers = new ReadUserList(userListProps).doExecute();
         
         msg.append("Contents of user list:");
         newUsers.forEach((user)->msg.append("\n").append(user.toString()));
         
         
         // next, get the list of files campers will get access to
-        FileList files = new ReadFileList(getServiceAccess(), fileListProps).doExecute();
+        FileList files = new ReadFileList(fileListProps).doExecute();
         msg.append("\nFiles they will get:");
         files.forEach((file)->msg.append("\n").append(file.toString()));
         
@@ -51,7 +50,7 @@ public class ShareFiles extends AbstractDriveCommand<List<UserToFileMapping>>{
         Logger.log(msg.toString());
         
         // construct the command
-        AbstractDriveCommand cmd = new GiveViewAccess(getServiceAccess(), whoGetsWhat);
+        AbstractDriveCommand cmd = new GiveViewAccess(whoGetsWhat);
         
         Logger.log(cmd.toString());
         

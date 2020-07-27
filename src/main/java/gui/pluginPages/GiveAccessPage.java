@@ -1,5 +1,6 @@
 package gui.pluginPages;
 
+import drive.commands.implementations.ShareFiles;
 import gui.MainPane;
 import gui.components.GoogleSheetsPropertyFileChooser;
 import gui.pages.AbstractFormPage;
@@ -12,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import structs.GoogleSheetProperties;
 import structs.UserToFileMapping;
 
 /**
@@ -75,8 +75,9 @@ public class GiveAccessPage extends AbstractFormPage{
     @Override
     public void doSubmit() throws IOException {
         MainPane parent = getPaneParent();
-        List<UserToFileMapping> resolvedMappings = parent.getBackend().getCmdFactory().shareFiles((GoogleSheetProperties)userPropSel.getSelectedProperties(),
-            (GoogleSheetProperties) filePropSel.getSelectedProperties(),
+        List<UserToFileMapping> resolvedMappings = new ShareFiles(
+            userPropSel.getSelectedProperties(),
+            filePropSel.getSelectedProperties(),
             isTest.isSelected()
         ).doExecute();
 

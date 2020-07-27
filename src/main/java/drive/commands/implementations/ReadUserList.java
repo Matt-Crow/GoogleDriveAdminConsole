@@ -16,8 +16,8 @@ import structs.GoogleSheetProperties;
 public class ReadUserList extends AbstractDriveCommand<UserList>{
     private final GoogleSheetProperties sourceInfo;
     
-    public ReadUserList(GoogleDriveService service, GoogleSheetProperties formInfo) {
-        super(service);
+    public ReadUserList(GoogleSheetProperties formInfo) {
+        super();
         sourceInfo = formInfo;
     }
 

@@ -1,5 +1,6 @@
 package gui.pluginPages;
 
+import drive.commands.implementations.UpdateDownloadAccess;
 import gui.MainPane;
 import gui.components.GoogleSheetsPropertyFileChooser;
 import gui.pages.AbstractFormPage;
@@ -7,7 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import structs.GoogleSheetProperties;
 
 /**
  *
@@ -35,12 +35,7 @@ public class DownloadPermissionPage extends AbstractFormPage {
     @Override
     public void doSubmit() throws Exception {
         MainPane parent = getPaneParent();
-        String[] output = parent
-            .getBackend()
-            .getCmdFactory()
-            .updateDownloadOptions(
-                (GoogleSheetProperties) chooser.getSelectedProperties()
-            ).doExecute();
+        String[] output = new UpdateDownloadAccess(chooser.getSelectedProperties()).doExecute();
         parent.addText("Updated download permissions for the following files:");
         for(String out : output){
             parent.addText(out);

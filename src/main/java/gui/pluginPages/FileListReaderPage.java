@@ -1,6 +1,6 @@
 package gui.pluginPages;
 
-import gui.pluginPages.AbstractReaderPage;
+import drive.commands.implementations.ReadFileList;
 import fileUtils.FileList;
 import gui.MainPane;
 import structs.GoogleSheetProperties;
@@ -17,9 +17,7 @@ public class FileListReaderPage extends AbstractReaderPage {
     @Override
     public void parse(GoogleSheetProperties props) throws Exception{
         MainPane parent = getPaneParent();
-        FileList files = parent.getBackend().getCmdFactory().readFileList(
-            props
-        ).doExecute();
+        FileList files = new ReadFileList(props).doExecute();
         parent.addText("contains the following files:");
         files.forEach((f)->parent.addText(f.toString()));
     }
