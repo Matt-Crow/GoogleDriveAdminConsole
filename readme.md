@@ -27,7 +27,7 @@ For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Con
 9. Select "Download JSON" to download the credentials.
 10. Rename the downloaded file "credentials.json", and save it to the "credentials" folder of the application.
 11. When you relaunch the application, it will open a browser window, asking you to sign in to Google. Make sure you sign in using the Aerospace museum GMail account!
-If you need to change which account you are logged in as, close the application, and delete the "tokens" folder the program created in the same folder as the JAR file.
+If you need to change which account you are logged in as, close the application, and delete the "tokens" folder the program created in the application folder.
 12. If you see the application pop up, then everything should work. 
 
 ## Helpful Links for Developers ##

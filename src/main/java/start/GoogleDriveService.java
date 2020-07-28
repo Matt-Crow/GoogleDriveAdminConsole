@@ -54,7 +54,7 @@ public class GoogleDriveService {
             throw new ExceptionInInitializerError("DriveAccess is a singleton");
         }
         jsonFactory = JacksonFactory.getDefaultInstance();
-        tokenDirPath = "tokens";
+        tokenDirPath = FileSystem.TOKENS_FOLDER;
         credentialFilePath = Paths.get(FileSystem.CREDENTIALS_FOLDER, "credentials.json").toString();
         
         //If modifying these scopes, delete your previously saved tokens/ folder.
@@ -71,9 +71,9 @@ public class GoogleDriveService {
     
     private Credential createCredentials() throws FileNotFoundException, IOException{
         //Load client secret
-        InputStream in = new FileInputStream(credentialFilePath);//GoogleDriveService.class.getResourceAsStream(credentialFilePath);
+        InputStream in = new FileInputStream(credentialFilePath);
         if (in == null) {
-            JOptionPane.showMessageDialog(null, "Failed to find credentials.json in " + credentialFilePath, "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to find credentials in " + credentialFilePath, "error", JOptionPane.ERROR_MESSAGE);
             throw new FileNotFoundException("Resource not found: " + credentialFilePath);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
