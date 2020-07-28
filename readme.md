@@ -10,12 +10,19 @@ need in their build process. However, manually distributing many files to many c
 and making these documents public wasn't a preferred option. As such, I developed this administration console
 to join tables of camper and file information, and distribute the files accordingly.
 
-## Running the Application ##
-1. The easiest way to run the application is through the JAR file under build/libs.
-2. Make sure to sign in using the Aerospace museum GMail account!
-3. You can find property files under src/main/resources/properties. Use these if you want to parse the certification form.
+## Installing the Application ##
+1. First, go to the [release tab](https://github.com/IronHeart7334/AerospaceCampAdminConsole/releases) for the latest stable release, 
+locate the most recent version, and download the source code under the 'assets' tab.
+2. Once the application is done downloading, unzip it.
+3. You will find the executable JAR file under build/libs. You can move this JAR file wherever you want. Feel free to delete the other files, as you only need this JAR file.
+4. Double-click the JAR file to run it.
+5. The application will open a browser window, asking you to sign in to Google. Make sure you sign in using the Aerospace museum GMail account!
+If you need to change which account you are logged in as, close the application, and delete the "tokens" folder the program created in the same folder as the JAR file.
+6. If you see the application pop up, then everything should work.
+7. Any files the application creates are stored under [HOME]/Aerospace Camp Administration Console, where HOME is your home folder.
+For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Console'''
 
-## Helpful Links ##
+## Helpful Links for Developers ##
 * [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
 * [The Google API console](https://console.developers.google.com/apis/credentials?authuser=2&project=camp-administration-console)
 * [Getting started with Drive API Java](https://developers.google.com/drive/api/v3/quickstart/java)
