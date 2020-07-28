@@ -12,8 +12,9 @@ import sysUtils.FileSystem;
 import sysUtils.Logger;
 
 /**
- *
- * @author Matt
+ * Main is the starting point of the application.
+ * 
+ * @author Matt Crow
  */
 public class Main {
     public static final String APPLICATION_NAME = "Aerospace Camp Administration Console";

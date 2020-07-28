@@ -1,5 +1,14 @@
-# CA Aerospace Museum STEM Camp Administration Console
-This application is currently in development, and is not ready for release yet!
+# California Aerospace Museum STEM Camp Administration Console
+A small, extendable application for sharing Google Drive Files.
+
+## Project Purpose ##
+    Over the Summer of 2020, I worked as an independent contractor for the California Aerospace Museum.
+I joined a team working on a STEM (Science, Technology, Engineering, and Math) camp, where campers
+would use Minecraft as a tool to build a Mars colony, learning the science behind the various structures
+they were told to build. Campers were given Google documents with instructions and information they would
+need in their build process. However, manually distributing many files to many campers is not very scalable,
+and making these documents public wasn't a preferred option. As such, I developed this administration console
+to join tables of camper and file information, and distribute the files accordingly.
 
 ## Running the Application ##
 1. The easiest way to run the application is through the JAR file under build/libs.
