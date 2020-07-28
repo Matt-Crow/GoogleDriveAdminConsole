@@ -10,6 +10,9 @@ need in their build process. However, manually distributing many files to many c
 and making these documents public wasn't a preferred option. As such, I developed this administration console
 to join tables of camper and file information, and distribute the files accordingly.
 
+## Requirements ##
+(*) This application uses Java to run. If you do not yet have Java installed, you'll need to download and install Java [here](https://www.java.com/en/).
+
 ## Installing the Application ##
 1. First, go to the [release tab](https://github.com/IronHeart7334/AerospaceCampAdminConsole/releases) for the latest stable release, 
 locate the most recent version, and download the source code under the 'assets' tab.
@@ -32,9 +35,7 @@ For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Con
 * Use this to download a file's contents: https://drive.google.com/uc?export=download&id=ID
 * https://cloud.google.com/compute/docs/api-rate-limits
 * https://console.developers.google.com/apis/api/drive.googleapis.com/quotas?authuser=2&project=camp-administration-console
-
 To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
-Matt, for crying out loud REMEMBER .EXECUTE()!!!
 
 ## TODO ##
 * Add user settings file to application folder so I can disable saving logs for one
