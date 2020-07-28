@@ -1,9 +1,8 @@
-package plugins;
+package plugins.implementations.downloadPermission;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.DownloadPermissionPage;
-import pluginUtils.AbstractPlugin;
+import plugins.utils.AbstractPlugin;
 
 /**
  *

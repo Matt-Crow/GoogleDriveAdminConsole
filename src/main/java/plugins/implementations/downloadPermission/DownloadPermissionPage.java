@@ -1,6 +1,5 @@
-package gui.pluginPages;
+package plugins.implementations.downloadPermission;
 
-import drive.commands.implementations.UpdateDownloadAccess;
 import gui.MainPane;
 import gui.components.GoogleSheetsPropertyFileChooser;
 import gui.pages.AbstractFormPage;

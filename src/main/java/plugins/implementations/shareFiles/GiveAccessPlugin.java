@@ -1,9 +1,8 @@
-package plugins;
+package plugins.implementations.shareFiles;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.GiveAccessPage;
-import pluginUtils.AbstractPlugin;
+import plugins.utils.AbstractPlugin;
 
 /**
  *

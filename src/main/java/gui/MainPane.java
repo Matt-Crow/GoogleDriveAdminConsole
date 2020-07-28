@@ -11,10 +11,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import pluginUtils.PluginLoader;
+import plugins.utils.PluginLoader;
 import start.GoogleDriveService;
 import sysUtils.Logger;
-import pluginUtils.AbstractPlugin;
+import plugins.utils.AbstractPlugin;
 
 /**
  *

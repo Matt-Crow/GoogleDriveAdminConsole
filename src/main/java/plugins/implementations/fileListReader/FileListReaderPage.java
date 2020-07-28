@@ -1,6 +1,6 @@
-package gui.pluginPages;
+package plugins.implementations.fileListReader;
 
-import drive.commands.implementations.ReadFileList;
+import plugins.implementations.AbstractReaderPage;
 import fileUtils.FileList;
 import gui.MainPane;
 import structs.GoogleSheetProperties;

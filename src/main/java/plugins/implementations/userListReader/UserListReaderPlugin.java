@@ -1,19 +1,18 @@
-package plugins;
+package plugins.implementations.userListReader;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.FileListReaderPage;
-import pluginUtils.AbstractPlugin;
+import plugins.utils.AbstractPlugin;
 
 /**
  *
  * @author Matt
  */
-public class FileListReaderPlugin implements AbstractPlugin{
-
+public class UserListReaderPlugin implements AbstractPlugin{
+    
     @Override
     public AbstractFormPage getFormPage(MainPane pane) {
-        return new FileListReaderPage(pane);
+        return new UserListReaderPage(pane);
     }
 
     @Override
@@ -23,11 +22,12 @@ public class FileListReaderPlugin implements AbstractPlugin{
 
     @Override
     public String getName() {
-        return "read file list";
+        return "read user list";
     }
 
     @Override
     public String getDescription() {
-        return "Reads a Google Sheets property file, then gets all the files listed in that Google Sheet";
+        return "Takes a property file, and gets all the users listed in the Google Sheet the properties reference";
     }
+
 }

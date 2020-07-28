@@ -1,6 +1,5 @@
-package gui.pluginPages;
+package plugins.implementations.shareFiles;
 
-import drive.commands.implementations.ShareFiles;
 import gui.MainPane;
 import gui.components.GoogleSheetsPropertyFileChooser;
 import gui.pages.AbstractFormPage;

@@ -1,4 +1,4 @@
-package gui.pluginPages;
+package plugins.implementations;
 
 import gui.MainPane;
 import gui.components.GoogleSheetsPropertyFileChooser;

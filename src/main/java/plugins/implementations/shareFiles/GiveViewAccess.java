@@ -1,4 +1,4 @@
-package drive.commands.implementations;
+package plugins.implementations.shareFiles;
 
 import drive.commands.utils.CommandBatch;
 import com.google.api.services.drive.Drive;

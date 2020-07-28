@@ -1,9 +1,8 @@
-package plugins;
+package plugins.implementations.googleSheetPropertyFileCreator;
 
 import gui.MainPane;
 import gui.pages.AbstractFormPage;
-import gui.pluginPages.GoogleSheetPropsPage;
-import pluginUtils.AbstractPlugin;
+import plugins.utils.AbstractPlugin;
 
 /**
  *

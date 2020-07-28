@@ -1,6 +1,6 @@
-package gui.pluginPages;
+package plugins.implementations.userListReader;
 
-import drive.commands.implementations.ReadUserList;
+import plugins.implementations.AbstractReaderPage;
 import fileUtils.UserList;
 import gui.MainPane;
 import structs.GoogleSheetProperties;

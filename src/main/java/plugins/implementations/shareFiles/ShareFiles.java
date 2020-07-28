@@ -1,5 +1,7 @@
-package drive.commands.implementations;
+package plugins.implementations.shareFiles;
 
+import plugins.implementations.userListReader.ReadUserList;
+import plugins.implementations.fileListReader.ReadFileList;
 import drive.commands.utils.AbstractDriveCommand;
 import fileUtils.FileList;
 import fileUtils.UserList;

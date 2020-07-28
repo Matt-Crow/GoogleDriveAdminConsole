@@ -1,12 +1,13 @@
-package pluginUtils;
+package plugins.utils;
 
+import plugins.utils.AbstractPlugin;
 import java.util.Arrays;
 import java.util.List;
-import plugins.DownloadPermissionPlugin;
-import plugins.FileListReaderPlugin;
-import plugins.GiveAccessPlugin;
-import plugins.GoogleSheetPropsPlugin;
-import plugins.UserListReaderPlugin;
+import plugins.implementations.downloadPermission.DownloadPermissionPlugin;
+import plugins.implementations.fileListReader.FileListReaderPlugin;
+import plugins.implementations.shareFiles.GiveAccessPlugin;
+import plugins.implementations.googleSheetPropertyFileCreator.GoogleSheetPropsPlugin;
+import plugins.implementations.userListReader.UserListReaderPlugin;
 
 /**
  * https://docs.oracle.com/javase/tutorial/ext/basics/spi.html

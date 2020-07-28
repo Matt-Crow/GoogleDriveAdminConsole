@@ -1,7 +1,8 @@
-package drive.commands.implementations;
+package plugins.implementations.downloadPermission;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
+import plugins.implementations.fileListReader.ReadFileList;
 import drive.commands.utils.AbstractDriveCommand;
 import drive.commands.utils.CommandBatch;
 import fileUtils.FileList;
