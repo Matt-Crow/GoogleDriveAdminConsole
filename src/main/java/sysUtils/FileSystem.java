@@ -27,6 +27,7 @@ public final class FileSystem {
     private static final String APP_FOLDER = Paths.get(USER_HOME, Main.APPLICATION_NAME).toString();
     public static final String LOG_FOLDER = Paths.get(APP_FOLDER, "logs").toString();
     public static final String PROPS_FOLDER = Paths.get(APP_FOLDER, "properties").toString();
+    public static final String CREDENTIALS_FOLDER = Paths.get(APP_FOLDER, "credentials").toString();
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM-dd-uuuu_hh_mm_a");
     
@@ -103,7 +104,8 @@ public final class FileSystem {
         String[] dirsToCreate = new String[]{
             APP_FOLDER, 
             LOG_FOLDER, 
-            PROPS_FOLDER
+            PROPS_FOLDER,
+            CREDENTIALS_FOLDER
         };
         
         for(String dir : dirsToCreate){

@@ -14,13 +14,17 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import sysUtils.FileSystem;
 
 /**
  * The GoogleDriveService is a Singleton
@@ -51,7 +55,7 @@ public class GoogleDriveService {
         }
         jsonFactory = JacksonFactory.getDefaultInstance();
         tokenDirPath = "tokens";
-        credentialFilePath = "/credentials.json";
+        credentialFilePath = Paths.get(FileSystem.CREDENTIALS_FOLDER, "credentials.json").toString();
         
         //If modifying these scopes, delete your previously saved tokens/ folder.
         scopes = new ArrayList<>();
@@ -67,8 +71,9 @@ public class GoogleDriveService {
     
     private Credential createCredentials() throws FileNotFoundException, IOException{
         //Load client secret
-        InputStream in = GoogleDriveService.class.getResourceAsStream(credentialFilePath);
+        InputStream in = new FileInputStream(credentialFilePath);//GoogleDriveService.class.getResourceAsStream(credentialFilePath);
         if (in == null) {
+            JOptionPane.showMessageDialog(null, "Failed to find credentials.json in " + credentialFilePath, "error", JOptionPane.ERROR_MESSAGE);
             throw new FileNotFoundException("Resource not found: " + credentialFilePath);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
