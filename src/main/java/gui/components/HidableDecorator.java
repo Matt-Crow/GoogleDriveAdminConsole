@@ -38,8 +38,12 @@ public class HidableDecorator extends JComponent {
     }
     
     public final void toggleHidden(){
-        isHidden = !isHidden;
-        if(isHidden){
+        setHidden(!isHidden);
+    }
+    
+    public final void setHidden(boolean b){
+        isHidden = b;
+        if(b){
             toggleHide.setText("Show " + text);
             content.setVisible(false);
         } else {
