@@ -37,6 +37,12 @@ public class HidableDecorator extends JComponent {
         add(content, BorderLayout.CENTER);
     }
     
+    @Override
+    public void setEnabled(boolean b){
+        toggleHide.setEnabled(b);
+        content.setEnabled(b);
+    }
+    
     public final void toggleHidden(){
         setHidden(!isHidden);
     }
