@@ -1,5 +1,6 @@
 package gui.components;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
@@ -30,6 +31,20 @@ public class TextScroller extends JComponent implements MessageListener, ErrorLi
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         add(scroll);
+    }
+    
+    @Override
+    public final Dimension getPreferredSize(){
+        return scroll.getPreferredSize();
+    }
+    
+    @Override
+    public final Dimension getMinimumSize(){
+        return scroll.getMinimumSize();
+    }
+    
+    public final void setText(String newText){
+        text.setText(newText);
     }
     
     public final void addText(String appendMe){

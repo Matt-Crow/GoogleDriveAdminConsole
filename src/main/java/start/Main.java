@@ -78,10 +78,13 @@ public class Main {
     }
     
     private static void saveLog(){
+        System.out.println("Saving log temporarily disabled in Main");
+        System.out.println(Logger.getLog());
+        /*
         try {
             FileSystem.getInstance().saveLog();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(), "Failed to save log", JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
     }
 }

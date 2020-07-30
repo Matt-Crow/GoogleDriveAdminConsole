@@ -1,6 +1,7 @@
 package gui;
 
 import gui.components.HidableDecorator;
+import gui.components.TextScroller;
 import gui.pages.AbstractFormPage;
 import gui.pages.OutputPage;
 import java.awt.BorderLayout;
@@ -20,12 +21,17 @@ import plugins.utils.AbstractPlugin;
  * @author Matt
  */
 public class MainPane extends JPanel{
-    private final OutputPage outputPage;
     private final JMenuBar menu;
     private final JPanel bodyPane;
-    private final JPanel cmdPane;
+    
+    private final OutputPage outputPage;
     private final HidableDecorator outputWrapper;
+    
+    private final JPanel cmdPane;
     private final HidableDecorator cmdWrapper;
+    
+    private final TextScroller helpText;
+    private final HidableDecorator helpWrapper;
     
     public MainPane(GoogleDriveService service){
         super();
@@ -44,15 +50,33 @@ public class MainPane extends JPanel{
         // left side
         outputPage = new OutputPage(this);
         outputWrapper = new HidableDecorator("Output", outputPage);
+        outputWrapper.setSize(outputWrapper.getPreferredSize());
         
-        // right side
+        // middle
         cmdPane = new JPanel();
         cmdPane.setLayout(new GridLayout(1, 1));
         cmdWrapper = new HidableDecorator("Command", cmdPane);
         
-        // combine left and right into one split pane
-        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outputWrapper, cmdWrapper);
-        bodyPane.add(split, BorderLayout.CENTER);
+        // right
+        helpText = new TextScroller();
+        helpWrapper = new HidableDecorator("Help", helpText);
+        helpWrapper.setSize(helpWrapper.getMinimumSize());
+        
+        // combine left and middle into one split pane
+        JSplitPane split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outputWrapper, cmdWrapper);
+        
+        //combine split1 and right into one split pane so we have 3 side-by-side panels
+        JSplitPane split2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, split1, helpWrapper);
+        
+        // add split2, while now contains left, middle, and right
+        /*
+        split2
+        \_split1
+          \_left
+          \_middle
+        \_right
+        */
+        bodyPane.add(split2, BorderLayout.CENTER);
         
         add(bodyPane, BorderLayout.CENTER);
     }
@@ -80,6 +104,7 @@ public class MainPane extends JPanel{
         cmdPane.removeAll();
         cmdPane.add(page);
         cmdWrapper.repaint();
+        helpText.setText(plugin.getHelp());
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
