@@ -22,7 +22,7 @@ public class FileInfo implements Groupable {
      * 
      * @param id the ID of the Google Drive file or folder this represents
      * @param desc a brief textual description of the file
-     * @param url a URL camp admins can use to view the file
+     * @param url a URL administrators can use to view the file
      * @param forGroups the groups this file should be given to
      * @param viewersShouldDownload whether or not viewers should be able to download this file
      */

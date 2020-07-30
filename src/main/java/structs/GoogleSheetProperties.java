@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
+import start.Main;
 
 /**
  * GoogleSheetProperties are locally
@@ -89,7 +90,7 @@ public class GoogleSheetProperties extends Properties {
      * @throws IOException if any errors occur when writing.
      */
     public void save(OutputStream out) throws IOException{
-        store(out, "This file contains information about a Google Spreadsheet, which CampAdminConsole uses to locate a sheet in that file");
+        store(out, String.format("This file contains information about a Google Spreadsheet, which %s uses to locate a sheet in that file", Main.APPLICATION_NAME));
     }
     
     /**

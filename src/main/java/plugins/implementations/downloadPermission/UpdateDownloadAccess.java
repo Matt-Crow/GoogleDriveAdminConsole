@@ -57,13 +57,13 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     }
     @Override
     public String[] doExecute() throws IOException {
-        FileList allCampFiles = new ReadFileList(fileList).doExecute();
+        FileList allFiles = new ReadFileList(fileList).doExecute();
         StringBuilder msg = new StringBuilder();
         msg.append("All files:");
-        allCampFiles.forEach((file)->msg.append("\n").append(file.toString()));
+        allFiles.forEach((file)->msg.append("\n").append(file.toString()));
         
         List<FileInfo> allLeafNodes = new ArrayList<>();
-        allCampFiles.forEach((file)->{
+        allFiles.forEach((file)->{
             if(file instanceof FileInfo){
                 allLeafNodes.addAll(getLeaves((FileInfo)file));
             } else {

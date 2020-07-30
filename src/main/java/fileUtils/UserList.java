@@ -17,7 +17,6 @@ public class UserList extends LinkedList<UserInfo>{
     */
     public static final String NAME_HEADER = "name";
     public static final String EMAIL_HEADER = "email";
-    public static final String MC_USER_HEADER = "minecraft username";
     public static final String GROUP_HEADER = "groups";
     
     public UserList(){
@@ -56,7 +55,6 @@ public class UserList extends LinkedList<UserInfo>{
                 add(new UserInfo(
                     row.getOrDefault(NAME_HEADER, "name not set").trim(), 
                     row.get(emailCol).trim(), 
-                    row.getOrDefault(MC_USER_HEADER, "Minecraft username not set").trim(), 
                     new Groups(groupsString)
                 ));
             } catch (CsvException ex){
