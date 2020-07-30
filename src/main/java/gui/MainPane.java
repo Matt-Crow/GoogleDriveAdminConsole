@@ -103,8 +103,9 @@ public class MainPane extends JPanel{
         AbstractFormPage page = plugin.getFormPage(this);
         cmdPane.removeAll();
         cmdPane.add(page);
-        cmdWrapper.repaint();
+        //cmdWrapper.repaint();
         helpText.setText(plugin.getHelp());
+        repaint();
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
@@ -117,6 +118,7 @@ public class MainPane extends JPanel{
     public final void switchToOutputTab(){
         outputWrapper.setHidden(false);
         cmdWrapper.setHidden(true);
+        repaint();
     }
     
     public final void setTabSwitchingEnabled(boolean allowSwitching){
