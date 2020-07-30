@@ -5,7 +5,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import structs.GoogleSheetProperties;
 
 /**
@@ -16,9 +16,9 @@ import structs.GoogleSheetProperties;
  */
 public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
     private final GoogleSheetProperties selectedProperties;
-    private final JTextArea localFileNameDisplay;
-    private final JTextArea fileIdDisplay;
-    private final JTextArea sheetNameDisplay;
+    private final JTextField localFileNameDisplay;
+    private final JTextField fileIdDisplay;
+    private final JTextField sheetNameDisplay;
     private final JButton button;
     
     public AbstractGoogleSheetsPropertyFileWidget(String header, boolean makeFieldsEditable, String buttonText){
@@ -53,8 +53,9 @@ public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
         gbc.gridx = 0;
         add(localNameLabel, gbc);
         
-        localFileNameDisplay = new JTextArea("Property file name will appear here!");
+        localFileNameDisplay = new JTextField(20);
         localFileNameDisplay.setEditable(makeFieldsEditable);
+        localFileNameDisplay.setToolTipText("Property file name will appear here!");
         gbc.gridx = 1;
         add(localFileNameDisplay, gbc);
         
@@ -67,8 +68,9 @@ public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
         gbc.gridx = 0;
         add(idLabel, gbc);
         
-        fileIdDisplay = new JTextArea("file ID will appear here!");
+        fileIdDisplay = new JTextField(20);
         fileIdDisplay.setEditable(makeFieldsEditable);
+        fileIdDisplay.setToolTipText("file ID will appear here!");
         gbc.gridx = 1;
         add(fileIdDisplay, gbc);
         
@@ -80,8 +82,9 @@ public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
         gbc.gridx = 0;
         add(nameLabel, gbc);
         
-        sheetNameDisplay = new JTextArea("sheet name will appear here!");
+        sheetNameDisplay = new JTextField(20);
         sheetNameDisplay.setEditable(makeFieldsEditable);
+        sheetNameDisplay.setToolTipText("sheet name will appear here!");
         gbc.gridx = 1;
         add(sheetNameDisplay, gbc);
         
