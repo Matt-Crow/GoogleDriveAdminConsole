@@ -47,8 +47,4 @@ public class UserListReaderPlugin implements AbstractPlugin{
         }
         return ret;
     }
-    
-    public static void main(String... args){
-        new UserListReaderPlugin().getHelp();
-    }
 }
