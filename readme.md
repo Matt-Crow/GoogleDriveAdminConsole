@@ -43,7 +43,8 @@ If you need to change which account you are logged in as, close the application,
 To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
 
 ## TODO ##
-* Add user settings file to application folder so I can disable saving logs for one
+* Add "save logs" button
+* Ask Randy which columns we can remove from the file list
 * Different name for application
 * Implement drive.commands.utils.DriveCommandResult
 * Make PluginLoader scour the classpath for plugins

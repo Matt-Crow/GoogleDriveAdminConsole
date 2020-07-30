@@ -22,13 +22,13 @@ import structs.UserToFileMapping;
  * 
  * @author Matt Crow
  */
-public class GiveAccessPage extends AbstractFormPage{
+public class ShareFilesPage extends AbstractFormPage{
     private final GoogleSheetsPropertyFileChooser userPropSel;
     private final GoogleSheetsPropertyFileChooser filePropSel;
     private final JCheckBox isTest;
     private final JButton run;
     
-    public GiveAccessPage(MainPane inPane) {
+    public ShareFilesPage(MainPane inPane) {
         super(inPane);
         setLayout(new BorderLayout());
         

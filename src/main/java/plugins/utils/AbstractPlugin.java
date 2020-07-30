@@ -33,8 +33,5 @@ public interface AbstractPlugin {
      */
     public abstract String getName();
     public abstract String getDescription();
-    
-    public default String getHelp(){
-        return "Help text here";
-    }
+    public abstract String getHelp();
 }

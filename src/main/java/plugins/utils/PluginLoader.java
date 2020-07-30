@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import plugins.implementations.downloadPermission.DownloadPermissionPlugin;
 import plugins.implementations.fileListReader.FileListReaderPlugin;
-import plugins.implementations.shareFiles.GiveAccessPlugin;
+import plugins.implementations.shareFiles.ShareFilesPlugin;
 import plugins.implementations.googleSheetPropertyFileCreator.GoogleSheetPropsPlugin;
 import plugins.implementations.userListReader.UserListReaderPlugin;
 
@@ -46,8 +46,7 @@ public class PluginLoader {
      * @return 
      */
     public List<AbstractPlugin> getAllPlugins(){
-        return Arrays.asList(
-            new GiveAccessPlugin(),
+        return Arrays.asList(new ShareFilesPlugin(),
             new FileListReaderPlugin(),
             new UserListReaderPlugin(),
             new DownloadPermissionPlugin(),
