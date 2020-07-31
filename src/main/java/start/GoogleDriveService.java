@@ -65,8 +65,8 @@ public class GoogleDriveService {
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         
         Credential credentials = createCredentials();
-        driveService = new Drive.Builder(httpTransport, jsonFactory, credentials).setApplicationName(Main.APPLICATION_NAME).build();
-        sheetService = new Sheets.Builder(httpTransport, jsonFactory, credentials).setApplicationName(Main.APPLICATION_NAME).build();
+        driveService = new Drive.Builder(httpTransport, jsonFactory, credentials).setApplicationName(Application.APPLICATION_NAME).build();
+        sheetService = new Sheets.Builder(httpTransport, jsonFactory, credentials).setApplicationName(Application.APPLICATION_NAME).build();
     }
     
     private Credential createCredentials() throws FileNotFoundException, IOException{

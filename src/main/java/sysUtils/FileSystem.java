@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import start.Main;
+import start.Application;
 import structs.GoogleSheetProperties;
 
 /**
@@ -23,8 +23,8 @@ import structs.GoogleSheetProperties;
  * @author Matt Crow
  */
 public final class FileSystem {
-    private static final String USER_HOME = System.getProperty("user.home");
-    private static final String APP_FOLDER = Paths.get(USER_HOME, Main.APPLICATION_NAME).toString();
+    public static final String USER_HOME = System.getProperty("user.home");
+    public static final String APP_FOLDER = Paths.get(USER_HOME, Application.APPLICATION_NAME).toString();
     public static final String LOG_FOLDER = Paths.get(APP_FOLDER, "logs").toString();
     public static final String PROPS_FOLDER = Paths.get(APP_FOLDER, "properties").toString();
     public static final String CREDENTIALS_FOLDER = Paths.get(APP_FOLDER, "credentials").toString();

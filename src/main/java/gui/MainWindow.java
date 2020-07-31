@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import start.Application;
 import start.GoogleDriveService;
 import start.Main;
 
@@ -12,7 +13,7 @@ import start.Main;
 public class MainWindow extends JFrame{
     public MainWindow(GoogleDriveService service){
         super();
-        setTitle(Main.APPLICATION_NAME);
+        setTitle(Application.APPLICATION_NAME);
         // fullscreen
         setSize(
             (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
