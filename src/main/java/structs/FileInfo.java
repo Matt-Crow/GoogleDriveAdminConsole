@@ -14,7 +14,6 @@ package structs;
 public class FileInfo implements Groupable {
     private final String fileId;
     private final String fileDesc;
-    private final String fileUrl;
     private final boolean isDownloadable;
     private final Groups groups;
     
@@ -22,14 +21,12 @@ public class FileInfo implements Groupable {
      * 
      * @param id the ID of the Google Drive file or folder this represents
      * @param desc a brief textual description of the file
-     * @param url a URL administrators can use to view the file
      * @param forGroups the groups this file should be given to
      * @param viewersShouldDownload whether or not viewers should be able to download this file
      */
-    public FileInfo(String id, String desc, String url, Groups forGroups, boolean viewersShouldDownload){
+    public FileInfo(String id, String desc, Groups forGroups, boolean viewersShouldDownload){
         fileId = id;
         fileDesc = desc;
-        fileUrl = url;
         isDownloadable = viewersShouldDownload;
         groups = forGroups;
     }
@@ -54,13 +51,11 @@ public class FileInfo implements Groupable {
     @Override
     public String toString(){
         return String.format(
-            "People of group %s should be given %s access to %s (%s),"
-            + "which you can find at %s",
+            "People of group %s should be given %s access to %s (%s)",
             groups.toString(),
             (isDownloadable) ? "copy" : "view",
             fileId,
-            fileDesc,
-            fileUrl
+            fileDesc
         );
     }
 }

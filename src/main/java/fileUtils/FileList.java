@@ -23,7 +23,6 @@ public class FileList extends LinkedList<FileInfo>{
      */
     public static final String ID_HEADER = "ID";
     public static final String DESC_HEADER = "desc";
-    public static final String URL_HEADER = "URL";
     public static final String ACC_TYPE_HEADER = "access type";
     public static final String GROUP_HEADER = "groups";
     
@@ -70,7 +69,6 @@ public class FileList extends LinkedList<FileInfo>{
                 add(new FileInfo(
                     row.get(idCol).trim(), 
                     row.getOrDefault(DESC_HEADER, "no description").trim(), 
-                    row.getOrDefault(URL_HEADER, "no URL provided").trim(), 
                     new Groups(groupsString), 
                     ableToDownload
                 ));

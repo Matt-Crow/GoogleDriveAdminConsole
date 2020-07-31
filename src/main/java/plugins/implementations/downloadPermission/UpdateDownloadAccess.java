@@ -37,7 +37,6 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                     return new FileInfo(
                         newRootFile.getId(),
                         newRootFile.getName(),
-                        newRootFile.getThumbnailLink(),
                         root.getGroups().copy(), // inherit group from parent
                         root.shouldCopyBeEnabled() // inherit downloadability from parent
                     );
