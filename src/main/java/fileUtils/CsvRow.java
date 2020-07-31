@@ -71,7 +71,8 @@ public class CsvRow {
         try{
             ret = get(columnHeader);
         } catch(MissingHeaderException ex){
-            Logger.logError(ex);
+            Logger.log(String.format("Doesn't contain header %s, but that's OK, I'll default to %s", columnHeader, defaultValue));
+            //Logger.logError(ex);
         }
         return ret;
     }

@@ -44,7 +44,6 @@ To check if something is a folder, check if its MIME type is "application/vnd.go
 
 ## TODO ##
 * Add "save logs" button
-* Ask Randy which columns we can remove from the file list
 * Different name for application
 * Implement drive.commands.utils.DriveCommandResult
 * Make PluginLoader scour the classpath for plugins

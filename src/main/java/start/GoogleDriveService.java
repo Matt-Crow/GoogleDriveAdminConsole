@@ -59,8 +59,8 @@ public class GoogleDriveService {
         
         //If modifying these scopes, delete your previously saved tokens/ folder.
         scopes = new ArrayList<>();
-        scopes.add(DriveScopes.DRIVE);
-        scopes.add(DriveScopes.DRIVE_FILE); // not sure which I need
+        scopes.add(DriveScopes.DRIVE_READONLY);
+        scopes.add(DriveScopes.DRIVE_METADATA);
         scopes.add(SheetsScopes.SPREADSHEETS_READONLY);
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         
