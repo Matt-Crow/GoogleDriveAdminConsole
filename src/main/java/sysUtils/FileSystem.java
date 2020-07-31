@@ -134,12 +134,14 @@ public final class FileSystem {
      * logs directory, with the current date
      * appended to the end of the file name.
      * 
+     * @return the path to the file the log was saved to
      * @throws IOException if it fails to write
      * the file.
      */
-    public void saveLog() throws IOException{
+    public final String saveLog() throws IOException{
         String logText = Logger.getLog();
         String logPath = Paths.get(LOG_FOLDER, String.format("log %s.txt", LocalDateTime.now().format(DATE_FORMAT))).toString();
         FileReadWriteUtil.writeFile(new File(logPath), logText);
+        return logPath;
     }
 }

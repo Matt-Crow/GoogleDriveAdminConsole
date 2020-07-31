@@ -37,12 +37,12 @@ public class Main {
         } catch (GeneralSecurityException ex) {
             Logger.log("Failed to validate service");
             Logger.logError(ex);
-            saveLog();
+            //saveLog(); I'll probably want to make it save the logs
             exitWithError(ex);
         } catch (IOException ex) {
             Logger.log("Failed to validate service");
             Logger.logError(ex);
-            saveLog();
+            //saveLog();
             exitWithError(ex);
         }
         
@@ -72,19 +72,7 @@ public class Main {
             public void windowClosing(WindowEvent e){
                 System.out.println("CONTENTS OF LOGGER:");
                 System.out.println(Logger.getLog());
-                saveLog();
             }
         });
-    }
-    
-    private static void saveLog(){
-        System.out.println("Saving log temporarily disabled in Main");
-        System.out.println(Logger.getLog());
-        /*
-        try {
-            FileSystem.getInstance().saveLog();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Failed to save log", JOptionPane.ERROR_MESSAGE);
-        }*/
     }
 }

@@ -5,16 +5,22 @@ import gui.components.TextScroller;
 import gui.pages.AbstractFormPage;
 import gui.pages.OutputPage;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.HashMap;
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import plugins.utils.PluginLoader;
 import start.GoogleDriveService;
 import plugins.utils.AbstractPlugin;
+import sysUtils.FileSystem;
 
 /**
  * 
@@ -41,6 +47,19 @@ public class MainPane extends JPanel{
         // construct the menu bar
         menu = new JMenuBar();
         loadServices();
+        
+        JButton saveLogButton = new JButton("Save logs");
+        saveLogButton.addActionListener((e)->{
+            try {
+                String path = FileSystem.getInstance().saveLog();
+                popup("Successfully saved logs to " + path, "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                popup("Failed to save logs", "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+        menu.add(saveLogButton);
+        
         add(menu, BorderLayout.PAGE_START);
         
         // construct the page content area
@@ -113,6 +132,14 @@ public class MainPane extends JPanel{
         newItem.addActionListener((e)->r.run());
         addTo.add(newItem);
         return newItem;
+    }
+    
+    private void popup(String text, String title, int msgType){
+        // https://stackoverflow.com/questions/16409387/joptionpane-output-text-copy
+        TextScroller body = new TextScroller(text);
+        body.setMinimumSize(new Dimension(500, 500));
+        
+        JOptionPane.showMessageDialog(this, body, title, msgType);
     }
     
     public final void switchToOutputTab(){

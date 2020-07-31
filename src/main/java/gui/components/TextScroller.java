@@ -22,7 +22,7 @@ public class TextScroller extends JComponent implements MessageListener, ErrorLi
     public TextScroller(){
         super();
         setLayout(new GridLayout(1, 1));
-        text = new JTextArea();
+        text = new JTextArea(20, 20);
         text.setWrapStyleWord(true);
         text.setLineWrap(true);
         text.setEditable(false);
@@ -31,6 +31,11 @@ public class TextScroller extends JComponent implements MessageListener, ErrorLi
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         add(scroll);
+    }
+    
+    public TextScroller(String defaultText){
+        this();
+        setText(defaultText);
     }
     
     @Override
