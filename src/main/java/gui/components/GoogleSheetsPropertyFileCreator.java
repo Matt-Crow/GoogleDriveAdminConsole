@@ -1,7 +1,6 @@
 package gui.components;
 
 import java.io.IOException;
-import javax.swing.JOptionPane;
 import structs.GoogleSheetProperties;
 import sysUtils.FileSystem;
 import sysUtils.Logger;
@@ -25,7 +24,7 @@ public class GoogleSheetsPropertyFileCreator extends AbstractGoogleSheetsPropert
         
         try {
             String path = FileSystem.getInstance().saveProperties(getLocalFileNameText(), gsp);
-            JOptionPane.showMessageDialog(this, String.format("Saved properties to %s", path));
+            MessagePopup.showMessage(this, String.format("Saved properties to %s", path));
         } catch (IOException ex) {
             Logger.logError(ex);
         }

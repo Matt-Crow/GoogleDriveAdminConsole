@@ -14,6 +14,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import gui.components.MessagePopup;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,7 +41,6 @@ public class GoogleDriveService {
     private final NetHttpTransport httpTransport;
     private final JsonFactory jsonFactory;
     private final String tokenDirPath;
-    private final String credentialFilePath;
     private final List<String> scopes;
     
     //maybe subclass these
@@ -48,6 +48,7 @@ public class GoogleDriveService {
     private final Sheets sheetService;
     
     private static GoogleDriveService instance;
+    public static final String CREDENTIAL_PATH = Paths.get(FileSystem.CREDENTIALS_FOLDER, "credentials.json").toString();
     
     private GoogleDriveService() throws GeneralSecurityException, IOException{
         if(instance != null){
@@ -55,7 +56,6 @@ public class GoogleDriveService {
         }
         jsonFactory = JacksonFactory.getDefaultInstance();
         tokenDirPath = FileSystem.TOKENS_FOLDER;
-        credentialFilePath = Paths.get(FileSystem.CREDENTIALS_FOLDER, "credentials.json").toString();
         
         //If modifying these scopes, delete your previously saved tokens/ folder.
         scopes = new ArrayList<>();
@@ -71,10 +71,10 @@ public class GoogleDriveService {
     
     private Credential createCredentials() throws FileNotFoundException, IOException{
         //Load client secret
-        InputStream in = new FileInputStream(credentialFilePath);
+        InputStream in = new FileInputStream(CREDENTIAL_PATH);
         if (in == null) {
-            JOptionPane.showMessageDialog(null, "Failed to find credentials in " + credentialFilePath, "error", JOptionPane.ERROR_MESSAGE);
-            throw new FileNotFoundException("Resource not found: " + credentialFilePath);
+            MessagePopup.showMessage(null, "Failed to find credentials in " + CREDENTIAL_PATH, "error", JOptionPane.ERROR_MESSAGE);
+            throw new FileNotFoundException("Resource not found: " + CREDENTIAL_PATH);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
 

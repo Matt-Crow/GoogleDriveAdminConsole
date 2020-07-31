@@ -1,6 +1,7 @@
 package start;
 
 import gui.MainWindow;
+import gui.components.MessagePopup;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -108,7 +109,7 @@ public class Application {
     }
     
     private void exitWithError(Exception ex){
-        JOptionPane.showMessageDialog(null, "Failed to launch application:\n" + ex.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
+        MessagePopup.showMessage(null, "Failed to launch application:\n" + ex.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
         System.exit(1);
     }
 }

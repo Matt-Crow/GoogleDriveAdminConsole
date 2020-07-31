@@ -1,6 +1,7 @@
 package gui;
 
 import gui.components.HidableDecorator;
+import gui.components.MessagePopup;
 import gui.components.TextScroller;
 import gui.pages.AbstractFormPage;
 import gui.pages.OutputPage;
@@ -52,9 +53,9 @@ public class MainPane extends JPanel{
         saveLogButton.addActionListener((e)->{
             try {
                 String path = FileSystem.getInstance().saveLog();
-                popup("Successfully saved logs to " + path, "Success", JOptionPane.INFORMATION_MESSAGE);
+                MessagePopup.showMessage(this, "Successfully saved logs to " + path, "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                popup("Failed to save logs", "Error", JOptionPane.ERROR_MESSAGE);
+                MessagePopup.showMessage(this, "Failed to save logs", "Error", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }
         });
@@ -132,14 +133,6 @@ public class MainPane extends JPanel{
         newItem.addActionListener((e)->r.run());
         addTo.add(newItem);
         return newItem;
-    }
-    
-    private void popup(String text, String title, int msgType){
-        // https://stackoverflow.com/questions/16409387/joptionpane-output-text-copy
-        TextScroller body = new TextScroller(text);
-        body.setMinimumSize(new Dimension(500, 500));
-        
-        JOptionPane.showMessageDialog(this, body, title, msgType);
     }
     
     public final void switchToOutputTab(){
