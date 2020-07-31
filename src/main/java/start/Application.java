@@ -103,7 +103,12 @@ public class Application {
     public final void start(){
         Logger.log("Launching application...");
         prepareFileSystem();
-        // TODO check if their credential exists
+        /*
+        TODO: If credentials don't exist, tell them to put them in such and such place with a given name,
+        say "look at readme for instructions on how to create client secret for yourself"
+        Include copy of credentials in drive so Randy and camp don't have to go through that,
+        tell them as much when I share this
+        */
         prepareDriveService();
         createWindow(GoogleDriveService.getInstance());
     }
