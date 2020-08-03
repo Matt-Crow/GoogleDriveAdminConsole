@@ -1,5 +1,6 @@
 package start;
 
+import fileUtils.FileReadWriteUtil;
 import gui.MainWindow;
 import gui.components.MessagePopup;
 import java.awt.event.WindowAdapter;
@@ -78,7 +79,7 @@ public class Application {
         }
     }
     
-    private static void createWindow(GoogleDriveService service){
+    private void createWindow(GoogleDriveService service){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -100,6 +101,12 @@ public class Application {
         });
     }
     
+    private void install() throws IOException{
+        String text = FileReadWriteUtil.readStream(Application.class.getResourceAsStream("/setupInstructions.txt"));
+        text = text.replace("$(PATH)", FileSystem.CREDENTIALS_FOLDER);
+        MessagePopup.showMessage(null, text); // I don't like this: too easy to lose track of the popup
+    }
+    
     public final void start(){
         Logger.log("Launching application...");
         prepareFileSystem();
@@ -109,6 +116,13 @@ public class Application {
         Include copy of credentials in drive so Randy and camp don't have to go through that,
         tell them as much when I share this
         */
+        if(!GoogleDriveService.credentialsExist()){
+            try {
+                install();
+            } catch (IOException ex) {
+                exitWithError(ex);
+            }
+        }
         prepareDriveService();
         createWindow(GoogleDriveService.getInstance());
     }

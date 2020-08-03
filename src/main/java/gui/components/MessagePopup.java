@@ -14,7 +14,7 @@ public class MessagePopup {
         JOptionPane.showMessageDialog(from, new TextScroller(msg), title, msgType);
     }
     public static final void showMessage(Component from, String msg){
-        showMessage(from, "message", msg, JOptionPane.INFORMATION_MESSAGE);
+        showMessage(from, msg, "message", JOptionPane.INFORMATION_MESSAGE);
     }
     
     
