@@ -104,11 +104,15 @@ public class Application {
     private void install() throws IOException{
         String text = FileReadWriteUtil.readStream(Application.class.getResourceAsStream("/setupInstructions.txt"));
         text = text.replace("$(PATH)", FileSystem.CREDENTIALS_FOLDER);
-        MessagePopup.showMessage(null, text); // I don't like this: too easy to lose track of the popup
-        
-        new MessagePopup(text, ()->{});
+        new MessagePopup(text, ()->{
+            launch();
+        });
     }
     
+    public final void launch(){
+        prepareDriveService();
+        createWindow(GoogleDriveService.getInstance());
+    }
     public final void start(){
         Logger.log("Launching application...");
         prepareFileSystem();
@@ -124,9 +128,10 @@ public class Application {
             } catch (IOException ex) {
                 exitWithError(ex);
             }
+        } else {
+            launch();
         }
-        prepareDriveService();
-        createWindow(GoogleDriveService.getInstance());
+        
     }
     
     private void exitWithError(Exception ex){

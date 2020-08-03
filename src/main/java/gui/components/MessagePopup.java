@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -14,7 +15,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Matt
  */
-public class MessagePopup extends JDialog {
+public class MessagePopup extends JFrame {
     
     public MessagePopup(String msg, Runnable onClose){
         super();
@@ -25,6 +26,7 @@ public class MessagePopup extends JDialog {
         JPanel bottom = new JPanel();
         JButton close = new JButton("Close");
         close.addActionListener((e)->{
+            SwingUtilities.invokeLater(onClose);
             dispose(); // does this fire window closing?
         });
         bottom.add(close);
@@ -38,13 +40,19 @@ public class MessagePopup extends JDialog {
                 SwingUtilities.invokeLater(onClose);
             }
         });
-        
+        pack();
         setVisible(true);
         revalidate();
         repaint();
         SwingUtilities.invokeLater(()->{
             requestFocus();
         });
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    public MessagePopup(String msg){
+        this(msg, ()->{});
     }
     
     public static final void showMessage(Component from, String msg, String title, int msgType){
