@@ -74,8 +74,8 @@ public class GoogleDriveService {
         //Load client secret
         InputStream in = new FileInputStream(CREDENTIAL_PATH);
         if (in == null) {
-            MessagePopup.showMessage(null, "Failed to find credentials in " + CREDENTIAL_PATH, "error", JOptionPane.ERROR_MESSAGE);
-            throw new FileNotFoundException("Resource not found: " + CREDENTIAL_PATH);
+            //MessagePopup.showMessage(null, "Failed to find credentials in " + CREDENTIAL_PATH, "error", JOptionPane.ERROR_MESSAGE);
+            //throw new FileNotFoundException("Resource not found: " + CREDENTIAL_PATH);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
 

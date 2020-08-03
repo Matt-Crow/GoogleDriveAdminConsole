@@ -1,3 +1,10 @@
+
+TODO: If credentials don't exist, tell them to put them in such and such place with a given name,
+say "look at readme for instructions on how to create client secret for yourself"
+Include copy of credentials in drive so Randy and camp don't have to go through that,
+tell them as much when I share this
+
+
 # California Aerospace Museum STEM Camp Administration Console
 A small, extendable application for sharing Google Drive Files.
 

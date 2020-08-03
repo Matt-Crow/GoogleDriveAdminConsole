@@ -24,7 +24,7 @@ public class GoogleSheetsPropertyFileCreator extends AbstractGoogleSheetsPropert
         
         try {
             String path = FileSystem.getInstance().saveProperties(getLocalFileNameText(), gsp);
-            MessagePopup.showMessage(this, String.format("Saved properties to %s", path));
+            new MessagePopup(String.format("Saved properties to %s", path));
         } catch (IOException ex) {
             Logger.logError(ex);
         }

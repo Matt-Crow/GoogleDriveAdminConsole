@@ -53,9 +53,9 @@ public class MainPane extends JPanel{
         saveLogButton.addActionListener((e)->{
             try {
                 String path = FileSystem.getInstance().saveLog();
-                MessagePopup.showMessage(this, "Successfully saved logs to " + path, "Success", JOptionPane.INFORMATION_MESSAGE);
+                new MessagePopup("Successfully saved logs to " + path);
             } catch (IOException ex) {
-                MessagePopup.showMessage(this, "Failed to save logs", "Error", JOptionPane.ERROR_MESSAGE);
+                new MessagePopup("Failed to save logs");
                 ex.printStackTrace();
             }
         });
