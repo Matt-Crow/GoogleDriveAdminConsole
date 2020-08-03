@@ -43,6 +43,12 @@ public class HidableDecorator extends JComponent {
         content.setEnabled(b);
     }
     
+    @Override
+    public void repaint(){
+        content.repaint();
+        super.repaint();
+    }
+    
     public final void toggleHidden(){
         setHidden(!isHidden);
     }
@@ -56,6 +62,7 @@ public class HidableDecorator extends JComponent {
             toggleHide.setText("Hide " + text);
             content.setVisible(true);
         }
+        repaint();
     }
     
     public static void main(String[] args){

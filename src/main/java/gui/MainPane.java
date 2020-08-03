@@ -6,11 +6,13 @@ import gui.components.TextScroller;
 import gui.pages.AbstractFormPage;
 import gui.pages.OutputPage;
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -61,10 +63,21 @@ public class MainPane extends JPanel{
         });
         menu.add(saveLogButton);
         
-        JButton logoutButton = new JButton("Sign Out");
+        JButton logoutButton = new JButton("Delete Saved Login");
         logoutButton.addActionListener((e)->{
             service.logOut();
-            new MessagePopup("Logged out successfully");
+            new MessagePopup("Logged out successfully", ()->{
+                // I don't particularly like this. Wish I could just do "Application.close()"
+                Container root = getParent();
+                while(root != null && !(root instanceof MainWindow)){
+                    root = root.getParent();
+                }
+                if(root == null){
+                    throw new UnsupportedOperationException();
+                } else {
+                    ((MainWindow)root).dispose();
+                }
+            });
         });
         menu.add(logoutButton);
         
@@ -87,7 +100,6 @@ public class MainPane extends JPanel{
         // right
         helpText = new TextScroller();
         helpWrapper = new HidableDecorator("Help", helpText);
-        helpWrapper.setSize(helpWrapper.getMinimumSize());
         
         // combine left and middle into one split pane
         JSplitPane split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outputWrapper, cmdWrapper);
@@ -120,7 +132,6 @@ public class MainPane extends JPanel{
             if(!menus.containsKey(type)){
                 menus.put(type, new JMenu(type));
             }
-            
             addMenuItem(menus.get(type), plugin.getName(), ()->openTab(plugin));
         }
         menus.values().forEach((subMenu)->menu.add(subMenu));
@@ -130,8 +141,9 @@ public class MainPane extends JPanel{
         AbstractFormPage page = plugin.getFormPage(this);
         cmdPane.removeAll();
         cmdPane.add(page);
-        //cmdWrapper.repaint();
+        cmdWrapper.setHidden(false);
         helpText.setText(plugin.getHelp());
+        revalidate();
         repaint();
     }
     

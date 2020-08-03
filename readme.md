@@ -26,10 +26,9 @@ locate the most recent version, and download the source code under the 'assets' 
 2. Once the application is done downloading, unzip it.
 3. You will find the executable JAR file under build/libs. You can move this JAR file wherever you want. Feel free to delete the other files, as you only need this JAR file.
 4. Double-click the JAR file to run it.
-5. The first time you launch the application, it will crash, as it needs Google API credentials.
-6. Any files the application creates are stored under [HOME]/Aerospace Camp Administration Console, where HOME is your home folder.
+5. Any files the application creates are stored under [HOME]/Aerospace Camp Administration Console, where HOME is your home folder.
 For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Console'''. The credentials will go in the "credentials" folder here.
-7. 
+
 ## Helpful Links for Developers ##
 * [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
 * [The Google API console](https://console.developers.google.com/apis/credentials?authuser=2&project=camp-administration-console)
