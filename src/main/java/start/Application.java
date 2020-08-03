@@ -105,6 +105,8 @@ public class Application {
         String text = FileReadWriteUtil.readStream(Application.class.getResourceAsStream("/setupInstructions.txt"));
         text = text.replace("$(PATH)", FileSystem.CREDENTIALS_FOLDER);
         MessagePopup.showMessage(null, text); // I don't like this: too easy to lose track of the popup
+        
+        new MessagePopup(text, ()->{});
     }
     
     public final void start(){
