@@ -14,12 +14,14 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -123,5 +125,14 @@ public class GoogleDriveService {
     
     public final Sheets getSheets(){
         return sheetService;
+    }
+    
+    public final void logOut(){
+        Path tokens = Paths.get(FileSystem.TOKENS_FOLDER);
+        if(tokens.toFile().isDirectory()){
+            for(File f : tokens.toFile().listFiles()){
+                f.delete();
+            }
+        }
     }
 }

@@ -61,6 +61,13 @@ public class MainPane extends JPanel{
         });
         menu.add(saveLogButton);
         
+        JButton logoutButton = new JButton("Sign Out");
+        logoutButton.addActionListener((e)->{
+            service.logOut();
+            new MessagePopup("Logged out successfully");
+        });
+        menu.add(logoutButton);
+        
         add(menu, BorderLayout.PAGE_START);
         
         // construct the page content area
