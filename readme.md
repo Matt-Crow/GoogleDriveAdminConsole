@@ -29,14 +29,7 @@ locate the most recent version, and download the source code under the 'assets' 
 5. The first time you launch the application, it will crash, as it needs Google API credentials.
 6. Any files the application creates are stored under [HOME]/Aerospace Camp Administration Console, where HOME is your home folder.
 For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Console'''. The credentials will go in the "credentials" folder here.
-7. In a browser, go to https://console.developers.google.com/apis/credentials, log in as the Aerospace STEM camp Google Account, and select the "Camp Administration Console" project.
-8. Go to the "credentials" tab, and click on the "Desktop client 1" under "OAuth 2.0 client IDs".
-9. Select "Download JSON" to download the credentials.
-10. Rename the downloaded file "credentials.json", and save it to the "credentials" folder of the application.
-11. When you relaunch the application, it will open a browser window, asking you to sign in to Google. Make sure you sign in using the Aerospace museum GMail account!
-If you need to change which account you are logged in as, close the application, and delete the "tokens" folder the program created in the application folder.
-12. If you see the application pop up, then everything should work. 
-
+7. 
 ## Helpful Links for Developers ##
 * [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
 * [The Google API console](https://console.developers.google.com/apis/credentials?authuser=2&project=camp-administration-console)

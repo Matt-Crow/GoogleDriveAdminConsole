@@ -1,1 +1,10 @@
-Google instruction stuff
+How to Create Google Drive Credentials:
+1. In a browser, go to https://console.developers.google.com/apis
+2. Log in as a Google account with access to the Drive you'll want the application to manage
+3. Create a new project, or choose an existing one if your organization has already made one
+4. Once the project is created, you'll need to enable the Google Drive and Sheets APIs
+5. go to the "credentials" tab, and create a new "OAuth 2.0 client ID" (if one doesn't yet exist), you should select "Desktop app" for the type.
+6. download the JSON for the OAuth 2.0 client ID.
+7. Rename the downloaded file "credentials.json", and save it to the "credentials" folder of the application.
+8. When you close the application popup, it will open a browser window, asking you to sign in to Google. Make sure you sign in using an account with access to the Drive you want to manage.
+9. If you see the application pop up, then everything should work. 

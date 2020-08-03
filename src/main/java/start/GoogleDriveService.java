@@ -14,7 +14,6 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-import gui.components.MessagePopup;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,7 +24,6 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import sysUtils.FileSystem;
 
 /**
@@ -73,10 +71,6 @@ public class GoogleDriveService {
     private Credential createCredentials() throws FileNotFoundException, IOException{
         //Load client secret
         InputStream in = new FileInputStream(CREDENTIAL_PATH);
-        if (in == null) {
-            //MessagePopup.showMessage(null, "Failed to find credentials in " + CREDENTIAL_PATH, "error", JOptionPane.ERROR_MESSAGE);
-            //throw new FileNotFoundException("Resource not found: " + CREDENTIAL_PATH);
-        }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
