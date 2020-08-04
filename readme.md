@@ -1,11 +1,4 @@
-
-TODO: If credentials don't exist, tell them to put them in such and such place with a given name,
-say "look at readme for instructions on how to create client secret for yourself"
-Include copy of credentials in drive so Randy and camp don't have to go through that,
-tell them as much when I share this
-
-
-# California Aerospace Museum STEM Camp Administration Console
+# Google Drive Administration Console
 A small, extendable application for sharing Google Drive Files.
 
 ## Project Purpose ##
@@ -28,6 +21,9 @@ locate the most recent version, and download the source code under the 'assets' 
 4. Double-click the JAR file to run it.
 5. Any files the application creates are stored under [HOME]/Aerospace Camp Administration Console, where HOME is your home folder.
 For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Console'''. The credentials will go in the "credentials" folder here.
+6. The first time you launch the application, it will ask you for some Google credentials. Follow the on-screen instructions to finish setting up the application.
+7. Once you've put the credentials in the appropriate folder and closed the popup, you'll be asked to sign in to Google.
+8. After signing in, the application will launch. 
 
 ## Helpful Links for Developers ##
 * [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
@@ -45,3 +41,5 @@ To check if something is a folder, check if its MIME type is "application/vnd.go
 * Different name for application
 * Implement drive.commands.utils.DriveCommandResult
 * Make PluginLoader scour the classpath for plugins
+* Automate
+* Make GoogleDriveURL class which extracts file ID from a file sharing URL (note that URLs are formatted differently for some file types)
