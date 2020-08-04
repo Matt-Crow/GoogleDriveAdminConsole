@@ -20,7 +20,7 @@ locate the most recent version, and download the source code under the 'assets' 
 3. You will find the executable JAR file under build/libs. You can move this JAR file wherever you want. Feel free to delete the other files, as you only need this JAR file.
 4. Double-click the JAR file to run it.
 5. Any files the application creates are stored under [HOME]/Google Drive Administration Console, where HOME is your home folder.
-For PC users, this is usually '''C:\Users\NAME\Google Drive Administration Console'''.
+For PC users, this is usually `C:\Users\NAME\Google Drive Administration Console`.
 6. The first time you launch the application, it will ask you for some Google credentials. Follow the on-screen instructions to finish setting up the application.
 7. Once you've put the credentials in the appropriate folder and closed the popup, you'll be asked to sign in to Google.
 8. After signing in, the application will launch. 
@@ -38,10 +38,10 @@ For PC users, this is usually '''C:\Users\NAME\Google Drive Administration Conso
 * [Getting started with Sheets API Java](https://developers.google.com/sheets/api/quickstart/java)
 * [Drive Javadoc](https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html)
 * [Sheets Javadoc](https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/)
-* Use this to download a file's contents: https://drive.google.com/uc?export=download&id=ID
-* https://cloud.google.com/compute/docs/api-rate-limits
-* https://console.developers.google.com/apis/api/drive.googleapis.com/quotas
-To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
+* [API rate limits](https://cloud.google.com/compute/docs/api-rate-limits)
+* [Project quoras](https://console.developers.google.com/apis/api/drive.googleapis.com/quotas) This program uses permission quotas a fair bit, as it must send an email when sharing files, though it does batch requests by email address, which helps a bit. (See `/src/main/java/plugins/implementations/shareFiles/GiveViewAccess.java`)
+* Use this to download a file's contents: `https://drive.google.com/uc?export=download&id=ID`
+* To check if something is a folder, check if its MIME type is `"application/vnd.google-apps.folder"`
 
 ## TODO ##
 * Implement drive.commands.utils.DriveCommandResult
