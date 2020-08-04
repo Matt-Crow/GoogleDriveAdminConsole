@@ -1,0 +1,8 @@
+Use this plugin to distribute Google Drive files to people.
+To the left, you will see 2 property file choosers; one says "User Spreadsheet info", while the other says "File Spreadsheet info".
+You'll want to select property file's you've created using the "create sheet properties" plugin for both of these.
+Once you've selected the appropriate files, you may want to un-check the "this is just a test" checkbox on the bottom of the screen, or you can leave it checked to see exactly which files the program will share, and who it will share them with.
+Either way, once you select the files, you can click the "Run" button to share the files.
+The program will read the file sheet referenced by the "File Spreadsheet info", and find which groups each file should be given to.
+It then reads the user sheet referenced by the "User Spreadsheet info", and finds which groups each user belongs to.
+Then, each user is given view access to each file in their group.

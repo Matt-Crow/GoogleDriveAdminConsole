@@ -1,0 +1,3 @@
+The user list reader allows you to see who is contained in a user list spreadsheet.
+First, use the Google Sheet Property selector to choose a file you created using the "create sheet properties" plugin.
+After doing so, if you click the "run" button along the bottom of the screen, the program will tell you all the users contained in the spreadsheet this property file is referencing.

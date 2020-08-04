@@ -8,10 +8,11 @@ import com.google.api.services.drive.DriveRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import start.ServiceAccess;
+import sysUtils.Logger;
 
 /**
- *
+ * The CommandBatch class batches requests together such that no 
+ * batch contains more than the maximum number of batched requests (100)
  * @author Matt
  */
 public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
@@ -19,8 +20,8 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
     
     private static final int MAX_BATCH_SIZE = 100;
     
-    public CommandBatch(ServiceAccess access, List<? extends DriveRequest<T>> reqs){
-        super(access);
+    public CommandBatch(List<? extends DriveRequest<T>> reqs){
+        super();
         batches = new ArrayList<>();
         // perform batching
         int numReqs = reqs.size();
@@ -34,18 +35,18 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
     }
 
     @Override
-    public List<T> execute() throws IOException {
+    public List<T> doExecute() throws IOException {
         List<T> ret = new ArrayList<>();
         JsonBatchCallback<T> jsonCallback = new JsonBatchCallback<T>() {
             @Override
             public void onFailure(GoogleJsonError gje, HttpHeaders hh) throws IOException {
-                System.err.println(gje);
-                System.err.println(hh);
+                Logger.logError(gje.toPrettyString());
+                Logger.logError(hh.toString());
             }
 
             @Override
             public void onSuccess(T t, HttpHeaders hh) throws IOException {
-                System.out.println(t);
+                Logger.log(t.toString());
                 ret.add(t);
             }
         };
@@ -57,13 +58,13 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
                 try{
                     req.queue(currentBatchReq, jsonCallback);
                 } catch(IOException ex){
-                    ex.printStackTrace();
+                    Logger.logError(ex);
                 }
             }
             try{
                 currentBatchReq.execute();
             } catch(IOException ex){
-                ex.printStackTrace();
+                Logger.logError(ex);
             }
         }
         return ret;

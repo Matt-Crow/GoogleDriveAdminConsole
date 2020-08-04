@@ -1,0 +1,10 @@
+Use this plugin to generate the property files the program will use to locate Google Sheets in your Google Drive.
+The program uses these property files on your computer to locate files in your Drive, think of them as references "pointing" to a Google Sheet.
+The "property file name" is what you want to name the new property file. Note this program automatically adds the current date and time to the end when you save it.
+Next, the "file ID" is the ID of the Spreadsheet this property file should "point to". You can get the ID of a Spreadsheet through its URL, which is formatted like so:
+https://docs.google.com/spreadsheets/d/FILE-ID-IS-HERE/edit#gid=0
+Simply copy the file ID from the URL (without the surrounding slashes), and paste it into the box to the right of the "file ID" label.
+Lastly, look at the "Sheet Name" label. To the right of this, put the name of the specific sheet within the spreadsheet you want this property file to "point to".
+Make sure your capitalization is correct though!
+Once you're done entering that information, click the "create" button to save those properties.
+The program automatically puts the newly created file in the application's "properties" folder.

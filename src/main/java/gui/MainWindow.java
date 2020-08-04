@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import start.Application;
+import start.GoogleDriveService;
 import start.Main;
 
 /**
@@ -9,9 +11,9 @@ import start.Main;
  * @author Matt
  */
 public class MainWindow extends JFrame{
-    public MainWindow(){
+    public MainWindow(GoogleDriveService service){
         super();
-        setTitle(Main.APPLICATION_NAME);
+        setTitle(Application.APPLICATION_NAME);
         // fullscreen
         setSize(
             (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
@@ -19,7 +21,7 @@ public class MainWindow extends JFrame{
         );
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); // EXIT_ON_CLOSE would cancel any commands in progress
         
-        setContentPane(new MainPane());
+        setContentPane(new MainPane(service));
         
         setVisible(true);
         revalidate();

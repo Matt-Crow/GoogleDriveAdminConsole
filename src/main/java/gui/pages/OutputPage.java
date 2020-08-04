@@ -3,6 +3,7 @@ package gui.pages;
 import gui.MainPane;
 import gui.components.TextScroller;
 import java.awt.GridLayout;
+import sysUtils.Logger;
 
 /**
  *
@@ -16,6 +17,8 @@ public class OutputPage extends PageContent{
         setLayout(new GridLayout(1, 1));
         textScroller = new TextScroller();
         add(textScroller);
+        Logger.addMessageListener(textScroller);
+        Logger.addErrorListener(textScroller);
     }
 
     public final void addText(String appendMe){

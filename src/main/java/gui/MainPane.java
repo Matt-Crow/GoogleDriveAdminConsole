@@ -1,95 +1,146 @@
 package gui;
 
-import gui.pages.IndividualAccessPage;
-import gui.pages.PageContent;
+import gui.components.HidableDecorator;
+import gui.components.MessagePopup;
+import gui.components.TextScroller;
+import gui.pages.AbstractFormPage;
 import gui.pages.OutputPage;
-import gui.pages.ParseCertFormPage;
-import gui.pages.PageName;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.JSplitPane;
+import plugins.utils.PluginLoader;
+import start.GoogleDriveService;
+import plugins.utils.AbstractPlugin;
+import sysUtils.FileSystem;
 
 /**
- *
+ * 
  * @author Matt
  */
 public class MainPane extends JPanel{
-    private final OutputPage outputPage;
-    private final ParseCertFormPage parseFormPage;
-    private final IndividualAccessPage indivAccPage;
     private final JMenuBar menu;
-    private final GuiBackend backend;
-    private final JTabbedPane contentArea;
+    private final JPanel bodyPane;
     
-    private final HashMap<PageName, PageContent> pages;
+    private final OutputPage outputPage;
+    private final HidableDecorator outputWrapper;
     
-    public MainPane(){
+    private final JPanel cmdPane;
+    private final HidableDecorator cmdWrapper;
+    
+    private final TextScroller helpText;
+    private final HidableDecorator helpWrapper;
+    
+    public MainPane(GoogleDriveService service){
         super();
-        
-        backend = new GuiBackend(this);
         
         setLayout(new BorderLayout());
         
-        // construct the page content area
-        pages = new HashMap<>();
-        
-        contentArea = new JTabbedPane();
-        add(contentArea, BorderLayout.CENTER);
-        
-        outputPage = new OutputPage(this);
-        contentArea.addTab(PageName.OUTPUT.getDisplayValue(), outputPage);
-        pages.put(PageName.OUTPUT, outputPage);
-        
-        parseFormPage = new ParseCertFormPage(this);
-        contentArea.addTab(PageName.PARSE_FORM.getDisplayValue(), parseFormPage);
-        pages.put(PageName.PARSE_FORM, parseFormPage);
-        
-        indivAccPage = new IndividualAccessPage(this);
-        contentArea.addTab(PageName.INDIV_ACC.getDisplayValue(), indivAccPage);
-        pages.put(PageName.INDIV_ACC, indivAccPage);
-        
         // construct the menu bar
         menu = new JMenuBar();
+        loadServices();
         
-        JMenu servAcc = new JMenu("Server access");
-        addMenuItem(servAcc, "Add a Minecraft username to an access list", ()->backend.askAddToAccessList());
-        addMenuItem(servAcc, "Create a new access list", ()->backend.askCreateAccessList());
-        addMenuItem(servAcc, "Display an access list", ()->backend.askDisplayAccessList());
-        addMenuItem(servAcc, "Clear an access list", ()->backend.askClearAccessList());
-        menu.add(servAcc);
+        JButton saveLogButton = new JButton("Save logs");
+        saveLogButton.addActionListener((e)->{
+            try {
+                String path = FileSystem.getInstance().saveLog();
+                new MessagePopup("Successfully saved logs to " + path);
+            } catch (IOException ex) {
+                new MessagePopup("Failed to save logs");
+                ex.printStackTrace();
+            }
+        });
+        menu.add(saveLogButton);
         
-        JMenu driveManage = new JMenu("Drive management");
-        addMenuItem(driveManage, "Update download permissions for files", ()->backend.askDownloadPermissions());
-        addMenuItem(driveManage, "Read a file list", ()->backend.askReadFileList());
-        addMenuItem(driveManage, "Read a certification form", ()->backend.askReadCertForm());
-        menu.add(driveManage);
-        
-        JMenu props = new JMenu("Create properties");
-        addMenuItem(props, "Create default file list properties", ()->backend.askCreateDefaultFileListProps());
-        addMenuItem(props, "Create default certification form properties", ()->backend.askCreateDefaultCertFormProps());
-        menu.add(props);
+        JButton logoutButton = new JButton("Delete Saved Login");
+        logoutButton.addActionListener((e)->{
+            service.logOut();
+            new MessagePopup("Logged out successfully", ()->{
+                // I don't particularly like this. Wish I could just do "Application.close()"
+                Container root = getParent();
+                while(root != null && !(root instanceof MainWindow)){
+                    root = root.getParent();
+                }
+                if(root == null){
+                    throw new UnsupportedOperationException();
+                } else {
+                    ((MainWindow)root).dispose();
+                }
+            });
+        });
+        menu.add(logoutButton);
         
         add(menu, BorderLayout.PAGE_START);
         
-        // exit button
-        JPanel end = new JPanel();
-        end.setLayout(new FlowLayout());
-        JButton exit = new JButton("EMERGENCY EXIT");
-        exit.addActionListener((e)->{
-            System.exit(0);
-        });
-        end.add(exit);
-        add(end, BorderLayout.PAGE_END);
+        // construct the page content area
+        bodyPane = new JPanel(); // do I need this?
+        bodyPane.setLayout(new GridLayout(1, 1));
+        
+        // left side
+        outputPage = new OutputPage(this);
+        outputWrapper = new HidableDecorator("Output", outputPage);
+        outputWrapper.setSize(outputWrapper.getPreferredSize());
+        
+        // middle
+        cmdPane = new JPanel();
+        cmdPane.setLayout(new GridLayout(1, 1));
+        cmdWrapper = new HidableDecorator("Command", cmdPane);
+        
+        // right
+        helpText = new TextScroller();
+        helpWrapper = new HidableDecorator("Help", helpText);
+        
+        // combine left and middle into one split pane
+        JSplitPane split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outputWrapper, cmdWrapper);
+        
+        //combine split1 and right into one split pane so we have 3 side-by-side panels
+        JSplitPane split2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, split1, helpWrapper);
+        
+        // add split2, while now contains left, middle, and right
+        /*
+        split2
+        \_split1
+          \_left
+          \_middle
+        \_right
+        */
+        bodyPane.add(split2, BorderLayout.CENTER);
+        
+        add(bodyPane, BorderLayout.CENTER);
     }
     
-    public final GuiBackend getBackend(){
-        return backend;
+    /**
+     * Takes each AbstractPlugin from the PluginLoader,
+     * and adds menus for each of them.
+     */
+    private void loadServices(){
+        HashMap<String, JMenu> menus = new HashMap<>();
+        String type;
+        for(AbstractPlugin plugin : PluginLoader.getInstance().getAllPlugins()){
+            type = plugin.getType().toLowerCase();
+            if(!menus.containsKey(type)){
+                menus.put(type, new JMenu(type));
+            }
+            addMenuItem(menus.get(type), plugin.getName(), ()->openTab(plugin));
+        }
+        menus.values().forEach((subMenu)->menu.add(subMenu));
+    }
+    
+    private void openTab(AbstractPlugin plugin){
+        AbstractFormPage page = plugin.getFormPage(this);
+        cmdPane.removeAll();
+        cmdPane.add(page);
+        cmdWrapper.setHidden(false);
+        helpText.setText(plugin.getHelp());
+        revalidate();
+        repaint();
     }
     
     private JMenuItem addMenuItem(JMenu addTo, String text, Runnable r){
@@ -99,12 +150,14 @@ public class MainPane extends JPanel{
         return newItem;
     }
     
-    public final void switchToTab(PageName tabName){
-        contentArea.setSelectedComponent(pages.get(tabName));
+    public final void switchToOutputTab(){
+        outputWrapper.setHidden(false);
+        cmdWrapper.setHidden(true);
+        repaint();
     }
     
     public final void setTabSwitchingEnabled(boolean allowSwitching){
-        contentArea.setEnabled(allowSwitching);
+        cmdWrapper.setEnabled(allowSwitching);
     }
     
     public final void addText(String appendMe){

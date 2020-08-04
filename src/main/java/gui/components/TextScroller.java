@@ -1,5 +1,6 @@
 package gui.components;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
@@ -7,19 +8,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import sysUtils.ErrorListener;
+import sysUtils.MessageListener;
 
 /**
  *
  * @author Matt
  */
-public class TextScroller extends JComponent{
+public class TextScroller extends JComponent implements MessageListener, ErrorListener {
     private final JScrollPane scroll;
     private final JTextArea text;
     
     public TextScroller(){
         super();
         setLayout(new GridLayout(1, 1));
-        text = new JTextArea();
+        text = new JTextArea(20, 20);
         text.setWrapStyleWord(true);
         text.setLineWrap(true);
         text.setEditable(false);
@@ -28,6 +31,25 @@ public class TextScroller extends JComponent{
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         add(scroll);
+    }
+    
+    public TextScroller(String defaultText){
+        this();
+        setText(defaultText);
+    }
+    
+    @Override
+    public final Dimension getPreferredSize(){
+        return scroll.getPreferredSize();
+    }
+    
+    @Override
+    public final Dimension getMinimumSize(){
+        return scroll.getMinimumSize();
+    }
+    
+    public final void setText(String newText){
+        text.setText(newText);
     }
     
     public final void addText(String appendMe){
@@ -50,4 +72,22 @@ public class TextScroller extends JComponent{
             repaint();
         });
     }
+
+    @Override
+    public void messageLogged(String message) {
+        addText(message);
+    }
+
+    @Override
+    public void errorLogged(String errMsg) {
+        addText("Uh oh: " + errMsg);
+    }
+
+    @Override
+    public void errorLogged(Exception ex) {
+        errorLogged(ex.getMessage());
+    }
+
+    @Override
+    public void errorLogCleared() {}
 }

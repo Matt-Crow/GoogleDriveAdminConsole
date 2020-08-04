@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import sysUtils.Logger;
 
 /**
  *
@@ -26,7 +27,7 @@ public class FileSelector {
         onFail = eatBadNews;
     }
     public FileSelector(String text, FileType type, Consumer<File> onSelect){
-        this(text, type, onSelect, (Exception ex)->ex.printStackTrace());
+        this(text, type, onSelect, (Exception ex)->Logger.logError(ex));
     }
     
     public void openDialog(){

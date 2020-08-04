@@ -1,0 +1,3 @@
+Use read file list to see which files are listed in a Google Sheet.
+First, select the Google Sheet Properties file you created via the "create sheet properties" plugin.
+Upon doing so, click the "run" button on the bottom of the screen, and the program will go find which files are contained therein.
