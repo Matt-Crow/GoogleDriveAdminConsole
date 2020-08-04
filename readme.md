@@ -25,6 +25,12 @@ For PC users, this is usually '''C:\Users\NAME\Aerospace Camp Administration Con
 7. Once you've put the credentials in the appropriate folder and closed the popup, you'll be asked to sign in to Google.
 8. After signing in, the application will launch. 
 
+## Information on User and File Lists ##
+* [general information](https://docs.google.com/document/d/1rEV5si3BlKcu4RbHDmYYkPtk12aHa35u9U_VfO1Bpwk/edit?usp=sharing)
+* [example spreadsheet] (https://docs.google.com/spreadsheets/d/1mdyHStF7EvLQCkS1avJ_JaD9t7HvAXGEW8X0Zqr81cI/edit?usp=sharing)
+* [property file for example user list] (https://drive.google.com/file/d/1CBpe0JTFOinSSxf9cuS0Rzeq0N2NxKBP/view?usp=sharing)
+* [property file for example file list] (https://drive.google.com/file/d/17_WSCA6TOYb6GTL3oYdFlsJY6falgyZV/view?usp=sharing)
+
 ## Helpful Links for Developers ##
 * [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
 * [The Google API console](https://console.developers.google.com/apis/credentials?authuser=2&project=camp-administration-console)
