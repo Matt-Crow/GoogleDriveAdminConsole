@@ -22,7 +22,7 @@ import sysUtils.Logger;
 public class Application {
     private static Application instance;
     
-    public static final String APPLICATION_NAME = "Aerospace Camp Administration Console";
+    public static final String APPLICATION_NAME = "Google Drive Administration Console";
     
     private Application(){
         if(instance != null){
