@@ -2,7 +2,7 @@
 A small, extendable application for sharing Google Drive Files.
 
 ## Project Purpose ##
-    Over the Summer of 2020, I worked as an independent contractor for the California Aerospace Museum.
+Over the Summer of 2020, I worked as an independent contractor for the California Aerospace Museum.
 I joined a team working on a STEM (Science, Technology, Engineering, and Math) camp, where campers
 would use Minecraft as a tool to build a Mars colony, learning the science behind the various structures
 they were told to build. Campers were given Google documents with instructions and information they would
@@ -14,7 +14,7 @@ to join tables of camper and file information, and distribute the files accordin
 (*) This application uses Java to run. If you do not yet have Java installed, you'll need to download and install Java [here](https://www.java.com/en/).
 
 ## Installing the Application ##
-1. First, go to the [release tab](https://github.com/IronHeart7334/AerospaceCampAdminConsole/releases) for the latest stable release, 
+1. First, go to the [release tab](https://github.com/IronHeart7334/GoogleDriveAdminConsole/releases) for the latest stable release, 
 locate the most recent version, and download the source code under the 'assets' tab.
 2. Once the application is done downloading, unzip it.
 3. You will find the executable JAR file under build/libs. You can move this JAR file wherever you want. Feel free to delete the other files, as you only need this JAR file.
@@ -44,7 +44,6 @@ For PC users, this is usually '''C:\Users\NAME\Google Drive Administration Conso
 To check if something is a folder, check if its MIME type is "application/vnd.google-apps.folder"
 
 ## TODO ##
-* Different name for application
 * Implement drive.commands.utils.DriveCommandResult
 * Make PluginLoader scour the classpath for plugins
 * Automate
