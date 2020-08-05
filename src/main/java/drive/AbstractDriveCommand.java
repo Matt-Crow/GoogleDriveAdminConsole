@@ -34,8 +34,8 @@ public abstract class AbstractDriveCommand<T> {
      * @return
      * @throws IOException 
      */
-    public final DriveCommandResult<T> execute() throws IOException {
-        DriveCommandResult<T> ret = null;
+    public final T execute() throws IOException {
+        T ret = null;
         try {
             ret = doExecute();
         } catch(IOException ex){
@@ -45,5 +45,5 @@ public abstract class AbstractDriveCommand<T> {
         return ret;
     }
     
-    protected abstract DriveCommandResult<T> doExecute() throws IOException;
+    public abstract T doExecute() throws IOException;
 }
