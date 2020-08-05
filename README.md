@@ -39,7 +39,7 @@ For PC users, this is usually `C:\Users\NAME\Google Drive Administration Console
 * [Drive Javadoc](https://developers.google.com/resources/api-libraries/documentation/drive/v3/java/latest/overview-summary.html)
 * [Sheets Javadoc](https://developers.google.com/resources/api-libraries/documentation/sheets/v4/java/latest/)
 * [API rate limits](https://cloud.google.com/compute/docs/api-rate-limits)
-* [Project quoras](https://console.developers.google.com/apis/api/drive.googleapis.com/quotas) This program uses permission quotas a fair bit, as it must send an email when sharing files, though it does batch requests by email address, which helps a bit. (See `/src/main/java/plugins/implementations/shareFiles/GiveViewAccess.java`)
+* [Project quotas](https://console.developers.google.com/apis/api/drive.googleapis.com/quotas) This program uses permission quotas a fair bit, as it must send an email when sharing files, though it does batch requests by email address, which helps a bit. (See `/src/main/java/plugins/implementations/shareFiles/GiveViewAccess.java`)
 * Use this to download a file's contents: `https://drive.google.com/uc?export=download&id=ID`
 * To check if something is a folder, check if its MIME type is `"application/vnd.google-apps.folder"`
 

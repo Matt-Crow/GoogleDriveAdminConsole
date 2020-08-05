@@ -1,5 +1,6 @@
 package start;
 
+import drive.GoogleDriveService;
 import fileUtils.FileReadWriteUtil;
 import gui.MainWindow;
 import gui.components.MessagePopup;
@@ -19,7 +20,7 @@ import sysUtils.Logger;
  * 
  * @author Matt Crow
  */
-public class Application {
+public class Application {    
     private static Application instance;
     
     public static final String APPLICATION_NAME = "Google Drive Administration Console";

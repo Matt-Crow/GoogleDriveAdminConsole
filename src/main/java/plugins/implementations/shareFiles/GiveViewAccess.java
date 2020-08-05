@@ -1,9 +1,9 @@
 package plugins.implementations.shareFiles;
 
-import drive.commands.utils.CommandBatch;
+import drive.CommandBatch;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
-import drive.commands.utils.AbstractDriveCommand;
+import drive.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

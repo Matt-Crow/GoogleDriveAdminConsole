@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import plugins.utils.PluginLoader;
-import start.GoogleDriveService;
+import drive.GoogleDriveService;
 import plugins.utils.AbstractPlugin;
 import sysUtils.FileSystem;
 

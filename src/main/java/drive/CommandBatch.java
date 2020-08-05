@@ -1,5 +1,6 @@
-package drive.commands.utils;
+package drive;
 
+import drive.AbstractDriveCommand;
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.json.GoogleJsonError;
