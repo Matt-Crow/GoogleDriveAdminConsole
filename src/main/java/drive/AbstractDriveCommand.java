@@ -2,7 +2,6 @@ package drive;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
-import drive.GoogleDriveService;
 import java.io.IOException;
 import sysUtils.Logger;
 
@@ -35,8 +34,8 @@ public abstract class AbstractDriveCommand<T> {
      * @return
      * @throws IOException 
      */
-    public final T execute() throws IOException {
-        T ret = null;
+    public final DriveCommandResult<T> execute() throws IOException {
+        DriveCommandResult<T> ret = null;
         try {
             ret = doExecute();
         } catch(IOException ex){
@@ -46,5 +45,5 @@ public abstract class AbstractDriveCommand<T> {
         return ret;
     }
     
-    public abstract T doExecute() throws IOException;
+    protected abstract DriveCommandResult<T> doExecute() throws IOException;
 }

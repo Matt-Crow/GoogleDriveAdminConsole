@@ -9,12 +9,25 @@ public class DriveCommandResult<T> {
     private final T result;
     private final String[] msgs;
     private final Exception[] encounteredErrors;
+    private boolean fatalError;
     
     public DriveCommandResult(String commandName, T resultObject, String[] outputMessages, Exception[] problemsEncountered){
         cmdName = commandName;
         result = resultObject;
         msgs = outputMessages;
         encounteredErrors = problemsEncountered;
+        fatalError = false;
+    }
+    
+    public final void setFatalError(boolean b){
+        fatalError = b;
+    }
+    public final boolean hasFailed(){
+        return fatalError;
+    }
+    
+    public final T getResult(){
+        return result;
     }
     
     @Override
