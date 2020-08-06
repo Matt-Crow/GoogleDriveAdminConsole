@@ -12,15 +12,13 @@ public class GoogleDriveURL {
     
     private static final String FILE_BASE_URL = "drive.google.com/file/d/";
     private static final String FORM_BASE_URL = "docs.google.com/forms/d/";
-    private static final String OTHER_DOC_URL = "docs.google.com/*/d/"; // matches spreadsheets and documents at least. Or at least it should...
-    private static final String DOCS_BASE_URL = "docs.google.com/document/d/";
-    private static final String SHEETS_BASE_URL = "docs.google.com/spreadsheets/d/";
+    private static final String OTHER_DOC_URL = ".*docs.google.com/(?<type>.*)/d/(?<id>.*)/.*"; // matches spreadsheets, documents, and presentationws at least. 
+    // '.' in regex means any character, '*' means any number of. (?<NAME>REGEX) means "make a new group called NAME out of anything that matches REGEX"
     private static final String FOLDER_BASE_URL = "drive.google.com/drive/folders/";
+    
     
     public GoogleDriveURL(String url){
         String id = "ID not found";
-        // split on '/', '?', or '&'
-        String[] urlParts = url.split("/|\\?|&");
         int startIdx = -1;
         int endIdx = -1;
         if(url.contains(FILE_BASE_URL)){
@@ -43,25 +41,25 @@ public class GoogleDriveURL {
                 // now get rid of the e/ at the start, if it exists
                 id = id.substring("e/".length());
             }
-        } else if(Pattern.compile(OTHER_DOC_URL).matcher(id).find()){
+        } else if(Pattern.compile(OTHER_DOC_URL).matcher(url).find()){
             // this doesn't work because the above condition never returns true
             // need to check for spreadsheets and documents after forms, as forms urls are formatted oddly
             Pattern regexPattern = Pattern.compile(OTHER_DOC_URL);
-            Matcher match = regexPattern.matcher(id);
+            Matcher match = regexPattern.matcher(url);
             match.find();
-            String g = match.group();
-            System.out.println("Group is " + g);
-        } else if(url.contains(DOCS_BASE_URL)){
-            id = getId(url);
-        } else if(url.contains(SHEETS_BASE_URL)){
-            id = getId(url);
+            //String type = match.group("type");
+            String idGroup = match.group("id");
+            //System.out.println("Type is " + type);
+            //System.out.println("ID is " + idGroup);
+            id = idGroup;
         } else if(url.contains(FOLDER_BASE_URL)){
             startIdx = url.indexOf(FOLDER_BASE_URL) + FOLDER_BASE_URL.length();
             Pattern p = Pattern.compile("/|\\?|&");
-            Matcher forCryingOutLoudJustWorkAlready = p.matcher(url);
-            forCryingOutLoudJustWorkAlready.find(startIdx);
-            endIdx = url.indexOf(forCryingOutLoudJustWorkAlready.group());
-            id = (endIdx == -1) ? id.substring(startIdx) : id.substring(startIdx, endIdx);
+            Matcher folderMatcher = p.matcher(url);
+            folderMatcher.find(startIdx);
+            String g = folderMatcher.group();
+            endIdx = url.indexOf(folderMatcher.group(), startIdx);
+            id = (endIdx == -1) ? url.substring(startIdx) : url.substring(startIdx, endIdx);
         } else if(url.contains("id=")){
             // easiest case
             startIdx = url.indexOf("id=") + "id=".length(); // incorrectly matches "gid=..."
@@ -74,18 +72,6 @@ public class GoogleDriveURL {
         fileId = id;
     }
     
-    /**
-     * Extracts the file ID from a standard
-     * docs or sheets file.
-     * 
-     * @param url
-     * @return 
-     */
-    private static String getId(String url){
-        int startIdx = url.indexOf("/d/") + "/d/".length();
-        int endIdx = url.indexOf("/", startIdx);
-        return (endIdx == -1) ? url.substring(startIdx) : url.substring(startIdx, endIdx);
-    } 
     @Override
     public String toString(){
         return fileId;
@@ -104,9 +90,9 @@ public class GoogleDriveURL {
             "https://docs.google.com/presentation/d/1ZqKtQSQIlm-p0V_Y47yjadWeBKypdScCvZShSMb2hDg/edit?usp=sharing",
             "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA"
         };
+        
         for(String txt : text){
             System.out.println(txt + ": " + new GoogleDriveURL(txt).toString());
         }
-        System.out.println(Pattern.compile(GoogleDriveURL.OTHER_DOC_URL).matcher("https://docs.google.com/spreadsheets/d/1aCW3dxF-B-s_NWrBq88xvCNjy6bO8wCNJlGDFdH7R1g/edit#gid=836243040").find());
     }
 }
