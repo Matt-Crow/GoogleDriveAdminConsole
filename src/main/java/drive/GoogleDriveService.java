@@ -94,7 +94,8 @@ public class GoogleDriveService {
             try {
                 receiver = receiverBuild.setPort(port).build();
                 credit = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-            } catch (BindException portInUse){
+            } catch (IOException portInUse){ // this wraps the BindException.
+                // for some dumb reason, catch BindException doesn't work
                 receiver = null;
                 credit = null;
             }
