@@ -25,42 +25,35 @@ public class GoogleDriveURL {
     public GoogleDriveURL(String url){
         String id = "ID not found";
         if(Pattern.matches(FILE_REGEX, url)){
-            Pattern p = Pattern.compile(FILE_REGEX);
-            Matcher m = p.matcher(url);
-            m.find();
-            id = m.group("id");
+            id = extractIdGroup(FILE_REGEX, url);
         } else if(Pattern.matches(FORM_REGEX, url)){
-            Pattern p = Pattern.compile(FORM_REGEX);
-            Matcher m = p.matcher(url);
-            m.find();
-            id = m.group("id");
+            id = extractIdGroup(FORM_REGEX, url);
         } else if(Pattern.matches(NON_FORM_DOC_REGEX, url)){
             // need to check for spreadsheets and documents after forms, as forms urls are formatted oddly
-            Pattern regexPattern = Pattern.compile(NON_FORM_DOC_REGEX);
-            Matcher match = regexPattern.matcher(url);
-            match.find();
-            //String type = match.group("type");
-            String idGroup = match.group("id");
-            //System.out.println("Type is " + type);
-            //System.out.println("ID is " + idGroup);
-            id = idGroup;
+            id = extractIdGroup(NON_FORM_DOC_REGEX, url);
         } else if(Pattern.matches(FOLDER_REGEX, url)){
-            Pattern p = Pattern.compile(FOLDER_REGEX);
-            Matcher folderMatcher = p.matcher(url);
-            folderMatcher.find();
-            String idGroup = folderMatcher.group("id");
-            id = idGroup;
+            id = extractIdGroup(FOLDER_REGEX, url);
         } else if(Pattern.matches(ID_REGEX, url)){
             // easiest case
-            Pattern p = Pattern.compile(ID_REGEX);
-            Matcher m = p.matcher(url);
-            m.find();
-            id = m.group("id");
+            id = extractIdGroup(ID_REGEX, url);
         } else {
             id = url;
         }
         
         fileId = id;
+    }
+    
+    /**
+     * 
+     * @param regexPattern
+     * @param url
+     * @return the capture group named "id" matched by regexPattern in url 
+     */
+    private String extractIdGroup(String regexPattern, String url){
+        Pattern p = Pattern.compile(regexPattern);
+        Matcher m = p.matcher(url);
+        m.find();
+        return m.group("id");
     }
     
     @Override
