@@ -5,6 +5,7 @@ import com.google.api.services.drive.model.File;
 import plugins.implementations.fileListReader.ReadFileList;
 import drive.AbstractDriveCommand;
 import drive.CommandBatch;
+import drive.GoogleDriveFileId;
 import fileUtils.FileList;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,14 +29,14 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     private List<FileInfo> getLeaves(FileInfo root){
         List<FileInfo> childFiles = new ArrayList<>();
         try {
-            File rootFile = getDrive().files().get(root.getFileId()).execute();
+            File rootFile = getDrive().files().get(root.getFileId().toString()).execute();
             if("application/vnd.google-apps.folder".equals(rootFile.getMimeType())){
                 // if it is a folder, add all of its non-folder descendants to the list
                 List<File> childDirsAndFiles = getDrive().files().list()
                     .setQ(String.format("'%s' in parents and trashed = false", root.getFileId())).execute().getFiles();
                 childDirsAndFiles.stream().map((File newRootFile)->{
                     return new FileInfo(
-                        newRootFile.getId(),
+                        new GoogleDriveFileId(newRootFile.getId()),
                         newRootFile.getName(),
                         root.getGroups().copy(), // inherit group from parent
                         root.shouldCopyBeEnabled() // inherit downloadability from parent
@@ -82,7 +83,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                 File newChanges = new File();
                 try {
                     newChanges.setViewersCanCopyContent((info.shouldCopyBeEnabled()) ? Boolean.TRUE: Boolean.FALSE);
-                    update = files.update(info.getFileId(), newChanges);
+                    update = files.update(info.getFileId().toString(), newChanges);
                 } catch (IOException ex) {
                     Logger.logError(ex);
                 }

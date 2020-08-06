@@ -1,5 +1,7 @@
 package structs;
 
+import drive.GoogleDriveFileId;
+
 /**
  * This class is used to hold data
  * downloaded from the file list via
@@ -12,7 +14,7 @@ package structs;
  * @author Matt Crow
  */
 public class FileInfo implements Groupable {
-    private final String fileId;
+    private final GoogleDriveFileId fileId;
     private final String fileDesc;
     private final boolean isDownloadable;
     private final Groups groups;
@@ -24,7 +26,7 @@ public class FileInfo implements Groupable {
      * @param forGroups the groups this file should be given to
      * @param viewersShouldDownload whether or not viewers should be able to download this file
      */
-    public FileInfo(String id, String desc, Groups forGroups, boolean viewersShouldDownload){
+    public FileInfo(GoogleDriveFileId id, String desc, Groups forGroups, boolean viewersShouldDownload){
         fileId = id;
         fileDesc = desc;
         isDownloadable = viewersShouldDownload;
@@ -35,7 +37,7 @@ public class FileInfo implements Groupable {
      * 
      * @return the ID of the Google Drive file or folder this represents
      */
-    public final String getFileId(){
+    public final GoogleDriveFileId getFileId(){
         return fileId;
     }
     
@@ -54,7 +56,7 @@ public class FileInfo implements Groupable {
             "People of group %s should be given %s access to %s (%s)",
             groups.toString(),
             (isDownloadable) ? "copy" : "view",
-            fileId,
+            fileId.toString(),
             fileDesc
         );
     }

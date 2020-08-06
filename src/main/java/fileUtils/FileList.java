@@ -1,5 +1,6 @@
 package fileUtils;
 
+import drive.GoogleDriveFileId;
 import java.util.AbstractCollection;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class FileList extends LinkedList<FileInfo>{
                 // how to handle optional AccessType?
                 boolean ableToDownload = AccessType.fromString(row.get(ACC_TYPE_HEADER)).shouldAllowDownload();
                 add(new FileInfo(
-                    row.get(idCol).trim(), 
+                    new GoogleDriveFileId(row.get(idCol).trim()), 
                     row.getOrDefault(DESC_HEADER, "no description").trim(), 
                     new Groups(groupsString), 
                     ableToDownload

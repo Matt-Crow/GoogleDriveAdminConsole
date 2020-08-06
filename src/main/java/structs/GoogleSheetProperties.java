@@ -1,5 +1,6 @@
 package structs;
 
+import drive.GoogleDriveFileId;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 import start.Application;
-import start.Main;
 
 /**
  * GoogleSheetProperties are locally
@@ -32,21 +32,8 @@ public class GoogleSheetProperties extends Properties {
      */
     public GoogleSheetProperties(String spreadsheetFileId, String sheetName){
         super();
-        setProperty(SPREADSHEET_ID_KEY, spreadsheetFileId);
+        setProperty(SPREADSHEET_ID_KEY, spreadsheetFileId); // I don't think this can be a string
         setProperty(SHEET_NAME_KEY, sheetName);
-    }
-    
-    /**
-     * Creates an empty set of 
-     * GoogleSheetProperties, with
-     * some helpful text in the 
-     * property fields.
-     */
-    public GoogleSheetProperties(){
-        this(
-            "Google Spreadsheet ID goes here",
-            "Sheet name goes here"
-        );
     }
     
     /**
@@ -63,7 +50,8 @@ public class GoogleSheetProperties extends Properties {
      * ID property stored in this.
      */
     public final String getFileId(){
-        return getProperty(SPREADSHEET_ID_KEY);
+        // well, I gotta extract the ID somewhere
+        return new GoogleDriveFileId(getProperty(SPREADSHEET_ID_KEY)).toString();
     }
     
     /**
@@ -112,22 +100,6 @@ public class GoogleSheetProperties extends Properties {
             fout.close();
             throw ex;
         }
-    }
-    
-    /**
-     * Still needs to be implemented.
-     * 
-     * Use this to make it easier to find property files created by the program
-     * 
-     * @param name 
-     * @throws FileNotFoundException 
-     * @throws IOException
-     */
-    public void save(String name) throws FileNotFoundException, IOException{
-        // create a new file in the application's properties folder,
-        // name it String.format("%s.properties", name)
-        // call save(newFile)
-        throw new UnsupportedOperationException("Saving to property folder isn't implemented yet");
     }
     
     @Override

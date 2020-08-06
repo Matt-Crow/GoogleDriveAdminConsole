@@ -59,7 +59,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
         p.setRole(VIEW_ROLE);
         Drive.Permissions.Create create = null;
         try {
-            create = getDrive().permissions().create(fromMapping.getFile().getFileId(), p);
+            create = getDrive().permissions().create(fromMapping.getFile().getFileId().toString(), p);
             create.setSendNotificationEmail(Boolean.TRUE);
             // non-gmail accounts need notification emails to get access to the file
             // there is no way to check whether or not they are gmail, so we need to send notifications
