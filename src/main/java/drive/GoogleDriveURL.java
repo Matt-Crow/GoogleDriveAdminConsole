@@ -12,7 +12,9 @@ public class GoogleDriveURL {
     
     private static final String FILE_BASE_URL = "drive.google.com/file/d/";
     private static final String FORM_BASE_URL = "docs.google.com/forms/d/";
-    private static final String OTHER_DOC_URL = "docs.google.com/*/d/"; // matches spreadsheets and documents at least.
+    private static final String OTHER_DOC_URL = "docs.google.com/*/d/"; // matches spreadsheets and documents at least. Or at least it should...
+    private static final String DOCS_BASE_URL = "docs.google.com/document/d/";
+    private static final String SHEETS_BASE_URL = "docs.google.com/spreadsheets/d/";
     
     public GoogleDriveURL(String url){
         String id = "ID not found";
@@ -40,13 +42,18 @@ public class GoogleDriveURL {
                 // now get rid of the e/ at the start, if it exists
                 id = id.substring("e/".length());
             }
-        } else if(url.matches(OTHER_DOC_URL)){
+        } else if(Pattern.compile(OTHER_DOC_URL).matcher(id).find()){
+            // this doesn't work because the above condition never returns true
             // need to check for spreadsheets and documents after forms, as forms urls are formatted oddly
             Pattern regexPattern = Pattern.compile(OTHER_DOC_URL);
             Matcher match = regexPattern.matcher(id);
             match.find();
             String g = match.group();
-            System.out.println();
+            System.out.println("Group is " + g);
+        } else if(url.contains(DOCS_BASE_URL)){
+            id = getId(url);
+        } else if(url.contains(SHEETS_BASE_URL)){
+            id = getId(url);
         } else if(url.contains("id=")){
             // easiest case
             startIdx = url.indexOf("id=") + "id=".length(); // incorrectly matches "gid=..."
@@ -61,6 +68,18 @@ public class GoogleDriveURL {
         fileId = id;
     }
     
+    /**
+     * Extracts the file ID from a standard
+     * docs or sheets file.
+     * 
+     * @param url
+     * @return 
+     */
+    private static String getId(String url){
+        int startIdx = url.indexOf("/d/") + "/d/".length();
+        int endIdx = url.indexOf("/", startIdx);
+        return (endIdx == -1) ? url.substring(startIdx) : url.substring(startIdx, endIdx);
+    } 
     @Override
     public String toString(){
         return fileId;
@@ -81,5 +100,6 @@ public class GoogleDriveURL {
         for(String txt : text){
             System.out.println(txt + ": " + new GoogleDriveURL(txt).toString());
         }
+        System.out.println(Pattern.compile(GoogleDriveURL.OTHER_DOC_URL).matcher("https://docs.google.com/spreadsheets/d/1aCW3dxF-B-s_NWrBq88xvCNjy6bO8wCNJlGDFdH7R1g/edit#gid=836243040").find());
     }
 }
