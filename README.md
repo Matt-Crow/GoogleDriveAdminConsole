@@ -47,4 +47,3 @@ For PC users, this is usually `C:\Users\NAME\Google Drive Administration Console
 * Implement drive.commands.utils.DriveCommandResult
 * Make PluginLoader scour the classpath for plugins
 * Automate
-* Make GoogleDriveURL class which extracts file ID from a file sharing URL (note that URLs are formatted differently for some file types)

@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.BindException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,6 +61,7 @@ public class GoogleDriveService {
         
         //If modifying these scopes, delete your previously saved tokens/ folder.
         scopes = new ArrayList<>();
+        scopes.add(DriveScopes.DRIVE);
         scopes.add(DriveScopes.DRIVE_READONLY);
         scopes.add(DriveScopes.DRIVE_METADATA);
         scopes.add(SheetsScopes.SPREADSHEETS_READONLY);
