@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.BindException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -82,8 +83,26 @@ public class GoogleDriveService {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(tokenDirPath)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        LocalServerReceiver.Builder receiverBuild = new LocalServerReceiver.Builder();//.setPort(8888).build();
+        LocalServerReceiver receiver = null;
+        Credential credit = null;
+        //http://svn.apache.org/viewvc/camel/trunk/components/camel-test/src/main/java/org/apache/camel/test/AvailablePortFinder.java?view=markup#l130
+        //https://stackoverflow.com/questions/434718/sockets-discover-port-availability-using-java
+        int minPort = 1100;
+        int maxPort = 49151;
+        for(int port = minPort; credit == null && port < maxPort; port++){
+            try {
+                receiver = receiverBuild.setPort(port).build();
+                credit = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+            } catch (BindException portInUse){
+                receiver = null;
+                credit = null;
+            }
+        }
+        if(credit == null){
+            throw new IOException("No ports available");
+        }
+        return credit;
     }
     
     public static final boolean credentialsExist(){

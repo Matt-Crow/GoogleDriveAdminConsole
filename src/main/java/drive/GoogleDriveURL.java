@@ -15,6 +15,7 @@ public class GoogleDriveURL {
     private static final String OTHER_DOC_URL = "docs.google.com/*/d/"; // matches spreadsheets and documents at least. Or at least it should...
     private static final String DOCS_BASE_URL = "docs.google.com/document/d/";
     private static final String SHEETS_BASE_URL = "docs.google.com/spreadsheets/d/";
+    private static final String FOLDER_BASE_URL = "drive.google.com/drive/folders/";
     
     public GoogleDriveURL(String url){
         String id = "ID not found";
@@ -54,15 +55,20 @@ public class GoogleDriveURL {
             id = getId(url);
         } else if(url.contains(SHEETS_BASE_URL)){
             id = getId(url);
+        } else if(url.contains(FOLDER_BASE_URL)){
+            startIdx = url.indexOf(FOLDER_BASE_URL) + FOLDER_BASE_URL.length();
+            Pattern p = Pattern.compile("/|\\?|&");
+            Matcher forCryingOutLoudJustWorkAlready = p.matcher(url);
+            forCryingOutLoudJustWorkAlready.find(startIdx);
+            endIdx = url.indexOf(forCryingOutLoudJustWorkAlready.group());
+            id = (endIdx == -1) ? id.substring(startIdx) : id.substring(startIdx, endIdx);
         } else if(url.contains("id=")){
             // easiest case
             startIdx = url.indexOf("id=") + "id=".length(); // incorrectly matches "gid=..."
             endIdx = url.indexOf('/', startIdx);
             id = (endIdx == -1) ? url.substring(startIdx) : url.substring(startIdx, endIdx);
         } else {
-            for(String part : urlParts){
-                System.out.println(part);
-            }
+            id = url;
         }
         
         fileId = id;
@@ -95,6 +101,7 @@ public class GoogleDriveURL {
             "https://docs.google.com/document/d/1enalt5bwo21Ja5dr7RF0aHtzXdq5ExYlpkOHQlISsG4/edit?usp=sharing",
             "https://drive.google.com/drive/folders/1E2y2l330vqYHLGSfU7NZ-4OHDmRO6qEK?usp=sharing",
             "https://docs.google.com/spreadsheets/d/1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA/edit?usp=sharing",
+            "https://docs.google.com/presentation/d/1ZqKtQSQIlm-p0V_Y47yjadWeBKypdScCvZShSMb2hDg/edit?usp=sharing",
             "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA"
         };
         for(String txt : text){
