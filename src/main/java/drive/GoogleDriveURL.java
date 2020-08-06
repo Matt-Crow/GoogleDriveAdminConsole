@@ -1,5 +1,8 @@
 package drive;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * I need an exact definition of how Drive URLs are formatted so this can work
  * @author Matt
@@ -9,6 +12,7 @@ public class GoogleDriveURL {
     
     private static final String FILE_BASE_URL = "drive.google.com/file/d/";
     private static final String FORM_BASE_URL = "docs.google.com/forms/d/";
+    private static final String OTHER_DOC_URL = "docs.google.com/*/d/"; // matches spreadsheets and documents at least.
     
     public GoogleDriveURL(String url){
         String id = "ID not found";
@@ -36,6 +40,13 @@ public class GoogleDriveURL {
                 // now get rid of the e/ at the start, if it exists
                 id = id.substring("e/".length());
             }
+        } else if(url.matches(OTHER_DOC_URL)){
+            // need to check for spreadsheets and documents after forms, as forms urls are formatted oddly
+            Pattern regexPattern = Pattern.compile(OTHER_DOC_URL);
+            Matcher match = regexPattern.matcher(id);
+            match.find();
+            String g = match.group();
+            System.out.println();
         } else if(url.contains("id=")){
             // easiest case
             startIdx = url.indexOf("id=") + "id=".length(); // incorrectly matches "gid=..."
@@ -62,6 +73,7 @@ public class GoogleDriveURL {
             "https://docs.google.com/forms/d/1XtY2THaxhAY_9nSlx_jtEKDOe5gBRdF-Fdpuocf7PkM/edit?usp=sharing", //done
             "https://drive.google.com/open?id=1WJhqZOlRWo0b5ylBx4n8G2LvuH6JnM3W0epKebu8THA", // done
             "https://docs.google.com/spreadsheets/d/1aCW3dxF-B-s_NWrBq88xvCNjy6bO8wCNJlGDFdH7R1g/edit#gid=836243040",
+            "https://docs.google.com/document/d/1enalt5bwo21Ja5dr7RF0aHtzXdq5ExYlpkOHQlISsG4/edit?usp=sharing",
             "https://drive.google.com/drive/folders/1E2y2l330vqYHLGSfU7NZ-4OHDmRO6qEK?usp=sharing",
             "https://docs.google.com/spreadsheets/d/1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA/edit?usp=sharing",
             "1dtWFKcLKM8WyNVRV8G9Fmb-MANzvPqQwsiJOEFxCYOA"
