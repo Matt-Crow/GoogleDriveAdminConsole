@@ -4,42 +4,45 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Matt
+ * A GoogleDriveFileId is used to
+ extract a Google drive file ID
+ from a String.
+ * 
+ * @author Matt Crow
  */
-public class GoogleDriveURL {
+public class GoogleDriveFileId {
     private final String fileId;
+    // I'm not sure the exact format of Google drive file IDs, so I can't throw that in the regex
     // https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
-    /*
-                                              .*: any number of any character
-                                                                        (?<id>REGEX): create a new group named "id", it contains whatever matches REGEX
-                                                                              any number of non-'/' or '?' characters
-    */
-    private static final String FILE_REGEX = ".*drive.google.com/file/d/(?<id>[^/?]*).*";
-    private static final String FORM_REGEX = ".*docs.google.com/forms/d/(e/)?+(?<id>[^/?]*).*"; // "e/" once or not at all
+    //                                               .*: any number of any character
+    //                                                                          (?<id>REGEX): create a new group named "id", it contains whatever matches REGEX
+    //                                                                                any number of non-'/' or '?' characters
+    private static final String FILE_REGEX =         ".*drive.google.com/file/d/(?<id>[^/?]*).*";
+    private static final String FORM_REGEX =         ".*docs.google.com/forms/d/(e/)?+(?<id>[^/?]*).*"; // "e/" once or not at all
     private static final String NON_FORM_DOC_REGEX = ".*docs.google.com/(?<type>.*)/d/(?<id>.*)/.*"; // matches spreadsheets, documents, and presentationws at least. 
     // '.' in regex means any character, '*' means any number of. (?<NAME>REGEX) means "make a new group called NAME out of anything that matches REGEX"
     private static final String FOLDER_REGEX = ".*drive.google.com/drive/folders/(?<id>[^/?]*)[/?]*.*"; 
     //                                                                                 any character, but not '/' or '?' 
     private static final String ID_REGEX = ".*id=(?<id>[^/?]*).*";
     
-    public GoogleDriveURL(String url){
-        String id = "ID not found";
-        if(Pattern.matches(FILE_REGEX, url)){
-            id = extractIdGroup(FILE_REGEX, url);
-        } else if(Pattern.matches(FORM_REGEX, url)){
-            id = extractIdGroup(FORM_REGEX, url);
-        } else if(Pattern.matches(NON_FORM_DOC_REGEX, url)){
-            // need to check for spreadsheets and documents after forms, as forms urls are formatted oddly
-            id = extractIdGroup(NON_FORM_DOC_REGEX, url);
-        } else if(Pattern.matches(FOLDER_REGEX, url)){
-            id = extractIdGroup(FOLDER_REGEX, url);
-        } else if(Pattern.matches(ID_REGEX, url)){
-            // easiest case
-            id = extractIdGroup(ID_REGEX, url);
-        } else {
+    private static final String[] PATTERNS = {
+        FILE_REGEX,
+        FORM_REGEX,
+        NON_FORM_DOC_REGEX,
+        FOLDER_REGEX,
+        ID_REGEX
+    };
+    
+    public GoogleDriveFileId(String url){
+        String id = null;
+        for(int patternNum = 0; patternNum < PATTERNS.length && id == null; patternNum++){
+            if(Pattern.matches(PATTERNS[patternNum], url)){
+                id = extractIdGroup(PATTERNS[patternNum], url);
+            }
+        }
+        if(id == null){
             id = url;
         }
-        
         fileId = id;
     }
     
@@ -77,7 +80,7 @@ public class GoogleDriveURL {
         };
         
         for(String txt : text){
-            System.out.println(txt + ": " + new GoogleDriveURL(txt).toString());
+            System.out.println(txt + ": " + new GoogleDriveFileId(txt).toString());
         }
     }
 }
