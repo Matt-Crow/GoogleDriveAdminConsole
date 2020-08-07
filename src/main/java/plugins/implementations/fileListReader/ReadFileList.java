@@ -1,7 +1,6 @@
 package plugins.implementations.fileListReader;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
-import drive.GoogleDriveService;
 import drive.AbstractDriveCommand;
 import fileUtils.CsvFile;
 import fileUtils.FileList;
@@ -26,8 +25,8 @@ public class ReadFileList extends AbstractDriveCommand<FileList>{
         ValueRange range = getServiceAccess().getSheets().spreadsheets().values().get(sourceInfo.getFileId(), sourceInfo.getSheetName()).execute();
         List<List<Object>> data = range.getValues();
         CsvFile file = CsvFile.from(data);
-        
-        return new FileList(file);
+        FileList fList = new FileList(file);
+        return fList;
     }
 
 }

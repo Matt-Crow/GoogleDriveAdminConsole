@@ -78,4 +78,12 @@ public class FileList extends LinkedList<FileInfo>{
             }
         });
     }
+    
+    @Override
+    public String toString(){
+        StringBuilder b = new StringBuilder();
+        b.append("File List:");
+        forEach((f)->b.append("\n- ").append(f));
+        return b.toString();
+    }
 }
