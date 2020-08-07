@@ -1,6 +1,5 @@
 package drive;
 
-import drive.AbstractDriveCommand;
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -42,25 +41,11 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
             @Override
             public void onFailure(GoogleJsonError gje, HttpHeaders hh) throws IOException {
                 gje.getErrors().forEach((err)->Logger.logError(err.getMessage()));
-                /*
-                if(gje.getOrDefault("code", -1).equals(404) && gje.getErrors().stream().anyMatch((e)->{
-                    return e.getOrDefault("location", "").equals("fileId");
-                })){
-                    gje.getErrors().forEach((err)->{
-                        if(err.getOrDefault("location", "").equals("fileId")){
-                            Logger.logError(String.format("Failed to find file with ID %s", "id gere"));
-                        }
-                    });
-                    
-                } else {
-                    Logger.logError(gje.toPrettyString());
-                    Logger.logError(hh.toString());
-                }*/
             }
 
             @Override
             public void onSuccess(T t, HttpHeaders hh) throws IOException {
-                Logger.log(t.toString());
+                //Logger.log(t.toString());
                 ret.add(t);
             }
         };
