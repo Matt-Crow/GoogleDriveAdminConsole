@@ -1,49 +1,43 @@
 package drive;
 
-import com.google.api.services.drive.Drive;
-import com.google.api.services.sheets.v4.Sheets;
 import java.io.IOException;
-import sysUtils.Logger;
 
 /**
- *
- * @author Matt
- * @param <T> the type execute() will return. May move to subtype later
+ * The AbstractDriveCommand class serves as the
+ * base for custom commands meant to interact with
+ * the Google Drive or any files contained therein.
+ * 
+ * @author Matt Crow
+ * @param <T> the type execute() will return.
  */
 public abstract class AbstractDriveCommand<T> {
     private final GoogleDriveService service;
     
+    /**
+     * Creates a new drive command,
+     * but does not yet run it. You 
+     * must invoke the execute() method
+     * to perform the command instructions.
+     */
     public AbstractDriveCommand(){
         service = GoogleDriveService.getInstance();
     }
     
+    /**
+     * Use this method to gain easy access to the Google
+     * Drive services used by the program.
+     * 
+     * @return the application's instance of GoogleDriveService
+     */
     public final GoogleDriveService getServiceAccess(){
         return service;
     }
-    public final Drive getDrive(){
-        return service.getDrive();
-    }
-    public final Sheets getSheets(){
-        return service.getSheets();
-    }
     
     /**
-     * Executes the command, automatically logging
-     * any errors that occur, then re-throws them.
+     * Executes the command.
      * 
-     * @return
-     * @throws IOException 
+     * @return 
+     * @throws IOException if any fatal errors occur during command execution 
      */
-    public final T execute() throws IOException {
-        T ret = null;
-        try {
-            ret = doExecute();
-        } catch(IOException ex){
-            Logger.logError(ex);
-            throw ex;
-        }
-        return ret;
-    }
-    
-    public abstract T doExecute() throws IOException;
+    public abstract T execute() throws IOException;
 }

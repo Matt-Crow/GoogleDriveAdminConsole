@@ -36,7 +36,7 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
     }
 
     @Override
-    public List<T> doExecute() throws IOException {
+    public List<T> execute() throws IOException {
         List<T> ret = new ArrayList<>();
         JsonBatchCallback<T> jsonCallback = new JsonBatchCallback<T>() {
             @Override
@@ -54,7 +54,7 @@ public class CommandBatch<T> extends AbstractDriveCommand<List<T>>{
         
         BatchRequest currentBatchReq = null;
         for(List<DriveRequest<T>> batch : batches){
-            currentBatchReq = getDrive().batch();
+            currentBatchReq = getServiceAccess().getDrive().batch();
             for(DriveRequest<T> req : batch){
                 try{
                     req.queue(currentBatchReq, jsonCallback);

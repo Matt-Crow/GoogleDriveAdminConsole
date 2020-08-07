@@ -78,7 +78,7 @@ public class ShareFilesPage extends AbstractFormPage{
             userPropSel.getSelectedProperties(),
             filePropSel.getSelectedProperties(),
             isTest.isSelected()
-        ).doExecute();
+        ).execute();
 
         parent.addText("Giving access yielded the following information:");
         resolvedMappings.forEach((mapping)->parent.addText(mapping.toString()));

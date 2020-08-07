@@ -34,7 +34,7 @@ public class DownloadPermissionPage extends AbstractFormPage {
     @Override
     public void doSubmit() throws Exception {
         MainPane parent = getPaneParent();
-        String[] output = new UpdateDownloadAccess(chooser.getSelectedProperties()).doExecute();
+        String[] output = new UpdateDownloadAccess(chooser.getSelectedProperties()).execute();
         parent.addText("Updated download permissions for the following files:");
         for(String out : output){
             parent.addText(out);

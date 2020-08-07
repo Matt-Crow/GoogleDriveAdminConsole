@@ -29,18 +29,18 @@ public class ShareFiles extends AbstractDriveCommand<List<UserToFileMapping>>{
     }
 
     @Override
-    public List<UserToFileMapping> doExecute() throws IOException {
+    public List<UserToFileMapping> execute() throws IOException {
         StringBuilder msg = new StringBuilder();
         
         // first, extract the users from the form responses
-        UserList newUsers = new ReadUserList(userListProps).doExecute();
+        UserList newUsers = new ReadUserList(userListProps).execute();
         
         msg.append("Contents of user list:");
         newUsers.forEach((user)->msg.append("\n").append(user.toString()));
         
         
         // next, get the list of files users will get access to
-        FileList files = new ReadFileList(fileListProps).doExecute();
+        FileList files = new ReadFileList(fileListProps).execute();
         msg.append("\nFiles they will get:");
         files.forEach((file)->msg.append("\n").append(file.toString()));
         
@@ -58,7 +58,7 @@ public class ShareFiles extends AbstractDriveCommand<List<UserToFileMapping>>{
         
         if(!isTest){
             try{
-                cmd.doExecute();
+                cmd.execute();
             } catch (IOException ex) {
                 Logger.logError(ex);
             }

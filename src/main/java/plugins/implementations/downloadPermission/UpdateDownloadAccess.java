@@ -29,10 +29,10 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     private List<FileInfo> getLeaves(FileInfo root){
         List<FileInfo> childFiles = new ArrayList<>();
         try {
-            File rootFile = getDrive().files().get(root.getFileId().toString()).execute();
+            File rootFile = getServiceAccess().getDrive().files().get(root.getFileId().toString()).execute();
             if("application/vnd.google-apps.folder".equals(rootFile.getMimeType())){
                 // if it is a folder, add all of its non-folder descendants to the list
-                List<File> childDirsAndFiles = getDrive().files().list()
+                List<File> childDirsAndFiles = getServiceAccess().getDrive().files().list()
                     .setQ(String.format("'%s' in parents and trashed = false", root.getFileId())).execute().getFiles();
                 childDirsAndFiles.stream().map((File newRootFile)->{
                     return new FileInfo(
@@ -56,8 +56,8 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         return childFiles;
     }
     @Override
-    public String[] doExecute() throws IOException {
-        FileList allFiles = new ReadFileList(fileList).doExecute();
+    public String[] execute() throws IOException {
+        FileList allFiles = new ReadFileList(fileList).execute();
         StringBuilder msg = new StringBuilder();
         msg.append("All files:");
         allFiles.forEach((file)->msg.append("\n").append(file.toString()));
@@ -75,7 +75,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         allLeafNodes.forEach((leaf)->msg.append("\n").append(leaf.toString()));
         Logger.log(msg.toString());
         
-        Drive.Files files = getDrive().files();
+        Drive.Files files = getServiceAccess().getDrive().files();
         List<Drive.Files.Update> updates = allLeafNodes
             .stream()
             .map((FileInfo info)->{
@@ -93,7 +93,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         // batch requests to add or remove download access for viewers
         
         CommandBatch<File> batch = new CommandBatch<>(updates);
-        List<File> updated = batch.doExecute();
+        List<File> updated = batch.execute();
         String[] updatedIds = updated.stream().map((f)->f.getId()).toArray((size)->new String[size]);
         return updatedIds;
     }
