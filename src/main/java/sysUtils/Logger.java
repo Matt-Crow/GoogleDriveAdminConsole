@@ -48,17 +48,19 @@ public class Logger {
         }
     }
     
-    public static final void logError(String msg){
-        String loggedMsg = String.format("![%s] %s\n", getLogCaller(), msg);
+    private static void addErrMsg(String caller, String msg){
+        String loggedMsg = String.format("![%s] %s\n", caller, msg);
         MSG_LOG.append(loggedMsg);
-        
         ERROR_FLAG = true;
+    }
+    
+    public static final void logError(String msg){
+        //String loggedMsg = String.format("![%s] %s\n", getLogCaller(), msg);
+        //MSG_LOG.append(loggedMsg);
         
-        if(ERROR_LISTENERS.isEmpty()){
-            System.err.println(loggedMsg);
-        } else {
-            ERROR_LISTENERS.forEach((listener)->listener.errorLogged(msg));
-        }
+        //ERROR_FLAG = true;
+        addErrMsg(getLogCaller(), msg);
+        ERROR_LISTENERS.forEach((listener)->listener.errorLogged(msg));
     }
     
     public static final void logError(Exception ex){
@@ -68,9 +70,11 @@ public class Logger {
         for(StackTraceElement frame : ex.getStackTrace()){
             stackTrace.append("\n- ").append(frame.toString());
         }
-        logError(stackTrace.toString());
+        addErrMsg(getLogCaller(), stackTrace.toString());
+        //logError(stackTrace.toString());
         ERROR_LISTENERS.forEach((listener)->listener.errorLogged(ex));
     }
+    
     
     public static final boolean hasLoggedError(){
         return ERROR_FLAG;
