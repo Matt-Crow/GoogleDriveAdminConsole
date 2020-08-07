@@ -58,22 +58,14 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     @Override
     public String[] execute() throws IOException {
         FileList allFiles = new ReadFileList(fileList).execute();
-        StringBuilder msg = new StringBuilder();
-        msg.append("All files:");
-        allFiles.forEach((file)->msg.append("\n").append(file.toString()));
         
-        List<FileInfo> allLeafNodes = new ArrayList<>();
+        FileList allLeafNodes = new FileList();
         allFiles.forEach((file)->{
-            if(file instanceof FileInfo){
-                allLeafNodes.addAll(getLeaves((FileInfo)file));
-            } else {
-                Logger.logError("Not a detailed file info in UpdateDownloadAccess: " + file.toString());
-            }
+            allLeafNodes.addAll(getLeaves((FileInfo)file));
         });
         
-        msg.append("\nAll children:");
-        allLeafNodes.forEach((leaf)->msg.append("\n").append(leaf.toString()));
-        Logger.log(msg.toString());
+        Logger.log("Will attempt updating download access for the following files:");
+        Logger.log(allLeafNodes.toString());
         
         Drive.Files files = getServiceAccess().getDrive().files();
         List<Drive.Files.Update> updates = allLeafNodes
@@ -94,7 +86,11 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         
         CommandBatch<File> batch = new CommandBatch<>(updates);
         List<File> updated = batch.execute();
+        
+        Logger.log("Successfully updated download access for the following files:");
+        updated.stream().forEach((f)->Logger.log(String.format("- %s", f.getId())));
         String[] updatedIds = updated.stream().map((f)->f.getId()).toArray((size)->new String[size]);
+        
         return updatedIds;
     }
 
