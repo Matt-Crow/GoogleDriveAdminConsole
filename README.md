@@ -44,6 +44,5 @@ For PC users, this is usually `C:\Users\NAME\Google Drive Administration Console
 * To check if something is a folder, check if its MIME type is `"application/vnd.google-apps.folder"`
 
 ## TODO ##
-* Implement drive.commands.utils.DriveCommandResult
 * Make PluginLoader scour the classpath for plugins
 * Automate
