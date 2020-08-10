@@ -18,9 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import plugins.utils.PluginLoader;
 import drive.GoogleDriveService;
-import gui.components.ToggleHideListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import plugins.utils.AbstractPlugin;
 import sysUtils.FileSystem;
 

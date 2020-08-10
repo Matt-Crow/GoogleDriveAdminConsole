@@ -1,4 +1,5 @@
 Before we get started, I need permission to access the Google Drive services.
-I've created a folder for you under $(PATH), can you please put the Google credentials (named credentials.json) in this folder?
+I've created a folder for you under $(PATH), can you please put the Google credentials (renamed credentials.json) in this folder?
+Matt or your organization may have already created these credentials for you, so you may not need to create them yourself.
 Once you've put the file there, you can close out this window.
 Don't have credentials? Please see googleSetup.txt

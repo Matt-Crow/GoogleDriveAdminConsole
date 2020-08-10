@@ -55,10 +55,6 @@ public class Logger {
     }
     
     public static final void logError(String msg){
-        //String loggedMsg = String.format("![%s] %s\n", getLogCaller(), msg);
-        //MSG_LOG.append(loggedMsg);
-        
-        //ERROR_FLAG = true;
         addErrMsg(getLogCaller(), msg);
         ERROR_LISTENERS.forEach((listener)->listener.errorLogged(msg));
     }
@@ -71,7 +67,6 @@ public class Logger {
             stackTrace.append("\n- ").append(frame.toString());
         }
         addErrMsg(getLogCaller(), stackTrace.toString());
-        //logError(stackTrace.toString());
         ERROR_LISTENERS.forEach((listener)->listener.errorLogged(ex));
     }
     
