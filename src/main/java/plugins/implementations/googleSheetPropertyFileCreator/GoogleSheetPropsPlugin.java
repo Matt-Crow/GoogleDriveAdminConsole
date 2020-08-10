@@ -44,6 +44,8 @@ public class GoogleSheetPropsPlugin implements AbstractPlugin {
             } catch (IOException ex) {
                 Logger.logError(ex);
             }
+        } else {
+            ret = cachedHelpText;
         }
         return ret;
     }

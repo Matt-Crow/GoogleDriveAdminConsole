@@ -58,9 +58,11 @@ public class HidableDecorator extends JComponent {
         if(b){
             toggleHide.setText("Show " + text);
             content.setVisible(false);
+            setSize(getMinimumSize());
         } else {
             toggleHide.setText("Hide " + text);
             content.setVisible(true);
+            setSize(getPreferredSize());
         }
         repaint();
     }

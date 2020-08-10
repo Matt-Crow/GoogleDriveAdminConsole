@@ -44,6 +44,8 @@ public class FileListReaderPlugin implements AbstractPlugin{
             } catch (IOException ex) {
                 Logger.logError(ex);
             }
+        } else {
+            ret = cachedHelpText;
         }
         return ret;
     }
