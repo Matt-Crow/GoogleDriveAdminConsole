@@ -26,10 +26,10 @@ For PC users, this is usually `C:\Users\NAME\Google Drive Administration Console
 8. After signing in, the application will launch. 
 
 ## Information on User and File Lists ##
-* [general information](https://docs.google.com/document/d/1rEV5si3BlKcu4RbHDmYYkPtk12aHa35u9U_VfO1Bpwk/edit?usp=sharing)
+* [general information](https://docs.google.com/document/d/1Tu0B1N7DriaFFotKkvBVVV5snAu_V97IIZ6insNuWH8/edit?usp=sharing)
 * [example spreadsheet](https://docs.google.com/spreadsheets/d/1mdyHStF7EvLQCkS1avJ_JaD9t7HvAXGEW8X0Zqr81cI/edit?usp=sharing)
 * [property file for example user list](https://drive.google.com/file/d/1CBpe0JTFOinSSxf9cuS0Rzeq0N2NxKBP/view?usp=sharing)
-* [property file for example file list](https://drive.google.com/file/d/17_WSCA6TOYb6GTL3oYdFlsJY6falgyZV/view?usp=sharing)
+* [property file for example file list](https://drive.google.com/file/d/1wHu9z0RaH5gpPM-E-HIdANhGg1uvRWXp/view?usp=sharing)
 
 ## Helpful Links for Developers ##
 * [CSV Package](https://commons.apache.org/proper/commons-csv/apidocs/index.html)
