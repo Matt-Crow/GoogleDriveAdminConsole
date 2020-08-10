@@ -17,8 +17,8 @@ public class FileListReaderPage extends AbstractReaderPage {
     @Override
     public void parse(GoogleSheetProperties props) throws Exception{
         MainPane parent = getPaneParent();
-        FileList files = new ReadFileList(props).doExecute();
-        parent.addText("contains the following files:");
-        files.forEach((f)->parent.addText(f.toString()));
+        FileList files = new ReadFileList(props).execute();
+        parent.addText(String.format("%s's sheet named '%s' contains the following files:", props.getFileId(), props.getSheetName()));
+        parent.addText(files.toString());
     }
 }

@@ -1,9 +1,9 @@
 package plugins.implementations.shareFiles;
 
-import drive.commands.utils.CommandBatch;
+import drive.CommandBatch;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
-import drive.commands.utils.AbstractDriveCommand;
+import drive.AbstractDriveCommand;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +59,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
         p.setRole(VIEW_ROLE);
         Drive.Permissions.Create create = null;
         try {
-            create = getDrive().permissions().create(fromMapping.getFile().getFileId(), p);
+            create = getServiceAccess().getDrive().permissions().create(fromMapping.getFile().getFileId().toString(), p);
             create.setSendNotificationEmail(Boolean.TRUE);
             // non-gmail accounts need notification emails to get access to the file
             // there is no way to check whether or not they are gmail, so we need to send notifications
@@ -78,7 +78,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
      * @throws IOException if anything fails. Note that this automatically catches failures in each batch
      */
     @Override
-    public Boolean doExecute() throws IOException {        
+    public Boolean execute() throws IOException {        
         /* 
         first, split the mappings based on the email address.
         This way, we avoid exposing everyone's emails when we
@@ -106,7 +106,7 @@ public class GiveViewAccess extends AbstractDriveCommand<Boolean>{
         */
         batches.forEach((batch)->{
             try {
-                batch.doExecute();
+                batch.execute();
             } catch (IOException ex) {
                 Logger.logError(ex);
             }

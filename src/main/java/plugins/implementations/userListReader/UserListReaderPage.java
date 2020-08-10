@@ -18,8 +18,8 @@ public class UserListReaderPage extends AbstractReaderPage {
     @Override
     public void parse(GoogleSheetProperties props) throws Exception {
         MainPane parent = getPaneParent();
-        UserList users = new ReadUserList(props).doExecute();
-        parent.addText("contains the following users:");
-        users.forEach((f)->parent.addText(f.toString()));}
-
+        UserList users = new ReadUserList(props).execute();
+        parent.addText(String.format("%s's sheet named '%s' contains the following users:", props.getFileId(), props.getSheetName()));
+        parent.addText(users.toString());
+    }
 }

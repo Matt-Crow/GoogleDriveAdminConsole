@@ -44,6 +44,8 @@ public class UserListReaderPlugin implements AbstractPlugin{
             } catch (IOException ex) {
                 Logger.logError(ex);
             }
+        } else {
+            ret = cachedHelpText;
         }
         return ret;
     }

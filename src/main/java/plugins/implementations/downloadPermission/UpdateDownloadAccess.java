@@ -3,8 +3,9 @@ package plugins.implementations.downloadPermission;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import plugins.implementations.fileListReader.ReadFileList;
-import drive.commands.utils.AbstractDriveCommand;
-import drive.commands.utils.CommandBatch;
+import drive.AbstractDriveCommand;
+import drive.CommandBatch;
+import drive.GoogleDriveFileId;
 import fileUtils.FileList;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,14 +29,14 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     private List<FileInfo> getLeaves(FileInfo root){
         List<FileInfo> childFiles = new ArrayList<>();
         try {
-            File rootFile = getDrive().files().get(root.getFileId()).execute();
+            File rootFile = getServiceAccess().getDrive().files().get(root.getFileId().toString()).execute();
             if("application/vnd.google-apps.folder".equals(rootFile.getMimeType())){
                 // if it is a folder, add all of its non-folder descendants to the list
-                List<File> childDirsAndFiles = getDrive().files().list()
+                List<File> childDirsAndFiles = getServiceAccess().getDrive().files().list()
                     .setQ(String.format("'%s' in parents and trashed = false", root.getFileId())).execute().getFiles();
                 childDirsAndFiles.stream().map((File newRootFile)->{
                     return new FileInfo(
-                        newRootFile.getId(),
+                        new GoogleDriveFileId(newRootFile.getId()),
                         newRootFile.getName(),
                         root.getGroups().copy(), // inherit group from parent
                         root.shouldCopyBeEnabled() // inherit downloadability from parent
@@ -55,26 +56,18 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         return childFiles;
     }
     @Override
-    public String[] doExecute() throws IOException {
-        FileList allFiles = new ReadFileList(fileList).doExecute();
-        StringBuilder msg = new StringBuilder();
-        msg.append("All files:");
-        allFiles.forEach((file)->msg.append("\n").append(file.toString()));
+    public String[] execute() throws IOException {
+        FileList allFiles = new ReadFileList(fileList).execute();
         
-        List<FileInfo> allLeafNodes = new ArrayList<>();
+        FileList allLeafNodes = new FileList();
         allFiles.forEach((file)->{
-            if(file instanceof FileInfo){
-                allLeafNodes.addAll(getLeaves((FileInfo)file));
-            } else {
-                Logger.logError("Not a detailed file info in UpdateDownloadAccess: " + file.toString());
-            }
+            allLeafNodes.addAll(getLeaves((FileInfo)file));
         });
         
-        msg.append("\nAll children:");
-        allLeafNodes.forEach((leaf)->msg.append("\n").append(leaf.toString()));
-        Logger.log(msg.toString());
+        Logger.log("Will attempt updating download access for the following files:");
+        Logger.log(allLeafNodes.toString());
         
-        Drive.Files files = getDrive().files();
+        Drive.Files files = getServiceAccess().getDrive().files();
         List<Drive.Files.Update> updates = allLeafNodes
             .stream()
             .map((FileInfo info)->{
@@ -82,7 +75,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
                 File newChanges = new File();
                 try {
                     newChanges.setViewersCanCopyContent((info.shouldCopyBeEnabled()) ? Boolean.TRUE: Boolean.FALSE);
-                    update = files.update(info.getFileId(), newChanges);
+                    update = files.update(info.getFileId().toString(), newChanges);
                 } catch (IOException ex) {
                     Logger.logError(ex);
                 }
@@ -92,8 +85,12 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         // batch requests to add or remove download access for viewers
         
         CommandBatch<File> batch = new CommandBatch<>(updates);
-        List<File> updated = batch.doExecute();
+        List<File> updated = batch.execute();
+        
+        Logger.log("Successfully updated download access for the following files:");
+        updated.stream().forEach((f)->Logger.log(String.format("- %s", f.getId())));
         String[] updatedIds = updated.stream().map((f)->f.getId()).toArray((size)->new String[size]);
+        
         return updatedIds;
     }
 

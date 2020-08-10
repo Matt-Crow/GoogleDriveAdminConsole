@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import plugins.utils.PluginLoader;
-import start.GoogleDriveService;
+import drive.GoogleDriveService;
 import plugins.utils.AbstractPlugin;
 import sysUtils.FileSystem;
 
@@ -86,7 +86,6 @@ public class MainPane extends JPanel{
         // left side
         outputPage = new OutputPage(this);
         outputWrapper = new HidableDecorator("Output", outputPage);
-        outputWrapper.setSize(outputWrapper.getPreferredSize());
         
         // middle
         cmdPane = new JPanel();
@@ -99,10 +98,12 @@ public class MainPane extends JPanel{
         
         // combine left and middle into one split pane
         JSplitPane split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outputWrapper, cmdWrapper);
-        
+        split1.setResizeWeight(0.0); // devotes extra space to the right pane (cmdWrapper)
+        split1.resetToPreferredSizes();
         //combine split1 and right into one split pane so we have 3 side-by-side panels
         JSplitPane split2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, split1, helpWrapper);
-        
+        split2.setResizeWeight(1.0); // devotes extra space to the left pane (split1)
+        split2.resetToPreferredSizes();
         // add split2, while now contains left, middle, and right
         /*
         split2
@@ -112,6 +113,30 @@ public class MainPane extends JPanel{
         \_right
         */
         bodyPane.add(split2, BorderLayout.CENTER);
+        
+        // make split panes resize themselves when the user toggles the wrappers
+        outputWrapper.addHideListener((isHidden)->{
+            if(isHidden){
+                split1.resetToPreferredSizes();
+            }
+        });
+        
+        cmdWrapper.addHideListener((isHidden)->{
+            if(isHidden){
+                split1.setResizeWeight(1.0); // give extra space to output
+                split2.setResizeWeight(0.5); // divide evenly between split1 and help
+            } else {
+                split1.setResizeWeight(0.0); // give extra space to cmd
+                split2.setResizeWeight(1.0); // give extra space to split1
+            }
+            split1.resetToPreferredSizes();
+            split2.resetToPreferredSizes();
+        });
+        helpWrapper.addHideListener((isHidden)->{
+            if(isHidden){
+                split2.resetToPreferredSizes();
+            }
+        });
         
         add(bodyPane, BorderLayout.CENTER);
     }

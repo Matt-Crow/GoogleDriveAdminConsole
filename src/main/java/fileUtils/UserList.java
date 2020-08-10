@@ -62,4 +62,12 @@ public class UserList extends LinkedList<UserInfo>{
             }
         });
     }
+    
+    @Override
+    public String toString(){
+        StringBuilder b = new StringBuilder();
+        b.append("User List:");
+        forEach((u)->b.append("\n- ").append(u.toString()));
+        return b.toString();
+    }
 }

@@ -1,5 +1,6 @@
 package gui.components;
 
+import drive.GoogleDriveFileId;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -15,7 +16,6 @@ import structs.GoogleSheetProperties;
  * @author Matt Crow
  */
 public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
-    private final GoogleSheetProperties selectedProperties;
     private final JTextField localFileNameDisplay;
     private final JTextField fileIdDisplay;
     private final JTextField sheetNameDisplay;
@@ -23,8 +23,6 @@ public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
     
     public AbstractGoogleSheetsPropertyFileWidget(String header, boolean makeFieldsEditable, String buttonText){
         super();
-        
-        selectedProperties = new GoogleSheetProperties();
         
         // initialize constraints
         setLayout(new GridBagLayout());
@@ -124,7 +122,11 @@ public abstract class AbstractGoogleSheetsPropertyFileWidget extends JComponent{
     }
     
     public final GoogleSheetProperties getSelectedProperties(){
-        return selectedProperties;
+        GoogleSheetProperties ret = new GoogleSheetProperties(
+            getFileIdText(),
+            getSheetNameText()
+        );
+        return ret;
     }
     
     public abstract void buttonPressed();

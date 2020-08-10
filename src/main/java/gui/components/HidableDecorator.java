@@ -2,6 +2,8 @@ package gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ public class HidableDecorator extends JComponent {
     private final JButton toggleHide;
     private final JComponent content;
     private boolean isHidden;
+    private final ArrayList<ToggleHideListener> hideListeners;
     
     public HidableDecorator(String header, JComponent wraping){
         super();
@@ -35,6 +38,8 @@ public class HidableDecorator extends JComponent {
         
         content = wraping;
         add(content, BorderLayout.CENTER);
+        
+        hideListeners = new ArrayList<>();
     }
     
     @Override
@@ -49,10 +54,41 @@ public class HidableDecorator extends JComponent {
         super.repaint();
     }
     
+    /**
+     * Adds a hide listener, which will be notified when
+     * this' hide state is changed.
+     * 
+     * @param thl the hide listener to add
+     */
+    public void addHideListener(ToggleHideListener thl){
+        hideListeners.add(thl);
+    }
+    
+    /**
+     * Removes a hide listener from this, if it is attached.
+     * @param thl the hide listener to remove
+     * @return true iff the hide listener was attached before
+     * calling this method.
+     */
+    public boolean removeHideListener(ToggleHideListener thl){
+        return hideListeners.remove(thl);
+    }
+    
     public final void toggleHidden(){
         setHidden(!isHidden);
     }
     
+    /**
+     * Not to be confused with setVisible(boolean).
+     * 
+     * Sets whether or not this should render
+     * components besides the toggle hide button.
+     * Fires all attached ToggleHideListeners.
+     * 
+     * @param b if true, this will render its
+     * non-hide button contents invisible. Else,
+     * makes them visible.
+     */
     public final void setHidden(boolean b){
         isHidden = b;
         if(b){
@@ -63,6 +99,7 @@ public class HidableDecorator extends JComponent {
             content.setVisible(true);
         }
         repaint();
+        hideListeners.forEach((hl)->hl.hideStateToggled(isHidden));
     }
     
     public static void main(String[] args){
