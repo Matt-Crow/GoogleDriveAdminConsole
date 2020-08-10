@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The UserToFileMapping is used to designate who should have access to what file on the drive.
  * The GiveViewAccess class is responsible for resolving the mapping.
- * @see drive.commands.basic.GiveViewAccess
+ * @see plugins.implementations.shareFiles.GiveViewAccess
  * @author Matt Crow
  */
 public class UserToFileMapping {
