@@ -73,47 +73,20 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         List<Drive.Files.Update> updates = allLeafNodes
             .stream()
             .map((FileInfo info)->{
-    try {
-        System.out.println("is shared? " + files.get(info.getFileId().toString()).execute().getShared());
-    } catch (IOException ex) {
-        ex.printStackTrace();
-    }
-                
                 Drive.Files.Update update = null;
                 File newChanges = new File();
                 try {
                     newChanges.setViewersCanCopyContent((info.shouldCopyBeEnabled()) ? Boolean.TRUE: Boolean.FALSE);
-                    newChanges.setShared(false);
                     update = files.update(info.getFileId().toString(), newChanges);
                 } catch (IOException ex) {
                     Logger.logError(ex);
                 }
                 return update;
             }).filter((req)->req != null).collect(Collectors.toList());
-        /*
-        Drive.Permissions perms = getServiceAccess().getDrive().permissions();
-        List<Drive.Permissions.Create> permissions = allLeafNodes
-            .stream()
-            .map((FileInfo info)->{
-                Drive.Permissions.Create perm = null;
-                try {
-                    Permission p = new Permission();
-                    p.setRole(null);
-                    p.setType("anyone");
-                    perm = perms.create(info.getFileId().toString(), p);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                return perm;
-            }).filter((req)->req != null).collect(Collectors.toList());
-        */
 
         // batch requests to add or remove download access for viewers
         CommandBatch<File> batch = new CommandBatch<>(updates);
         List<File> updated = batch.execute();
-        
-        //CommandBatch<Permission> batch2 = new CommandBatch<>(permissions);
-        //batch2.execute();
         
         Logger.log("Successfully updated download access for the following files:");
         updated.stream().forEach((f)->Logger.log(String.format("- %s", f.getId())));
