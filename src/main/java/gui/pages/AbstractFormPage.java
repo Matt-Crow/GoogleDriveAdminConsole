@@ -23,6 +23,7 @@ public abstract class AbstractFormPage extends PageContent{
                     Logger.logError(ex);
                 }
                 getPaneParent().setTabSwitchingEnabled(true);
+                getPaneParent().addText("Done with command.");
             }
         };
         t.start();
