@@ -64,14 +64,13 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
             Logger.logError(ex);
         }
         
-        
         return childFiles;
     }
     
     /**
      * 
      * @param fileInfo
-     * @return the requests to remove all "anyone with the link can view" permissions from the given file
+     * @return the requests to remove all "anyone with the link can view" permissions from the given file and its subfiles
      */
     private List<Drive.Permissions.Delete> createDelReqs(FileInfo fileInfo){
         List<Permissions.Delete> reqs = new ArrayList<>();

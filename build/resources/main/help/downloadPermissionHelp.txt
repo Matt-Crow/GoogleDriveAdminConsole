@@ -3,4 +3,5 @@ To start, you'll need to select a Google Sheet Property file (file list properti
 Once you click the "run" button along the bottom of the screen, the program will look at the "ID" and "access type" columns of the sheet these properties are referencing:
 if the "access type" column says "view", prevents viewers from downloading or copying the file under "ID".
 if the "access type" column says "copy", allows viewers to download and copy the file under "ID".
+Also removes all "Anyone on the internet with the link can view/edit" permissions from the given files.
 Note: you only have to run this plugin whenever you change the file list, you don't need to run it every time you share files.
