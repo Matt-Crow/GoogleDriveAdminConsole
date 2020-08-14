@@ -4,6 +4,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Permissions;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
+import com.google.api.services.drive.model.PermissionList;
 import plugins.implementations.fileListReader.ReadFileList;
 import drive.AbstractDriveCommand;
 import drive.CommandBatch;
@@ -57,6 +58,9 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         
         return childFiles;
     }
+    
+    
+    
     @Override
     public String[] execute() throws IOException {
         FileList allFiles = new ReadFileList(fileList).execute();
@@ -70,6 +74,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         Logger.log(allLeafNodes.toString());
         
         Drive.Files files = getServiceAccess().getDrive().files();
+        
         List<Drive.Files.Update> updates = allLeafNodes
             .stream()
             .map((FileInfo info)->{
@@ -87,6 +92,35 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         // batch requests to add or remove download access for viewers
         CommandBatch<File> batch = new CommandBatch<>(updates);
         List<File> updated = batch.execute();
+        
+        // remove "anyone with the link can view" options
+        Drive.Permissions permissions = getServiceAccess().getDrive().permissions();
+        
+        List<Permission> anyoneWithLinkCanViewPerms = allLeafNodes
+            .stream()
+            .map((FileInfo info)->{
+                PermissionList permList = null;
+                try {
+                    permList = permissions.list(info.getFileId().toString()).execute();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                return permList;
+            }).filter((permList)->permList != null).flatMap((PermissionList permList)->{
+                return permList.getPermissions().stream();
+            }).filter((perm)->{
+                return perm.getId().equals("anyoneWithLink");
+            }).collect(Collectors.toList());
+        
+        List<Permissions.Delete> removePerms = anyoneWithLinkCanViewPerms.stream().map((perm)->{
+            try {
+                // how do I get the file ID if it isn't stored in permissions?
+                return permissions.delete("file id", perm.getId());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
         
         Logger.log("Successfully updated download access for the following files:");
         updated.stream().forEach((f)->Logger.log(String.format("- %s", f.getId())));
