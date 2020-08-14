@@ -41,9 +41,9 @@ public class UserToFileMapping {
     @Override
     public String toString(){
         return String.format(
-            "%s\nshould be given access to\n%s", 
-            user.toString(),
-            file.toString()
+            "%s should be given access to %s", 
+            user.getEmail(),
+            file.getFileId()
         );
     }
 }

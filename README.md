@@ -25,6 +25,10 @@ For PC users, this is usually `C:\Users\NAME\Google Drive Administration Console
 7. Once you've put the credentials in the appropriate folder and closed the popup, you'll be asked to sign in to Google.
 8. After signing in, the application will launch. 
 
+## How to Use Videos ##
+* [Installing](https://www.youtube.com/watch?v=HY3knxqslNU).
+* [Using](https://www.youtube.com/watch?v=ziEqV5RvxX4).
+
 ## Information on User and File Lists ##
 * [general information](https://docs.google.com/document/d/1Tu0B1N7DriaFFotKkvBVVV5snAu_V97IIZ6insNuWH8/edit?usp=sharing)
 * [example spreadsheet](https://docs.google.com/spreadsheets/d/1mdyHStF7EvLQCkS1avJ_JaD9t7HvAXGEW8X0Zqr81cI/edit?usp=sharing)

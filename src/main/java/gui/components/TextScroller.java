@@ -1,8 +1,11 @@
 package gui.components;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -21,7 +24,17 @@ public class TextScroller extends JComponent implements MessageListener, ErrorLi
     
     public TextScroller(){
         super();
-        setLayout(new GridLayout(1, 1));
+        setLayout(new BorderLayout());
+        JPanel head = new JPanel();
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener((e)->{
+            clear();
+        });
+        head.add(clearButton);
+        add(head, BorderLayout.PAGE_START);
+        
+        
+        //setLayout(new GridLayout(1, 1));
         text = new JTextArea(20, 20);
         text.setWrapStyleWord(true);
         text.setLineWrap(true);
@@ -30,7 +43,7 @@ public class TextScroller extends JComponent implements MessageListener, ErrorLi
         scroll = new JScrollPane(text);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        add(scroll);
+        add(scroll, BorderLayout.CENTER);
     }
     
     public TextScroller(String defaultText){

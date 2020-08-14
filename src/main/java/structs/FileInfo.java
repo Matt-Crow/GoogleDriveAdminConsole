@@ -41,6 +41,10 @@ public class FileInfo implements Groupable {
         return fileId;
     }
     
+    public final String getDescription(){
+        return fileDesc;
+    }
+    
     public final boolean shouldCopyBeEnabled(){
         return isDownloadable;
     }
