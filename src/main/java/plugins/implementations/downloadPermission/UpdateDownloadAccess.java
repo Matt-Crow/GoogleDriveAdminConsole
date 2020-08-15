@@ -6,94 +6,152 @@ import com.google.api.services.drive.Drive.Permissions;
 import com.google.api.services.drive.DriveRequest;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
-import com.google.api.services.drive.model.PermissionList;
 import plugins.implementations.fileListReader.ReadFileList;
 import drive.AbstractDriveCommand;
 import drive.CommandBatch;
 import drive.GoogleDriveFileId;
-import drive.GoogleDriveService;
 import fileUtils.FileList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import structs.FileInfo;
 import structs.GoogleSheetProperties;
 import sysUtils.Logger;
 
 /**
- *
- * @author Matt
+ * This command is used to set sharing permissions on files.
+ * It sets whether or not viewers can download or copy files
+ * based on the FileInfo it used to find that file. It also removes all
+ * global permissions from the files it updates.
+ * Note that the changes this makes cascade: given a folder in FileInfo,
+ * it will apply changes to both that folder and all of its children.
+ * 
+ * @author Matt Crow
  */
 public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
     private final GoogleSheetProperties fileList;
+    private static final Predicate<File> IS_FOLDER = (File f)->"application/vnd.google-apps.folder".equals(f.getMimeType());
+    private static final Predicate<Permission> IS_GLOBAL_PERMISSION = (Permission p)->p.getId().equals("anyoneWithLink"); // there may be a better way of detecting if this permission is the "anyone with the link can do X"
+    
     public UpdateDownloadAccess(GoogleSheetProperties driveFileList) {
         super();
         fileList = driveFileList;
     }
 
     /**
+     * Returns all Google Drive files for whom
+     * the given parameter is a parent.
+     * 
+     * @param parent the info of the file to get children for.
+     * @return a list of child files for the given
+     * parent. This list may be empty if the parent
+     * is a leaf node.
+     */
+    private List<FileInfo> getChildren(FileInfo parent){
+        List<FileInfo> children = new ArrayList<>();
+        try {
+            children = getServiceAccess()
+                .getDrive()
+                .files()
+                .list()
+                .setQ(String.format("'%s' in parents and trashed = false", parent.getFileId().toString()))
+                .execute()
+                .getFiles()
+                .stream()
+                .map(
+                    (File file)->{
+                        return new FileInfo(
+                            new GoogleDriveFileId(file.getId()),
+                            file.getName(),
+                            parent.getGroups().copy(), // inherit group from parent
+                            parent.shouldCopyBeEnabled() // inherit downloadability from parent
+                        );
+                })
+                .collect(Collectors.toList());
+        } catch (IOException ex) {
+            Logger.logError(ex);
+        }
+        return children;
+    }
+    
+    /**
      * 
      * @param root the information on a Google Drive file or folder to get leaf nodes for
-     * @return all files underneath root.
+     * @return all non-folder files underneath root.
      */
     private List<FileInfo> getLeaves(FileInfo root){
-        List<FileInfo> childFiles = new ArrayList<>();
+        List<FileInfo> leaves = new ArrayList<>();
         try {
             File rootFile = getServiceAccess().getDrive().files().get(root.getFileId().toString()).execute();
-            if("application/vnd.google-apps.folder".equals(rootFile.getMimeType())){
+            if(IS_FOLDER.test(rootFile)){
                 // if it is a folder, add all of its non-folder descendants to the list
-                List<File> childDirsAndFiles = getServiceAccess().getDrive().files().list()
-                    .setQ(String.format("'%s' in parents and trashed = false", root.getFileId())).execute().getFiles();
-                childDirsAndFiles.stream().map((File newRootFile)->{
-                    return new FileInfo(
-                        new GoogleDriveFileId(newRootFile.getId()),
-                        newRootFile.getName(),
-                        root.getGroups().copy(), // inherit group from parent
-                        root.shouldCopyBeEnabled() // inherit downloadability from parent
-                    );
-                }).forEach((FileInfo newRootInfo)->{
-                    childFiles.addAll(getLeaves(newRootInfo));
+                getChildren(root).stream().forEach((FileInfo newRootInfo)->{
+                    leaves.addAll(getLeaves(newRootInfo));
                 });
             } else {
                 // if root is a file, just return it
-                childFiles.add(root);
+                leaves.add(root);
             }
         } catch (IOException ex) {
             Logger.logError(ex);
         }
         
-        return childFiles;
+        return leaves;
     }
     
     /**
      * 
      * @param fileInfo
-     * @return the requests to remove all "anyone with the link can view" permissions from the given file and its subfiles
+     * @return all global permissions associated with the Google Drive
+     * file referenced by fileInfo.
      */
-    private List<Drive.Permissions.Delete> createDelReqs(FileInfo fileInfo){
-        List<Permissions.Delete> reqs = new ArrayList<>();
-        Drive.Permissions perms = getServiceAccess().getDrive().permissions();
+    private List<Permission> getGlobalPermissions(FileInfo fileInfo){
+        List<Permission> permissions = new ArrayList<>();
         try {
-            // get all the permissions for the file
-            PermissionList allPermissions = getServiceAccess().getDrive().permissions().list(fileInfo.getFileId().toString()).execute();
-            allPermissions.getPermissions().stream().filter((Permission p)->{
-                return p.getId().equals("anyoneWithLink"); // there may be a better way of detecting if this permission is the "anyone with the link can do X"
-            }).map((Permission withLinkPerm)->{
-                Permissions.Delete del = null;
-                try {
-                    del = perms.delete(fileInfo.getFileId().toString(), withLinkPerm.getId());
-                } catch (IOException ex) {
-                    Logger.logError(ex);
-                }
-                return del;
-            }).filter((req)->req != null).forEach((Permissions.Delete del)->{
-                reqs.add(del);
-            });
+            permissions = getServiceAccess()
+                .getDrive()
+                .permissions()
+                .list(fileInfo.getFileId().toString())
+                .execute()
+                .getPermissions()
+                .stream()
+                .filter(IS_GLOBAL_PERMISSION)
+                .collect(Collectors.toList());
         } catch (IOException ex) {
             Logger.logError(ex);
         }
+        return permissions;
+    }
+    /**
+     * 
+     * @param fileInfo
+     * @return the requests to remove all "anyone with the link can view" permissions from the given file and its subfiles
+     */
+    private List<Drive.Permissions.Delete> createDelPermReqs(FileInfo fileInfo){
+        List<Permissions.Delete> reqs = new ArrayList<>();
+        Drive.Permissions perms = getServiceAccess().getDrive().permissions();
+        
+        // get all the global permissions for the file
+        getGlobalPermissions(fileInfo).stream().map((Permission withLinkPerm)->{
+            // try to construct a request to delete the permission
+            Permissions.Delete del = null;
+            try {
+                del = perms.delete(fileInfo.getFileId().toString(), withLinkPerm.getId());
+            } catch (IOException ex) {
+                Logger.logError(ex);
+            }
+            return del;
+        }).filter((req)->req != null).forEach((Permissions.Delete del)->{
+            reqs.add(del);
+        });
+        
+        // gather requests for all child files and folders
+        getChildren(fileInfo).forEach((FileInfo child)->{
+            reqs.addAll(createDelPermReqs(child));
+        });
+        
         return reqs;
     }
     
@@ -134,7 +192,7 @@ public class UpdateDownloadAccess extends AbstractDriveCommand<String[]>{
         List<DriveRequest<?>> allReqs = new ArrayList<>();
         
         // first, create the requests to remove all "anyone with the link can view" permissions.
-        allFiles.forEach((fileInfo)->allReqs.addAll(createDelReqs(fileInfo)));
+        allFiles.forEach((fileInfo)->allReqs.addAll(createDelPermReqs(fileInfo)));
         
         // next, create all the requests to set download / copy abilities
         allFiles.forEach((fileInfo)->allReqs.addAll(createPermsForSubFiles(fileInfo)));
